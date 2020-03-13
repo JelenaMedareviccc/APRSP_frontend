@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CompanyComponent } from './components/company/company.component';
-import { ClientComponent } from './components/client/client.component';
 import { ReceiptComponent } from './components/receipt/receipt.component';
 import { ItemComponent } from './components/item/item.component';
 import { PaymentComponent } from './components/payment/payment.component';
@@ -59,6 +58,7 @@ import {MatTreeModule} from '@angular/material/tree';
 
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { LayoutComponent } from './components/layout/layout.component';
+import {ClientService} from './services/client/client.service';
 
 
 
@@ -72,7 +72,7 @@ import { LayoutComponent } from './components/layout/layout.component';
 
     NavigationComponent,
     ClientComponent,
-    LayoutComponent
+    LayoutComponent,
 
     ClientTableComponent,
 
