@@ -7,10 +7,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CompanyComponent } from './components/company/company.component';
+import { ClientComponent } from './components/client/client.component';
 import { ReceiptComponent } from './components/receipt/receipt.component';
 import { ItemComponent } from './components/item/item.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 import {A11yModule} from '@angular/cdk/a11y';
 import {ClipboardModule} from '@angular/cdk/clipboard';
@@ -54,7 +56,11 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
-import { ClientService } from './services/client/client.service';
+
+import { NavigationComponent } from './components/navigation/navigation.component';
+import { LayoutComponent } from './components/layout/layout.component';
+
+
 
 @NgModule({
   declarations: [
@@ -63,14 +69,20 @@ import { ClientService } from './services/client/client.service';
     ReceiptComponent,
     ItemComponent,
     PaymentComponent,
+
+    NavigationComponent,
+    ClientComponent,
+    LayoutComponent
+
     ClientTableComponent,
-    ClientComponent
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
+
 
     A11yModule,
     ClipboardModule,
@@ -116,8 +128,7 @@ import { ClientService } from './services/client/client.service';
     PortalModule,
     ScrollingModule,
   ],
-  entryComponents: [ ClientComponent, ClientTableComponent ],
-    providers: [ ClientService ],
+   providers: [ ClientService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,31 @@
+
+
+.example-container {
+
+    width: 100%;
+    background: aquamarine;
+  }
+
+#toolbar {
+    background-color: beige;
+}
+
+#mat-fab {
+    color: beige;
+    background-color: aquamarine;
+    
+    position: relative;
+}
+
+.dashboard {
+    border-color: blue;
+    padding: 30pt;
+    position: center;
+}
+
+.sideDashboard {
+    margin: 20pt;
+    background-color: aliceblue;
+}
+
+  
