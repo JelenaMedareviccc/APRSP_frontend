@@ -10,6 +10,7 @@ export class ClientComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log("JECAIACACLIENT");
   }
 
 }

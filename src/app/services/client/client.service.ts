@@ -14,8 +14,11 @@ export class ClientService {
   constructor(private httpClient : HttpClient) { }
 
   public getClients(): Observable<Client[]> {
+    console.log("heheUSERVISU");
+    console.log(this.httpClient.get<Client[]>(this.API_URL));
     return this.httpClient.get<Client[]>(this.API_URL);
   }
+
 
   public getClient(id: number): Observable<Client> {
     return this.httpClient.get<Client>(this.API_URL + "/" + id);

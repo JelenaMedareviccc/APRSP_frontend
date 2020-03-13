@@ -63,7 +63,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "frontend:build"
+            "browserTarget": "frontend:build",
+            "proxyConfig": "src/app/config"
           },
           "configurations": {
             "production": {
@@ -123,5 +124,8 @@
       }
     }
   },
-  "defaultProject": "frontend"
+  "defaultProject": "frontend",
+  "cli": {
+    "analytics": "4069f7ca-94ab-428d-bb49-c014e5e427de"
+  }
 }
