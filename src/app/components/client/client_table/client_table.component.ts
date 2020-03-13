@@ -1,7 +1,8 @@
 import { ClientService } from './../../../services/client/client.service';
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, ViewChild} from '@angular/core';
 import { Client } from 'src/app/models/client';
 import { MatTableDataSource } from '@angular/material/table'
+import { MatPaginator } from '@angular/material/paginator';
 
 
 @Component({
@@ -15,6 +16,8 @@ export class ClientTableComponent implements OnInit {
   displayedColumns = ['clientId', 'name', 'client_reg_number', 'address', 'contact', 'email', 'account_number'];
   dataSource: MatTableDataSource<Client>;
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   @Input() clients: Client[];
   @Input() hasClients = true;
 
@@ -23,17 +26,15 @@ export class ClientTableComponent implements OnInit {
 
   ngOnInit() {
     this.initializeDataSource();
-    console.log("JECAIACA22222222222");
   }
 
   initializeDataSource() {
-    console.log("JECAIACAPRIJEGET");
     this.ClientService.getClients().subscribe(clients => {
-      console.log("JECAIACAGET");
       if (this.hasClients) {
         this.clients = clients;
       }
       this.dataSource = new MatTableDataSource<Client>(this.clients);
+      this.dataSource.paginator = this.paginator;
     } , error => {});
   }
 }
