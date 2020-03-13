@@ -1,3 +1,5 @@
+import { ClientComponent } from './components/client/client.component';
+import { ClientTableComponent } from './components/client/client_table/client_table.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -52,6 +54,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
+import { ClientService } from './services/client/client.service';
 
 @NgModule({
   declarations: [
@@ -59,7 +62,9 @@ import {MatTreeModule} from '@angular/material/tree';
     CompanyComponent,
     ReceiptComponent,
     ItemComponent,
-    PaymentComponent
+    PaymentComponent,
+    ClientTableComponent,
+    ClientComponent
   ],
   imports: [
     BrowserModule,
@@ -111,7 +116,8 @@ import {MatTreeModule} from '@angular/material/tree';
     PortalModule,
     ScrollingModule,
   ],
-  providers: [],
+  entryComponents: [ ClientComponent, ClientTableComponent ],
+    providers: [ ClientService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
