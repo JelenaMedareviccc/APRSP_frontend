@@ -5,10 +5,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CompanyComponent } from './components/company/company.component';
+import { ClientComponent } from './components/client/client.component';
 import { ReceiptComponent } from './components/receipt/receipt.component';
 import { ItemComponent } from './components/item/item.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 import {A11yModule} from '@angular/cdk/a11y';
 import {ClipboardModule} from '@angular/cdk/clipboard';
@@ -52,6 +54,9 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
+import { NavigationComponent } from './components/navigation/navigation.component';
+import { LayoutComponent } from './components/layout/layout.component';
+
 
 @NgModule({
   declarations: [
@@ -59,13 +64,17 @@ import {MatTreeModule} from '@angular/material/tree';
     CompanyComponent,
     ReceiptComponent,
     ItemComponent,
-    PaymentComponent
+    PaymentComponent,
+    NavigationComponent,
+    ClientComponent,
+    LayoutComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
+
 
     A11yModule,
     ClipboardModule,
