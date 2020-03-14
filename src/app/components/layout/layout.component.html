@@ -1,14 +1,19 @@
 
-
+<div id="layout"> 
     <mat-toolbar id="toolbar">
         <button mat-fab id="mat-fab">Log out</button>
+        <button mat-button (click)="sidenav.toggle()">
+            <mat-icon aria-hidden="false" aria-label="Example home icon" id="iconNav">home</mat-icon>
+
+        </button>
     </mat-toolbar>
         <mat-sidenav-container class="example-container">
-            <mat-sidenav mode="side" opened> <app-navigation></app-navigation> </mat-sidenav>
+            <mat-sidenav #sidenav mode="side" opened> <app-navigation></app-navigation> </mat-sidenav>
             <mat-sidenav-content class="sideDashboard">
-                <div class="dashboard"><router-outlet></router-outlet></div>
+                <router-outlet></router-outlet>
             </mat-sidenav-content>
         </mat-sidenav-container>
+    </div>
 
 
 

@@ -2,6 +2,7 @@ import { ClientComponent } from './components/client/client.component';
 import { ClientTableComponent } from './components/client/client_table/client_table.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -59,6 +60,7 @@ import {MatTreeModule} from '@angular/material/tree';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import {ClientService} from './services/client/client.service';
+import { CompanyFormComponent } from './components/company/company-form/company-form.component';
 
 
 
@@ -76,12 +78,15 @@ import {ClientService} from './services/client/client.service';
 
     ClientTableComponent,
 
+    CompanyFormComponent,
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    FormsModule,
 
 
     A11yModule,

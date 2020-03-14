@@ -18,6 +18,10 @@ export class CompanyService {
         return this.httpClient.get<Company[]>(this.API_URL);
     }
 
+    public getCompany(id: number): Observable<Company> {
+        return this.httpClient.get<Company>(this.API_URL + "/" + id);
+      }
+
     public createCompany(company: Company): Observable<Company> {
         return this.httpClient.post<Company>(this.API_URL, company);
     }

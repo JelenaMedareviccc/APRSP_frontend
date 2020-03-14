@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CompanyService } from 'src/app/services/company/company.service';
 import { Company } from 'src/app/models/company';
 
@@ -12,12 +12,29 @@ export class CompanyComponent implements OnInit {
   constructor(private companyService : CompanyService) { }
 
 
-  data : Company[];
+  companies : Company[];
+  @Input() company: Company;
+
   ngOnInit() {
 
-    this.companyService.getCompanies().subscribe((data) => {
-      this.data = data;
-    })
+    this.initializeDataSource();
+  
   }
+
+  
+  initializeDataSource() {
+      this.companyService.getCompany(1).subscribe(company =>{
+        this.company = company;
+      }, erros => {});
+    }
+
+  getCompanies(){
+    this.companyService.getCompanies().subscribe(companies => {
+      this.companies = companies;
+
+    } ,  error => {});
+  }
+
+  
 
 }

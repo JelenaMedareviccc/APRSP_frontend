@@ -1,9 +1,12 @@
-
+#layout{
+    height: 90%;
+}
 
 .example-container {
 
-    width: 100%;
-    background: aquamarine;
+     width: 100%;
+     height: 100vh;
+    background: #81bae3;
   }
 
 #toolbar {
@@ -12,20 +15,19 @@
 
 #mat-fab {
     color: beige;
-    background-color: aquamarine;
-    
+    background-color: #81bae3;
+    left: 95%;
     position: relative;
-}
-
-.dashboard {
-    border-color: blue;
-    padding: 30pt;
-    position: center;
 }
 
 .sideDashboard {
     margin: 20pt;
     background-color: aliceblue;
+}
+
+#iconNav {
+    right: 5%;
+    position: relative;
 }
 
   
