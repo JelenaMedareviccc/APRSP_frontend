@@ -1,0 +1,38 @@
+<div  class="example-container">
+  <form  #f="ngForm" (ngSubmit)="createClient(f)" >
+  <mat-form-field appearance="outline">
+    <mat-label>Name</mat-label>
+    <input matInput  name="name" ngModel>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="outline">
+    <mat-label>Client registration number</mat-label>
+    <input matInput name="client_reg_number" ngModel>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="outline">
+    <mat-label>Address</mat-label>
+    <input matInput name="address" ngModel>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="outline">
+    <mat-label>Contact</mat-label>
+    <input matInput name="contact" ngModel>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput name="email" ngModel>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="outline">
+    <mat-label>Account number</mat-label>
+    <input matInput name="account_number" ngModel>
+  </mat-form-field>
+  <br>
+  <!--<button mat-raised-button (click)="createClient()">Add client</button>-->
+  <br>
+  <br>
+  <button>Submit</button>
+</form>
+</div>

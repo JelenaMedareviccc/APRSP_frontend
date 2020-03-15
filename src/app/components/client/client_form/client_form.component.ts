@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 import { ClientService } from './../../../services/client/client.service';
+import { Client } from 'src/app/models/client';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-client-form',
@@ -7,9 +9,30 @@ import { ClientService } from './../../../services/client/client.service';
   styleUrls: ['./client_form.component.css']
 })
 
-export class ClientFormComponent {
+export class ClientFormComponent implements OnInit {
 
-  constructor(private ClientService: ClientService) { }
+  constructor(private clientService: ClientService) { }
+
+  @Input() client : Client;
+
+  ngOnInit() {
+
+  }
+
+  createClient(f: NgForm) {
+    this.client =f.value;
+    this.clientService.createClient(this.client).subscribe(data => {
+      // refresh the list
+      console.log(data)
+      return true;
+    },
+    error => {
+      console.log(error);
+     });
+    console.log(f.value);  // { first: '', last: '' }
+    console.log(f.valid);  // false
+    console.log(this.client);
+  }
 
 
 

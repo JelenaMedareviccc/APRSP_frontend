@@ -1,3 +1,4 @@
+import { ClientFormComponent } from './components/client/client_form/client_form.component';
 import { ClientComponent } from './components/client/client.component';
 import { ClientTableComponent } from './components/client/client_table/client_table.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -77,8 +78,9 @@ import { CompanyFormComponent } from './components/company/company-form/company-
     LayoutComponent,
 
     ClientTableComponent,
+    ClientFormComponent,
 
-    CompanyFormComponent,
+    CompanyFormComponent
 
   ],
   imports: [
