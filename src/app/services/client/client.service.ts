@@ -69,7 +69,9 @@ export class ClientService {
     this.httpClient.put(this.API_URL, client)
   }
 
-  public deleteClient(id: number): void {
-    this.httpClient.delete(this.API_URL + "/"+ id);
+  public deleteClient(id: number): Observable<{}> {
+    return this.httpClient.delete(this.API_URL + "/"+ id, httpOptions).pipe(
+      catchError(this.handleError)
+    );
   }
 }

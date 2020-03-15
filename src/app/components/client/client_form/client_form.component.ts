@@ -23,15 +23,12 @@ export class ClientFormComponent implements OnInit {
     this.client =f.value;
     this.clientService.createClient(this.client).subscribe(data => {
       // refresh the list
-      console.log(data)
+
       return true;
     },
     error => {
       console.log(error);
      });
-    console.log(f.value);  // { first: '', last: '' }
-    console.log(f.valid);  // false
-    console.log(this.client);
   }
 
 

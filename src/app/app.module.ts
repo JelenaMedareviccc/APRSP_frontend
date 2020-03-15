@@ -62,6 +62,7 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { LayoutComponent } from './components/layout/layout.component';
 import {ClientService} from './services/client/client.service';
 import { CompanyFormComponent } from './components/company/company-form/company-form.component';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 
 
@@ -80,7 +81,9 @@ import { CompanyFormComponent } from './components/company/company-form/company-
     ClientTableComponent,
     ClientFormComponent,
 
-    CompanyFormComponent
+    CompanyFormComponent,
+
+    DialogComponent
 
   ],
   imports: [
