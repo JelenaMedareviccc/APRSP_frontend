@@ -2,7 +2,7 @@
     <p>
     <mat-form-field appearance="legacy">
       <mat-label>Name</mat-label>
-      <input matInput placeholder="Placeholder" [(ngModel)]='formCompany.name'> 
+      <input [(ngModel)]="formCompany.name" [ngModelOptions]="{standalone: true}">
       <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
       <mat-hint>Input comapny name</mat-hint>
     </mat-form-field>
@@ -18,7 +18,7 @@
   <p>
     <mat-form-field appearance="fill">
       <mat-label>Address</mat-label>
-      <input matInput placeholder="Placeholder" [(ngModel)]='formCompany.address'> 
+      <input matInput placeholder="Placeholder" [(ngModel)]='formCompany.address'>
       <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
       <mat-hint>Input company address</mat-hint>
     </mat-form-field>

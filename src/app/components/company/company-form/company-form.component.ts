@@ -14,13 +14,12 @@ export class CompanyFormComponent implements OnInit {
 
   constructor() { }
 
-  submitted = false;
-
-  onSubmit() { this.submitted = true; }
-
   ngOnInit(): void {
   }
+  createCompany(company){
 
-  
+  }
+
+
 
 }

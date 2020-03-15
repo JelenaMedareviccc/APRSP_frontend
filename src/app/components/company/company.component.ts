@@ -18,12 +18,14 @@ export class CompanyComponent implements OnInit {
   ngOnInit() {
 
     this.initializeDataSource();
-  
+
   }
 
-  
+
   initializeDataSource() {
       this.companyService.getCompany(1).subscribe(company =>{
+        console.log("USLO U COMPANY ");
+        console.log(company);
         this.company = company;
       }, erros => {});
     }
@@ -35,6 +37,6 @@ export class CompanyComponent implements OnInit {
     } ,  error => {});
   }
 
-  
+
 
 }

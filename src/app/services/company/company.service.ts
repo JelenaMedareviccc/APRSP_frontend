@@ -10,7 +10,7 @@ import * as config from '../../config/config.json';
 })
 export class CompanyService {
   private readonly API_URL = config.apiUrl + '/company';
- 
+
 
   constructor(private httpClient : HttpClient) { }
 
@@ -19,6 +19,8 @@ export class CompanyService {
     }
 
     public getCompany(id: number): Observable<Company> {
+      console.log("USLO U COMPANY GET ");
+      console.log(this.httpClient.get<Company>(this.API_URL + "/" + id));
         return this.httpClient.get<Company>(this.API_URL + "/" + id);
       }
 
