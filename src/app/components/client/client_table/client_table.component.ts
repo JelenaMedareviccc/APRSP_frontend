@@ -15,7 +15,7 @@ import { DialogComponent } from '../../dialog/dialog.component';
 
 export class ClientTableComponent implements OnInit {
 
-  displayedColumns = ['clientId', 'name', 'client_reg_number', 'address', 'contact', 'email', 'account_number', 'delete'];
+  displayedColumns = ['clientId', 'name', 'client_reg_number', 'address', 'contact', 'email', 'account_number', 'delete', 'receipts'];
   dataSource: MatTableDataSource<Client>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -76,5 +76,9 @@ export class ClientTableComponent implements OnInit {
         this.initializeDataSource();
       }, error => {});
     });
+  }
+
+  displayReceipt() {
+
   }
 }

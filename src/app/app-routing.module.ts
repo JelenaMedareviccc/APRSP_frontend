@@ -1,3 +1,4 @@
+import { ReceiptComponent } from './components/receipt/receipt.component';
 import { ClientTableComponent } from './components/client/client_table/client_table.component';
 import { ClientService } from './services/client/client.service';
 import { ClientComponent } from './components/client/client.component';
@@ -9,7 +10,8 @@ import { CompanyComponent } from './components/company/company.component';
 
 const routes: Routes = [{path: 'company', component: CompanyComponent},
 {path: 'client', component: ClientComponent},
-{ path: '', redirectTo: 'company', pathMatch: 'full' }];
+{ path: '', redirectTo: 'company', pathMatch: 'full' },
+{ path: 'receipts', component: ReceiptComponent }];
 
 
 @NgModule({
