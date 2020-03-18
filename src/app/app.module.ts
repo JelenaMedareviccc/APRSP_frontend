@@ -1,3 +1,4 @@
+import { ReceiptService } from './services/receipt/receipt.service';
 import { ClientFormComponent } from './components/client/client_form/client_form.component';
 import { ClientComponent } from './components/client/client.component';
 import { ClientTableComponent } from './components/client/client_table/client_table.component';
@@ -138,7 +139,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
     PortalModule,
     ScrollingModule,
   ],
-   providers: [ ClientService ],
+  providers: [ ClientService, ReceiptService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
