@@ -1,53 +1,84 @@
-<form>
-    <p>
-    <mat-form-field appearance="legacy">
-      <mat-label>Name</mat-label>
-      <input matInput placeholder="Placeholder" [(ngModel)]='formCompany.name' name="name"> 
-      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-      <mat-hint>Input comapny name</mat-hint>
-    </mat-form-field>
-  </p>
-  <p>
-    <mat-form-field appearance="standard">
-      <mat-label>PIB</mat-label>
-      <input matInput placeholder="Placeholder" [(ngModel)]='formCompany.pib' name="pib">
-      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-      <mat-hint>Input company PIB</mat-hint>
-    </mat-form-field>
-  </p>
-  <p>
-    <mat-form-field appearance="fill">
-      <mat-label>Address</mat-label>
-      <input matInput placeholder="Placeholder" [(ngModel)]='formCompany.address' name="address"> 
-      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-      <mat-hint>Input company address</mat-hint>
-    </mat-form-field>
-  </p>
-  <p>
-    <mat-form-field appearance="outline">
-      <mat-label>Contact</mat-label>
-      <input matInput placeholder="Placeholder" [(ngModel)]='formCompany.contact' name="contact">
-      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-      <mat-hint>Input company contact</mat-hint>
-    </mat-form-field>
-  </p>
-  <p>
-    <mat-form-field appearance="outline">
-      <mat-label>Email</mat-label>
-      <input matInput placeholder="Placeholder" [(ngModel)]='formCompany.email' name="email">
-      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-      <mat-hint>Input company email</mat-hint>
-    </mat-form-field>
-  </p>
-  <p>
-    <mat-form-field appearance="outline">
-      <mat-label>Account number</mat-label>
-      <input matInput placeholder="Placeholder" [(ngModel)]='formCompany.account_number' name="account_number">
-      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-      <mat-hint>Input company account number</mat-hint>
-    </mat-form-field>
-  </p>
-  <button type="submit" class="btn btn-success">Submit</button>
+<div  class="example-container">
+  <form  #company="ngForm" (ngSubmit)="updateCompany(company)" >
+  <mat-form-field appearance="outline">
+    <mat-label>Name</mat-label>
+    <input matInput  name="name" [ngModel]="formCompany.name" #name="ngModel" required>
+    <div *ngIf="company.submitted && (name.dirty || name.touched)"
+    class="alert alert-danger">
+
+  <div *ngIf="name.errors?.required">
+    Name is required!
+  </div>
+  <div *ngIf="name.errors.maxlength">
+    Maximum number of charachters is 30!
+  </div>
+    </div>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="outline">
+    <mat-label>Client pib number</mat-label>
+    <input matInput name="pib" [ngModel]="formCompany.pib" #pib="ngModel" required>
+    <div class="text-danger"
+    *ngIf="(pib.dirty ||  pib.touched || company.submitted) && pib.errors?.required">
+    PIB is required!
+  </div>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="outline">
+    <mat-label>Address</mat-label>
+    <input matInput name="address" [ngModel]="formCompany.address" #address="ngModel" ngModel required maxlength="30">
+    <div class="alert-danger" *ngIf="(address.dirty || address.touched || company.submitted)">
+
+      <div *ngIf="account_number.errors?.required">
+        Address is required!
+      </div>
+      <div *ngIf="address.errors?.maxlength" >
+        Maximum number of charachters is 30!
+        </div>
+       
+        </div>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="outline">
+    <mat-label>Contact</mat-label>
+    <input matInput name="contact" [ngModel]="formCompany.contact" #contact="ngModel" required>
+    <div class="text-danger" *ngIf="(contact.dirty || contact.touched || company.submitted) && contact.errors?.required">
+      Contact is required!
+    </div>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput name="email" [ngModel]="formCompany.email" #email="ngModel" ngModel required email>
+    <div class="alert-danger" *ngIf="(email.dirty || email.touched || company.submitted)">
+
+      <div *ngIf="email.errors?.required">
+        Email is required!
+      </div>
+      <div *ngIf="email.errors?.email">Email must be a valid email address!</div>
+       
+        </div>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="outline">
+    <mat-label>Account number</mat-label>
+    <input matInput type="email" name="account_number" [ngModel]="formCompany.account_number" #account_number="ngModel">
+    <div class="alert-danger" *ngIf="(account_number.dirty || account_number.touched || company.submitted)">
+
+      <div *ngIf="account_number.errors?.required">
+        Company registration number is required!
+      </div>
+      <div *ngIf="account_number.errors?.maxlength || account_number.errors?.minlength" >
+        Number of charachters must be 16!
+        </div>
+       
+        </div>
+  </mat-form-field>
+  <br>
+  <button mat-raised-button>Submit</button>
+  <br>
+  <br>
+
+  <br>
 </form>
-
-
+</div>

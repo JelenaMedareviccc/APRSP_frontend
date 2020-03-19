@@ -29,9 +29,6 @@ export class ClientFormComponent implements OnInit {
     error => {
       console.log(error);
      });
-    console.log(f.value);  // { first: '', last: '' }
-    console.log(f.valid);  // false
-    console.log(this.client);
   }
 
 

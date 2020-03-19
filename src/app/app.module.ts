@@ -1,3 +1,6 @@
+import { ReceiptFormComponent } from './components/receipt/receipt_form/receipt_form.component';
+import { ReceiptTableComponent } from './components/receipt/receipt_table/receipt_table.component';
+import { ReceiptService } from './services/receipt/receipt.service';
 import { ClientFormComponent } from './components/client/client_form/client_form.component';
 import { ClientComponent } from './components/client/client.component';
 import { ClientTableComponent } from './components/client/client_table/client_table.component';
@@ -62,6 +65,8 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { LayoutComponent } from './components/layout/layout.component';
 import {ClientService} from './services/client/client.service';
 import { CompanyFormComponent } from './components/company/company-form/company-form.component';
+import { DialogComponent } from './components/dialog/dialog.component';
+import { ReceiptTableComponent } from './components/receipt/receipt-table/receipt-table.component';
 
 
 
@@ -80,7 +85,18 @@ import { CompanyFormComponent } from './components/company/company-form/company-
     ClientTableComponent,
     ClientFormComponent,
 
-    CompanyFormComponent
+    CompanyFormComponent,
+
+<<<<<<< HEAD
+    DialogComponent,
+
+    ReceiptTableComponent
+=======
+    ReceiptTableComponent,
+    ReceiptFormComponent,
+
+    DialogComponent
+>>>>>>> ef77703... Delete receipt
 
   ],
   imports: [
@@ -135,7 +151,7 @@ import { CompanyFormComponent } from './components/company/company-form/company-
     PortalModule,
     ScrollingModule,
   ],
-   providers: [ ClientService ],
+  providers: [ ClientService, ReceiptService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -9,7 +9,8 @@ export class ReceiptComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    console.log("JECAIACARECEIPT");
   }
 
 }

@@ -1,0 +1,29 @@
+<div  class="example-container">
+  <form  #f="ngForm" (ngSubmit)="createReceipt(f)" >
+  <mat-form-field appearance="outline">
+    <mat-label>Date of issue</mat-label>
+    <input matInput  name="date_of_issue" ngModel>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="outline">
+    <mat-label>Time limit</mat-label>
+    <input matInput name="time_limit" ngModel>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="outline">
+    <mat-label>Total amount</mat-label>
+    <input matInput name="total_amount" ngModel>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="outline">
+    <mat-label>Debt</mat-label>
+    <input matInput name="dept" ngModel>
+  </mat-form-field>
+  <br>
+  <br>
+  <!--<button mat-raised-button (click)="createClient()">Add client</button>-->
+  <br>
+  <br>
+  <button>Submit</button>
+</form>
+</div>

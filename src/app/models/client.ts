@@ -8,7 +8,7 @@ export class Client {
     address : string;
     contact : string;
     email : string;
-    account_number : string;
+    account_number: string;
     company: Company;
     receipts: Receipt[];
 }
