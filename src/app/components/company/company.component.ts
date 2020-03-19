@@ -15,7 +15,7 @@ export class CompanyComponent implements OnInit {
 
 
   companies : Company[];
-  @Input() company: Company;
+  @Input() company: Company = new Company();
   public isViewable: boolean;
 
 
