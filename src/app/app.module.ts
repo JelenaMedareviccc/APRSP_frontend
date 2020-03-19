@@ -64,6 +64,7 @@ import { LayoutComponent } from './components/layout/layout.component';
 import {ClientService} from './services/client/client.service';
 import { CompanyFormComponent } from './components/company/company-form/company-form.component';
 import { DialogComponent } from './components/dialog/dialog.component';
+import { ReceiptTableComponent } from './components/receipt/receipt-table/receipt-table.component';
 
 
 
@@ -84,7 +85,9 @@ import { DialogComponent } from './components/dialog/dialog.component';
 
     CompanyFormComponent,
 
-    DialogComponent
+    DialogComponent,
+
+    ReceiptTableComponent
 
   ],
   imports: [
