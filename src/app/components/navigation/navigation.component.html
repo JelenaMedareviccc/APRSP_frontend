@@ -1,9 +1,9 @@
 <mat-nav-list  appAccordion>
-        <mat-list-item routerLink="/client">
+        <mat-list-item (click)="redirectTo('/client')">
                 <span class="styleNav"  bold  >Client</span> 
                 <span fxFlex></span>  
         </mat-list-item>
-        <mat-list-item routerLink="/company">
+        <mat-list-item (click)="redirectTo('/company')">
             <span class="styleNav"  bold >Company</span> 
             <span fxFlex></span>  
     </mat-list-item>
