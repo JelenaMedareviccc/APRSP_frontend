@@ -7,10 +7,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClientComponent implements OnInit {
 
-  constructor() { }
+  public isViewable : boolean;
+  constructor() { 
+    
+  }
 
   ngOnInit() {
-    console.log("JECAIACACLIENT");
+    this.isViewable = true;
   }
+
+
+  addNewClient(){
+    this.isViewable = false;
+  }
+
+  isViewableOutForm($event) {
+    this.isViewable = $event;
+  }
+
 
 }

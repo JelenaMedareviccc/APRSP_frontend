@@ -11,7 +11,7 @@ import { getMatIconFailedToSanitizeLiteralError } from '@angular/material/icon';
 })
 export class CompanyComponent implements OnInit {
 
-  constructor(private companyService : CompanyService, private router : Router) { }
+  constructor(private companyService : CompanyService) { }
 
 
   companies : Company[];

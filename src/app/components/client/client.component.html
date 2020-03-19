@@ -1,7 +1,13 @@
-<p>client works!</p>
-<app-client-table></app-client-table>
+<div *ngIf="isViewable">
+<app-client-table >
+    
+</app-client-table>
+<button (click) ="addNewClient()"> Add new client </button>
+</div>
 <br>
-<h1>Add new client:</h1>
-<app-client-form></app-client-form>
+
+<app-client-form *ngIf="!isViewable" (isViewableOutput)="isViewableOutForm($event)"></app-client-form>
+
+
 <br>
 <br>

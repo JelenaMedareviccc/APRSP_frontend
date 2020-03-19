@@ -1,4 +1,5 @@
 <div  class="example-container">
+  <h1>Add new client:</h1>
   <form  #f="ngForm" (ngSubmit)="f.form.valid && createClient(f)" >
   <mat-form-field appearance="outline">
     <mat-label>Name</mat-label>
@@ -32,13 +33,12 @@
   <br>
   <mat-form-field appearance="outline">
     <mat-label>Address</mat-label>
-    <input matInput name="address" ngModel #address="ngModel" required>
+    <input matInput name="address" ngModel #address="ngModel" required maxlength="30">
     <div class="alert-danger" *ngIf="(address.dirty || address.touched || f.submitted)">
-
-      <div *ngIf="account_number.errors?.required">
+      <div *ngIf="address.errors?.required">
         Address is required!
       </div>
-      <div *ngIf="address.errors.maxlength" >
+      <div *ngIf="address.errors?.maxlength" >
         Maximum number of charachters is 30!
         </div>
        
@@ -61,20 +61,20 @@
       <div *ngIf="email.errors?.required">
         Address is required!
       </div>
-      <div *ngIf="email.errors.email">Email must be a valid email address!</div>
+      <div *ngIf="email.errors?.email">Email must be a valid email address!</div>
        
         </div>
   </mat-form-field>
   <br>
   <mat-form-field appearance="outline">
     <mat-label>Account number</mat-label>
-    <input matInput name="account_number" ngModel #account_number="ngModel" required minlength="16" maxlength=""> 
+    <input matInput name="account_number" ngModel #account_number="ngModel" required minlength="16" maxlength="16"> 
     <div class="alert-danger" *ngIf="(account_number.dirty || account_number.touched || f.submitted)">
 
       <div *ngIf="account_number.errors?.required">
         Client registration number is required!
       </div>
-      <div *ngIf="account_number.errors.maxlength || account_number.errors.minlength" >
+      <div *ngIf="account_number.errors?.maxlength || account_number.errors?.minlength" >
         Number of charachters must be 16!
         </div>
        
