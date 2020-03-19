@@ -26,13 +26,13 @@
   <br>
   <mat-form-field appearance="outline">
     <mat-label>Address</mat-label>
-    <input matInput name="address" [ngModel]="formCompany.address" #address="ngModel" required>
+    <input matInput name="address" [ngModel]="formCompany.address" #address="ngModel" ngModel required maxlength="30">
     <div class="alert-danger" *ngIf="(address.dirty || address.touched || company.submitted)">
 
       <div *ngIf="account_number.errors?.required">
         Address is required!
       </div>
-      <div *ngIf="address.errors.maxlength" >
+      <div *ngIf="address.errors?.maxlength" >
         Maximum number of charachters is 30!
         </div>
        
@@ -49,13 +49,13 @@
   <br>
   <mat-form-field appearance="outline">
     <mat-label>Email</mat-label>
-    <input matInput name="email" [ngModel]="formCompany.email" #email="ngModel" required email>
+    <input matInput name="email" [ngModel]="formCompany.email" #email="ngModel" ngModel required email>
     <div class="alert-danger" *ngIf="(email.dirty || email.touched || company.submitted)">
 
       <div *ngIf="email.errors?.required">
         Email is required!
       </div>
-      <div *ngIf="email.errors.email">Email must be a valid email address!</div>
+      <div *ngIf="email.errors?.email">Email must be a valid email address!</div>
        
         </div>
   </mat-form-field>
@@ -68,7 +68,7 @@
       <div *ngIf="account_number.errors?.required">
         Company registration number is required!
       </div>
-      <div *ngIf="account_number.errors.maxlength || account_number.errors.minlength" >
+      <div *ngIf="account_number.errors?.maxlength || account_number.errors?.minlength" >
         Number of charachters must be 16!
         </div>
        

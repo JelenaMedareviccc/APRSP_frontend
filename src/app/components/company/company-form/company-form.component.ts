@@ -12,6 +12,10 @@ import {CompanyComponent} from '../company.component';
 export class CompanyFormComponent implements OnInit {
 
   @Input() formCompany: Company;
+  @Output() isViewableOutput =  new EventEmitter<boolean>();
+
+  private isViewable : boolean;
+
   private company: Company;
 
   constructor(private companyService: CompanyService) { }
@@ -28,6 +32,8 @@ export class CompanyFormComponent implements OnInit {
     console.log(this.company);
 
     this.companyService.updateCompany(this.company).subscribe(data => {
+      this.isViewable = true;
+      this.isViewableOutput.emit(this.isViewable);
       return true;
     },
     error => {

@@ -1,9 +1,9 @@
 <h1>INFORMATION ABOUT COMPANY
   <button mat-button >
-    <mat-icon aria-hidden="false" aria-label="Example home icon" id="iconNav">home</mat-icon>
+    <mat-icon aria-hidden="false" aria-label="Example home icon" id="iconNav" (click)= editCompany() >home</mat-icon>
 </button>
 </h1>
-<mat-list role="list">
+<mat-list role="list" *ngIf="isViewable">
   <mat-list-item role="listitem">NAME: {{company.name}}</mat-list-item>
   <mat-list-item role="listitem">PIB: {{company.pib}}</mat-list-item>
   <mat-list-item role="listitem">ADDRESS: {{company.address}}</mat-list-item>
@@ -13,4 +13,4 @@
   <button routerLink="/client"> CLIENTS </button>
 </mat-list>
 
-<app-company-form [formCompany] = "company"></app-company-form>
+<app-company-form *ngIf="!isViewable" (isViewableOutput)="isViewableOutForm($event)"  [formCompany] = "company"></app-company-form>
