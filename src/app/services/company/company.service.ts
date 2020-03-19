@@ -23,7 +23,7 @@ export class CompanyService {
       }
 
     public createCompany(company: Company): Observable<Company> {
-        return this.httpClient.post<Company>(this.API_URL, company);
+        return this.httpClient.post<Company>(this.API_URL, JSON.stringify(company));
     }
 
     public updateCompany(company: Company): void {

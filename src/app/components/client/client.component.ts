@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Client } from 'src/app/models/client';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-client',
@@ -7,10 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClientComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    console.log("JECAIACACLIENT");
   }
+
+  onClientCreated(client : Client) {
+    this._snackBar.open("Client succesfully created with id " + client.clientId + " !", "OK");
+}
 
 }

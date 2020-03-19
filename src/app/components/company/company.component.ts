@@ -13,7 +13,7 @@ export class CompanyComponent implements OnInit {
 
 
   companies : Company[];
-  @Input() company: Company;
+  @Input() company: Company = new Company();
 
   ngOnInit() {
 
@@ -24,6 +24,7 @@ export class CompanyComponent implements OnInit {
   
   initializeDataSource() {
       this.companyService.getCompany(1).subscribe(company =>{
+        console.log(company)
         this.company = company;
       }, erros => {});
     }

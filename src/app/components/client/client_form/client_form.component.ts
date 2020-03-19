@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ClientService } from './../../../services/client/client.service';
 import { Client } from 'src/app/models/client';
 import {NgForm} from '@angular/forms';
@@ -14,6 +14,7 @@ export class ClientFormComponent implements OnInit {
   constructor(private clientService: ClientService) { }
 
   @Input() client : Client;
+  @Output() clientCreated = new EventEmitter();
 
   ngOnInit() {
 
@@ -22,9 +23,8 @@ export class ClientFormComponent implements OnInit {
   createClient(f: NgForm) {
     this.client =f.value;
     this.clientService.createClient(this.client).subscribe(data => {
-      // refresh the list
-      console.log(data)
-      return true;
+      this.clientCreated.emit(data)
+      f.resetForm();
     },
     error => {
       console.log(error);

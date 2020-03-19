@@ -37,5 +37,6 @@ export class ClientTableComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
     } , error => {});
   }
+
 }
 
