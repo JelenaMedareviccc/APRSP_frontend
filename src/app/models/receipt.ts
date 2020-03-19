@@ -7,6 +7,4 @@ export class Receipt {
     time_limit : number;
     total_amount : number;
     dept: number;
-    payments: Payment[];
-    items: Item[];
 }

@@ -1,3 +1,4 @@
+import { ReceiptFormComponent } from './components/receipt/receipt_form/receipt_form.component';
 import { ReceiptService } from './services/receipt/receipt.service';
 import { ClientFormComponent } from './components/client/client_form/client_form.component';
 import { ClientComponent } from './components/client/client.component';
@@ -64,8 +65,7 @@ import { LayoutComponent } from './components/layout/layout.component';
 import {ClientService} from './services/client/client.service';
 import { CompanyFormComponent } from './components/company/company-form/company-form.component';
 import { DialogComponent } from './components/dialog/dialog.component';
-
-
+import {ReceiptTableComponent} from './components/receipt/receipt_table/receipt_table.component';
 
 @NgModule({
   declarations: [
@@ -74,18 +74,15 @@ import { DialogComponent } from './components/dialog/dialog.component';
     ReceiptComponent,
     ItemComponent,
     PaymentComponent,
-
     NavigationComponent,
     ClientComponent,
     LayoutComponent,
-
     ClientTableComponent,
     ClientFormComponent,
-
     CompanyFormComponent,
-
-    DialogComponent
-
+    DialogComponent,
+    ReceiptFormComponent,
+    ReceiptTableComponent,
   ],
   imports: [
     BrowserModule,
@@ -93,8 +90,6 @@ import { DialogComponent } from './components/dialog/dialog.component';
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
-
-
     A11yModule,
     ClipboardModule,
     CdkStepperModule,

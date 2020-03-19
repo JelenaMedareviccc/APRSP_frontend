@@ -41,6 +41,8 @@ export class ClientTableComponent implements OnInit {
   }
 
 
+
+
   /*deleteClient(id: number){
     console.log(this.openDialog);
     if(this.openDialog() == true){
