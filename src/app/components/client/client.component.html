@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-<div *ngIf="isViewable">
+<div *ngIf="showClientTable">
 <app-client-table >
     
 </app-client-table>
@@ -7,7 +6,7 @@
 </div>
 <br>
 
-<app-client-form *ngIf="!isViewable" (isViewableOutput)="isViewableOutForm($event)"  (clientCreated)='onClientCreated($event)'></app-client-form>
+<app-client-form *ngIf="!showClientTable"  (clientCreated)='onClientCreated($event)'></app-client-form>
 
 <br>
 <br>

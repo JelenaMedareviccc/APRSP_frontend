@@ -10,24 +10,23 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ClientComponent implements OnInit {
 
 
-  public isViewable : boolean;
+  public showClientTable : boolean;
 
   constructor(private _snackBar: MatSnackBar) { }
   
   ngOnInit() {
-    this.isViewable = true;
+    this.showClientTable = true;
   }
   onClientCreated(client : Client) {
-    this._snackBar.open("Client succesfully created with id " + client.clientId + " !", "OK");
+    let snackBarRef = this._snackBar.open("Client succesfully created with id " + client.clientId + " !", "OK");
+    this.showClientTable = true;
 }
 
 addNewClient(){
-  this.isViewable = false;
+  this.showClientTable = false;
 }
 
-isViewableOutForm($event) {
-  this.isViewable = $event;
-}
+
 
 
 }
