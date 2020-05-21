@@ -1,90 +1,48 @@
 <div  class="example-container">
-  <h1>Add new client:</h1>
-  <form  #f="ngForm" (ngSubmit)="f.form.valid && createClient(f)" >
+  <form [formGroup]="clientForm" (ngSubmit)="createOrEditClient()" >
   <mat-form-field appearance="outline">
     <mat-label>Name</mat-label>
-    <input matInput id="name"  name="name" required ngModel  #name="ngModel" maxlength="20" required>
-    <div *ngIf="name.invalid && (name.dirty || name.touched)"
-    class="alert alert-danger">
-
-  <div *ngIf="name.errors?.required">
-    Name is required!
-  </div>
-  <div *ngIf="name.errors.maxlength">
-    Maximum number of charachters is 20!
-  </div>
-    </div>
+    <input matInput id="name"  name="name" formControlName="name" >
+  
   </mat-form-field>
   <br>
   <mat-form-field appearance="outline">
     <mat-label>Client registration number</mat-label>
-    <input matInput name="client_reg_number" ngModel #client_reg_number="ngModel"  minlength="6" maxlength="6" required>
-    <div class="alert-danger" *ngIf="(client_reg_number.dirty || client_reg_number.touched || f.submitted)">
-
-  <div *ngIf="client_reg_number.errors?.required">
-    Client registration number is required!
-  </div>
-  <div *ngIf="client_reg_number.errors?.maxlength || client_reg_number.errors?.minlength">
-    Number of charachters must be 6!
-    </div>
-   
-    </div>
+    <input matInput name="client_reg_number" formControlName="client_reg_number"  >
+  
   </mat-form-field>
   <br>
   <mat-form-field appearance="outline">
     <mat-label>Address</mat-label>
-    <input matInput name="address" ngModel #address="ngModel" required maxlength="30">
-    <div class="alert-danger" *ngIf="(address.dirty || address.touched || f.submitted)">
-      <div *ngIf="address.errors?.required">
-        Address is required!
-      </div>
-      <div *ngIf="address.errors?.maxlength" >
-        Maximum number of charachters is 30!
-        </div>
-       
-        </div>
+    <input matInput name="address" formControlName="address"  >
+    
   </mat-form-field>
   <br>
   <mat-form-field appearance="outline">
     <mat-label>Contact</mat-label>
-    <input matInput name="contact" ngModel #contact="ngModel" required>
-    <div class="text-danger" *ngIf="(contact.dirty || contact.touched || f.submitted) && contact.errors?.required">
-      Contact is required!
-    </div>
+    <input matInput name="contact" formControlName="contact"  >
+   
   </mat-form-field>
   <br>
   <mat-form-field appearance="outline">
     <mat-label>Email</mat-label>
-    <input matInput name="email" ngModel #email="ngModel" required email>
-    <div class="alert-danger" *ngIf="(email.dirty || email.touched || f.submitted)">
+    <input matInput name="email" formControlName="email" >
+   
 
-      <div *ngIf="email.errors?.required">
-        Address is required!
-      </div>
-      <div *ngIf="email.errors?.email">Email must be a valid email address!</div>
-       
-        </div>
   </mat-form-field>
   <br>
   <mat-form-field appearance="outline">
     <mat-label>Account number</mat-label>
-    <input matInput name="account_number" ngModel #account_number="ngModel" required minlength="16" maxlength="16"> 
-    <div class="alert-danger" *ngIf="(account_number.dirty || account_number.touched || f.submitted)">
-
-      <div *ngIf="account_number.errors?.required">
-        Client registration number is required!
-      </div>
-      <div *ngIf="account_number.errors?.maxlength || account_number.errors?.minlength" >
-        Number of charachters must be 16!
-        </div>
-       
-        </div>
-    
+    <input matInput name="account_number" formControlName="account_number" > 
+ 
   </mat-form-field>
   <br>
   <!--<button mat-raised-button (click)="createClient()">Add client</button>-->
   <br>
   <br>
-  <button>Submit</button>
+  <div class="button-pos">
+  <button class="btn submit-button">Submit</button>
+  </div>
+
 </form>
 </div>

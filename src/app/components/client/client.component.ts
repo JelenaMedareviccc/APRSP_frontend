@@ -11,6 +11,7 @@ export class ClientComponent implements OnInit {
 
 
   public showClientTable : boolean;
+  public editId : number;
 
   constructor(private _snackBar: MatSnackBar) { }
   
@@ -18,15 +19,26 @@ export class ClientComponent implements OnInit {
     this.showClientTable = true;
   }
   onClientCreated(client : Client) {
+    if(this.editId){
+      let snackBarRef = this._snackBar.open("Client succesfully updated!", "OK");
+
+    } else {
     let snackBarRef = this._snackBar.open("Client succesfully created with id " + client.clientId + " !", "OK");
+    }
     this.showClientTable = true;
+    this.editId=null;
+
 }
 
 addNewClient(){
   this.showClientTable = false;
+  this.editId=null;
 }
 
-
+showClientForm(clientId:number){
+  this.showClientTable=false;
+  this.editId = clientId;
+}
 
 
 }

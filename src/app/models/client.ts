@@ -11,4 +11,15 @@ export class Client {
     account_number: string;
     company: Company;
     receipts: Receipt[];
+
+    constructor(clientId, name, client_reg_number, address, contact, email, account_number){
+        this.clientId=clientId;
+        this.name=name;
+        this.client_reg_number=client_reg_number;
+        this.address=address;
+        this.contact=contact;
+        this.email=email;
+        this.account_number=account_number;
+
+    }
 }

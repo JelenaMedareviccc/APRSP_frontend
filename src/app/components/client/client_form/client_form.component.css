@@ -1,0 +1,20 @@
+.example-container{
+  position: absolute;
+  
+  left: 40%;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 30px;
+  margin-top: 20px;
+  border-radius: 15px;
+  }
+  
+  
+  .button-pos{
+    text-align: center;
+  }
+  .submit-button{
+    background-color: #dfdfde;
+    padding: 20px;
+    
+ 
+  }

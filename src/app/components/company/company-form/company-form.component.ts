@@ -34,6 +34,7 @@ export class CompanyFormComponent implements OnInit {
     this.companyService.updateCompany(this.company).subscribe(data => {
       this.isViewable = true;
       this.isViewableOutput.emit(this.isViewable);
+    
       return true;
     },
     error => {

@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { CompanyService } from 'src/app/services/company/company.service';
 import { Company } from 'src/app/models/company';
-import { Router } from '@angular/router';
-import { getMatIconFailedToSanitizeLiteralError } from '@angular/material/icon';
+
 
 @Component({
   selector: 'app-company',
@@ -24,17 +23,18 @@ export class CompanyComponent implements OnInit {
 
     this.initializeDataSource();
     this.isViewable = true;
+   
+   
 
   }
 
   isViewableOutForm($event) {
     this.isViewable = $event;
-  }
+  } 
 
 
   initializeDataSource() {
       this.companyService.getCompany(1).subscribe(company =>{
-        console.log("USLO U COMPANY ");
         console.log(company);
         this.company = company;
       }, erros => {});

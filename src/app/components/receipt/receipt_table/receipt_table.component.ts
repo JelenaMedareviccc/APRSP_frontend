@@ -1,12 +1,13 @@
 
 import { Receipt } from './../../../models/receipt';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Client } from 'src/app/models/client';
 import { MatPaginator } from '@angular/material/paginator';
 import { ReceiptService } from 'src/app/services/receipt/receipt.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../../dialog/dialog.component';
+
 
 @Component({
   selector: 'app-receipt-table',
@@ -15,8 +16,9 @@ import { DialogComponent } from '../../dialog/dialog.component';
 })
 export class ReceiptTableComponent implements OnInit {
 
-  displayedColumns = ['receiptId', 'date_of_issue', 'time_limit', 'total_amount', 'dept', 'delete' ];
+  displayedColumns = ['receiptId', 'date_of_issue', 'time_limit', 'total_amount', 'dept', 'delete', 'edit' ];
   dataSource: MatTableDataSource<Receipt>;
+  @Output() showReceiptForm = new EventEmitter<number>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -51,6 +53,12 @@ export class ReceiptTableComponent implements OnInit {
         this.initializeDataSource();
       }, error => {});
     });
+  }
+
+  editReceipt(id: number){
+
+    this.showReceiptForm.emit(id);
+
   }
 
 }

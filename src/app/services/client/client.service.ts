@@ -38,7 +38,6 @@ export class ClientService {
   };
 
   public getClients(): Observable<Client[]> {
-    console.log("heheUSERVISU");
     console.log(this.httpClient.get<Client[]>(this.API_URL));
     return this.httpClient.get<Client[]>(this.API_URL);
   }
@@ -57,16 +56,15 @@ export class ClientService {
   }
 
   public createClient(client: Client): Observable<Client> {
-    console.log('U create sevisu');
-    console.log(client);
+ 
     return this.httpClient.post<Client>(this.API_URL, JSON.stringify(client), httpOptions)
     .pipe(
       retry(1),
       catchError(this.handleError));
   }
 
-  public updateClient(client: Client): void {
-    this.httpClient.put(this.API_URL, client)
+  public updateClient(client: Client): Observable<Client> {
+    return this.httpClient.put<Client>(this.API_URL, client)
   }
 
   public deleteClient(id: number): Observable<{}> {

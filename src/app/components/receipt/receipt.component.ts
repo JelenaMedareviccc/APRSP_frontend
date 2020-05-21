@@ -6,10 +6,30 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./receipt.component.css']
 })
 export class ReceiptComponent implements OnInit {
+  public showReceiptTable : boolean;
+  public editId: Number;
 
-  constructor() { }
+
+  constructor() {
+    this.showReceiptTable=true;
+   }
 
   ngOnInit() {
+  }
+
+  addNewReceipt(){
+    this.showReceiptTable = false;
+  }
+
+  isViewableOutForm($event){
+  
+    this.showReceiptTable=true;
+    this.editId=null;
+  }
+
+  editForm($event){
+    this.showReceiptTable=false;
+    this.editId =$event;
   }
 
 }

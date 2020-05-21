@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter} from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Company } from '../../models/company'
 import { Observable, throwError } from 'rxjs';
 import * as config from '../../config/config.json';
 import { catchError } from 'rxjs/operators';
+
 
 
 
@@ -16,8 +17,13 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class CompanyService {
+export class CompanyService{
   private readonly API_URL = config.apiUrl + '/company';
+
+
+  
+
+
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

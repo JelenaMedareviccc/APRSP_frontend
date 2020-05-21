@@ -5,7 +5,7 @@ import { ClientComponent } from './components/client/client.component';
 import { ClientTableComponent } from './components/client/client_table/client_table.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -60,12 +60,13 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 
-import { NavigationComponent } from './components/navigation/navigation.component';
-import { LayoutComponent } from './components/layout/layout.component';
 import {ClientService} from './services/client/client.service';
 import { CompanyFormComponent } from './components/company/company-form/company-form.component';
 import { DialogComponent } from './components/dialog/dialog.component';
 import {ReceiptTableComponent} from './components/receipt/receipt_table/receipt_table.component';
+import { LayoutModule } from '@angular/cdk/layout';
+
+import { NavigationComponent } from './components/navigation/navigation.component';
 
 @NgModule({
   declarations: [
@@ -74,15 +75,16 @@ import {ReceiptTableComponent} from './components/receipt/receipt_table/receipt_
     ReceiptComponent,
     ItemComponent,
     PaymentComponent,
-    NavigationComponent,
     ClientComponent,
-    LayoutComponent,
+  
     ClientTableComponent,
     ClientFormComponent,
     CompanyFormComponent,
     DialogComponent,
     ReceiptFormComponent,
     ReceiptTableComponent,
+    NavigationComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -90,6 +92,8 @@ import {ReceiptTableComponent} from './components/receipt/receipt_table/receipt_
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
+
     A11yModule,
     ClipboardModule,
     CdkStepperModule,
@@ -133,6 +137,8 @@ import {ReceiptTableComponent} from './components/receipt/receipt_table/receipt_
     MatTreeModule,
     PortalModule,
     ScrollingModule,
+    LayoutModule,
+    ReactiveFormsModule,
   ],
   providers: [ ClientService, ReceiptService ],
   bootstrap: [AppComponent]

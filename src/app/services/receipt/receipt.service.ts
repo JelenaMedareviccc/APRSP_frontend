@@ -48,11 +48,12 @@ export class ReceiptService {
   }
 
   public createReceipt(receipt: Receipt): Observable<Receipt> {
+    
     return this.httpClient.post<Receipt>(this.API_URL, receipt);
   }
 
-  public updateReceipt(receipt: Receipt): void {
-    this.httpClient.put(this.API_URL, receipt)
+  public updateReceipt(receipt: Receipt):  Observable<Receipt>  {
+    return this.httpClient.put<Receipt>(this.API_URL, receipt)
   }
 
   public deleteReceipt(id: number): Observable<{}> {

@@ -1,16 +1,44 @@
-<h1>INFORMATION ABOUT COMPANY
-  <button mat-button >
-    <mat-icon aria-hidden="false" aria-label="Example home icon" id="iconNav" (click)= editCompany() >home</mat-icon>
-</button>
-</h1>
-<mat-list role="list" *ngIf="isViewable">
-  <mat-list-item role="listitem">NAME: {{company.name}}</mat-list-item>
-  <mat-list-item role="listitem">PIB: {{company.pib}}</mat-list-item>
-  <mat-list-item role="listitem">ADDRESS: {{company.address}}</mat-list-item>
-  <mat-list-item role="listitem">CONTACT: {{company.contact}}</mat-list-item>
-  <mat-list-item role="listitem">EMAIL: {{company.email}}</mat-list-item>
-  <mat-list-item role="listitem">ACCOUNT NUMBER: {{company.account_number}}</mat-list-item>
-  <button routerLink="/client"> CLIENTS </button>
-</mat-list>
+     <mat-card class="dashboard-card" *ngIf="isViewable">
+      <mat-card-header>
+        <mat-card-title>
+          {{company.name}}
+          <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" xPosition="before">
+            <button mat-menu-item  (click)= "editCompany()">Update</button>
+          </mat-menu>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="dashboard-card-content">
 
-<app-company-form *ngIf="!isViewable" (isViewableOutput)="isViewableOutForm($event)"  [formCompany] = "company"></app-company-form>
+        <div class="col-1-of-2">
+          <mat-list-item role="listitem">PIB</mat-list-item>
+          <mat-list-item role="listitem">ADDRESS</mat-list-item>
+          <mat-list-item role="listitem">CONTACT</mat-list-item>
+          <mat-list-item role="listitem">EMAIL</mat-list-item>
+          <mat-list-item role="listitem">ACCOUNT NUMBER</mat-list-item>
+          <mat-list-item role="listitem">CLIENTS</mat-list-item>
+        </div>
+      <div class="col-1-of-2">
+          <mat-list-item role="listitem">{{company.pib}}</mat-list-item>
+          <mat-list-item role="listitem">{{company.address}}</mat-list-item>
+          <mat-list-item role="listitem">{{company.contact}}</mat-list-item>
+          <mat-list-item role="listitem">{{company.email}}</mat-list-item>
+          <mat-list-item role="listitem">{{company.account_number}}</mat-list-item>
+          <div routerLink="/client" style="cursor: pointer"> &rarr;</div>
+
+        </div>
+        
+      </mat-card-content>
+    
+
+    </mat-card> 
+
+
+
+
+ <app-company-form *ngIf="!isViewable" (isViewableOutput)="isViewableOutForm($event)"  [formCompany] = "company"></app-company-form>
+ 
+ 
+

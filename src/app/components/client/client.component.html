@@ -1,12 +1,17 @@
+<div class="table-padding">
 <div *ngIf="showClientTable">
-<app-client-table >
+  <button class="btn btn-add" (click) ="addNewClient()"> Add new client </button>
+<br>
+<app-client-table (showClientForm)="showClientForm($event)">
     
 </app-client-table>
-<button (click) ="addNewClient()"> Add new client </button>
+
+
 </div>
 <br>
 
-<app-client-form *ngIf="!showClientTable"  (clientCreated)='onClientCreated($event)'></app-client-form>
+<app-client-form *ngIf="!showClientTable"  (clientCreated)='onClientCreated($event)' [editId] = "editId"></app-client-form>
 
 <br>
 <br>
+</div>

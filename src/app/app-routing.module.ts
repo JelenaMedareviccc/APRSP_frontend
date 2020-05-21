@@ -9,9 +9,12 @@ import { CompanyComponent } from './components/company/company.component';
 
 
 const routes: Routes = [{path: 'company', component: CompanyComponent},
-{path: 'client', component: ClientComponent},
+{path: 'client', component: ClientComponent, children: [
+  { path: '', component: ClientTableComponent}
+]},
+{ path: 'receipts', component: ReceiptComponent },
 { path: '', redirectTo: 'company', pathMatch: 'full' },
-{ path: 'receipts', component: ReceiptComponent }];
+];
 
 
 @NgModule({
