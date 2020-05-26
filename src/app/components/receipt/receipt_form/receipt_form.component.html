@@ -2,20 +2,24 @@
   <form [formGroup]="receiptForm" (ngSubmit)="createEditReceipt()" >
   <mat-form-field appearance="outline">
     <mat-label>Date of issue</mat-label>
-    <input matInput  name="date_of_issue" type="date" formControlName="date" >
+    <!-- <input matInput  name="date_of_issue" type="date" formControlName="date" >
+ -->
+    <input matInput [matDatepicker]="picker" formControlName="date">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   <br>
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" class="input-field">
     <mat-label>Time limit</mat-label>
     <input matInput name="time_limit" formControlName="time_limit">
   </mat-form-field>
   <br>
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" class="input-field">
     <mat-label>Total amount</mat-label>
     <input matInput name="total_amount" formControlName="total_amount">
   </mat-form-field>
   <br>
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" class="input-field">
     <mat-label>Debt</mat-label>
     <input matInput name="dept" formControlName="debt">
   </mat-form-field>

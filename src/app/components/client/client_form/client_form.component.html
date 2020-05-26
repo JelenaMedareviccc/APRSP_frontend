@@ -1,37 +1,37 @@
 <div  class="example-container">
   <form [formGroup]="clientForm" (ngSubmit)="createOrEditClient()" >
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" class="input-field">
     <mat-label>Name</mat-label>
     <input matInput id="name"  name="name" formControlName="name" >
   
   </mat-form-field>
   <br>
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" class="input-field">
     <mat-label>Client registration number</mat-label>
     <input matInput name="client_reg_number" formControlName="client_reg_number"  >
   
   </mat-form-field>
   <br>
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" class="input-field">
     <mat-label>Address</mat-label>
     <input matInput name="address" formControlName="address"  >
     
   </mat-form-field>
   <br>
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" class="input-field">
     <mat-label>Contact</mat-label>
     <input matInput name="contact" formControlName="contact"  >
    
   </mat-form-field>
   <br>
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" class="input-field">
     <mat-label>Email</mat-label>
     <input matInput name="email" formControlName="email" >
    
 
   </mat-form-field>
   <br>
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" class="input-field">
     <mat-label>Account number</mat-label>
     <input matInput name="account_number" formControlName="account_number" > 
  
@@ -41,7 +41,7 @@
   <br>
   <br>
   <div class="button-pos">
-  <button class="btn submit-button">Submit</button>
+  <button class="btn submit-button" [disabled]="!clientForm.valid">Submit</button>
   </div>
 
 </form>

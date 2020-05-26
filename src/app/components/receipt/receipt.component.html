@@ -1,12 +1,6 @@
-<div class="table-padding" *ngIf="showReceiptTable"  >
-  
-  <button class="btn btn-add" (click) ="addNewReceipt()"> Add new receipt </button>
 
-<app-receipt-table  (showReceiptForm) ="editForm($event)"></app-receipt-table>
-</div>
-<br>
-<div *ngIf="!showReceiptTable"  >
-<app-receipt-form (isViewableOutput)="isViewableOutForm($event)" [editId] = "editId"></app-receipt-form>
-</div>
-<br>
-<br>
+  <router-outlet></router-outlet>
+  <br />
+
+  <br />
+  <br />

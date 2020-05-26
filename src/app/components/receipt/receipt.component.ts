@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ReceiptService } from 'src/app/services/receipt/receipt.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-receipt',
@@ -6,30 +8,26 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./receipt.component.css']
 })
 export class ReceiptComponent implements OnInit {
-  public showReceiptTable : boolean;
-  public editId: Number;
 
 
-  constructor() {
-    this.showReceiptTable=true;
+
+  constructor(private receiptService: ReceiptService, private _snackBar: MatSnackBar) {
+ 
    }
 
   ngOnInit() {
+    this.receiptService.receiptEmiter.subscribe(editMode => {
+
+      if(editMode){
+        let snackBarRef = this._snackBar.open("Receipt succesfully updated!", "OK");
+      } else {
+        let snackBarRef = this._snackBar.open("Receipt succesfully created!", "OK");
+      }
+    })
   }
 
-  addNewReceipt(){
-    this.showReceiptTable = false;
-  }
+ 
 
-  isViewableOutForm($event){
-  
-    this.showReceiptTable=true;
-    this.editId=null;
-  }
 
-  editForm($event){
-    this.showReceiptTable=false;
-    this.editId =$event;
-  }
 
 }

@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import * as config from '../../config/config.json';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { Receipt } from 'src/app/models/receipt.js';
 import { catchError } from 'rxjs/operators';
+
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -15,6 +16,8 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class ReceiptService {
+
+  @Output() receiptEmiter = new EventEmitter();
   private readonly API_URL = config.apiUrl + '/receipt';
 
   constructor(private httpClient : HttpClient) { }
