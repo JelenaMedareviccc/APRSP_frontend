@@ -6,10 +6,16 @@ import {
   Output,
   EventEmitter,
 } from "@angular/core";
-import { NgForm, FormGroup, FormControl, Validators } from "@angular/forms";
+import {
+  NgForm,
+  FormGroup,
+  FormControl,
+  Validators,
+  FormArray,
+} from "@angular/forms";
 import { ReceiptService } from "src/app/services/receipt/receipt.service";
 import { Receipt } from "src/app/models/receipt";
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { ActivatedRoute, Router, Params } from "@angular/router";
 
 @Component({
   selector: "app-receipt-form",
@@ -19,20 +25,21 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 export class ReceiptFormComponent implements OnInit {
   receiptForm: FormGroup;
 
-  constructor(private receiptService: ReceiptService,
+  constructor(
+    private receiptService: ReceiptService,
     private route: ActivatedRoute,
-    private router: Router) {}
+    private router: Router
+  ) {}
 
   @Input() receipt: Receipt;
   editId: number;
-  editMode:boolean= false;
+  editMode: boolean = false;
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
-
       this.editId = +params["id"];
       this.editMode = params["id"] != null;
-      this.createForm(null, null, null, null);
+      this.createForm(null, null, null, null, []);
       if (this.editMode) {
         this.initForm();
       }
@@ -44,24 +51,24 @@ export class ReceiptFormComponent implements OnInit {
     let time_limit = null;
     let total_amount = null;
     let debt = null;
+    let items = [];
 
-    
-      this.receiptService.getReceipt(this.editId).subscribe(
-        (data) => {
-          date = data.date_of_issue;
-          time_limit = data.time_limit;
-          total_amount = data.total_amount;
-          debt = data.dept;
-          this.createForm(date, time_limit, total_amount, debt);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    
+    this.receiptService.getReceipt(this.editId).subscribe(
+      (data) => {
+        date = data.date_of_issue;
+        time_limit = data.time_limit;
+        total_amount = data.total_amount;
+        debt = data.dept;
+        items = data.items;
+        this.createForm(date, time_limit, total_amount, debt, []);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
-  createForm(date, time_limit, total_amount, debt) {
+  createForm(date, time_limit, total_amount, debt, items) {
     this.receiptForm = new FormGroup({
       date: new FormControl(date, Validators.required),
       time_limit: new FormControl(time_limit, Validators.required),
@@ -70,6 +77,7 @@ export class ReceiptFormComponent implements OnInit {
         Validators.minLength(0),
       ]),
       debt: new FormControl(debt, Validators.required),
+      items: new FormArray(items),
     });
   }
 
@@ -84,12 +92,14 @@ export class ReceiptFormComponent implements OnInit {
             newReceipt.date_of_issue,
             newReceipt.time_limit,
             newReceipt.total_amount,
-            newReceipt.debt
+            newReceipt.debt,
+            newReceipt.items
+
           )
         )
         .subscribe(
           (data) => {
-          this.redirectTo();
+            this.redirectTo();
           },
           (error) => {
             console.log(error);
@@ -98,20 +108,22 @@ export class ReceiptFormComponent implements OnInit {
     } else {
       this.receiptService.createReceipt(newReceipt).subscribe(
         (data) => {
-          
-       this.redirectTo();
+          this.redirectTo();
         },
         (error) => {
           console.log(error);
         }
       );
     }
-  
   }
 
-  redirectTo(){
-    this.receiptService.receiptEmiter.emit(this.editMode);
-    this.router.navigate(['../'], {relativeTo: this.route});
+  onAddItem(){
+    const control = new FormControl(null, Validators.required);
+    (<FormArray>this.receiptForm.get('items')).push(control);
+  }
 
+  redirectTo() {
+    this.receiptService.receiptEmiter.emit(this.editMode);
+    this.router.navigate(["../"], { relativeTo: this.route });
   }
 }

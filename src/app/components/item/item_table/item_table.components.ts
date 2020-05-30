@@ -1,0 +1,84 @@
+import { Item } from 'src/app/models/item.js';
+import { Component, ViewChild, OnInit, Input } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ItemService } from 'src/app/services/item/item.service';
+import { MatSort } from '@angular/material/sort';
+import { DialogComponent } from '../../dialog/dialog.component';
+
+@Component({
+  selector: 'app-item-table',
+  templateUrl: 'item_table.component.html'
+})
+export class ItemTableComponent implements OnInit{
+  displayedColumns = [
+    "itemId",
+    "name",
+    "price",
+    "measure"
+  ];
+
+  dataSource: MatTableDataSource<Item>;
+
+  items: Item[];
+  @Input() hasItems = true;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
+
+  constructor(
+    private itemService: ItemService,
+    public dialog: MatDialog,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit() {
+    this.initializeDataSource();
+  }
+
+  initializeDataSource() {
+    this.itemService.getItems().subscribe(
+      (items) => {
+        if (this.hasItems) {
+          this.items = items;
+        }
+        this.dataSource = new MatTableDataSource<Item>(this.items);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      (error) => {}
+    );
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  edititem(id: number) {
+    this.router.navigate([`${id}`], { relativeTo: this.route });
+  }
+
+  deleteitem(id: number) {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: "250px",
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log("result: " + result);
+      if (!result) {
+        return;
+      }
+      this.itemService.deleteItem(id).subscribe(
+        (res) => {
+          this.initializeDataSource();
+        },
+        (error) => {}
+      );
+    });
+  }
+
+}
+

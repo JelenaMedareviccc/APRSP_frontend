@@ -15,6 +15,8 @@ import { DialogComponent } from "../../dialog/dialog.component";
 import { Router, ActivatedRoute } from "@angular/router";
 import { MatSort } from '@angular/material/sort';
 
+
+
 @Component({
   selector: "app-receipt-table",
   templateUrl: "./receipt_table.component.html",
@@ -22,6 +24,7 @@ import { MatSort } from '@angular/material/sort';
 })
 export class ReceiptTableComponent implements OnInit {
   displayedColumns = [
+
     "receiptId",
     "date_of_issue",
     "time_limit",
@@ -36,6 +39,7 @@ export class ReceiptTableComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
 
+
   private receipts: Receipt[];
 
   constructor(
@@ -47,7 +51,12 @@ export class ReceiptTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeDataSource();
-   
+
+  }
+
+  selected(receipt: Receipt) {
+    this.router.navigate([`${receipt.receiptId}:/items`], { relativeTo: this.route });
+
   }
 
   applyFilter(event: Event) {

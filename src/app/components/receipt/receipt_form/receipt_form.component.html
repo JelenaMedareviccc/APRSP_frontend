@@ -24,6 +24,28 @@
     <input matInput name="dept" formControlName="debt">
   </mat-form-field>
   <br>
+  <div formArrayName="items">
+    <h4>Your items</h4>
+    <button
+      class="btn btn-default"
+      type="button"
+      (click)="onAddItem()">Add item</button>
+      <!--<div
+        class="form-group"
+        *ngFor="let itemControl of receiptForm.get('items').controls; let i = index">
+        <input type="text" class="form-control" [formControlName]="i">
+      </div>-->
+  </div>
+  <!--<mat-form-field appearance="outline" class="input-field" formArrayName="items" >
+    <mat-label>Items</mat-label>
+    <button
+            class="btn"
+            type="button"
+            (click)="onAddItem()">Add Item</button>
+
+    <input matInput name="items" [formControlName]="i" *ngFor="let itemControl of receiptForm.get('items').controls; let i = index">
+    </div>
+  </mat-form-field>-->
   <br>
   <!--<button mat-raised-button (click)="createClient()">Add client</button>-->
   <br>

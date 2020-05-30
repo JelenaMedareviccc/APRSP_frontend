@@ -1,3 +1,4 @@
+
 import { ReceiptFormComponent } from './components/receipt/receipt_form/receipt_form.component';
 import { ReceiptService } from './services/receipt/receipt.service';
 import { ClientFormComponent } from './components/client/client_form/client_form.component';
@@ -67,6 +68,9 @@ import {ReceiptTableComponent} from './components/receipt/receipt_table/receipt_
 import { LayoutModule } from '@angular/cdk/layout';
 
 import { NavigationComponent } from './components/navigation/navigation.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ItemTableComponent } from './components/item/item_table/item_table.components';
+
 
 @NgModule({
   declarations: [
@@ -76,7 +80,7 @@ import { NavigationComponent } from './components/navigation/navigation.componen
     ItemComponent,
     PaymentComponent,
     ClientComponent,
-  
+
     ClientTableComponent,
     ClientFormComponent,
     CompanyFormComponent,
@@ -84,7 +88,7 @@ import { NavigationComponent } from './components/navigation/navigation.componen
     ReceiptFormComponent,
     ReceiptTableComponent,
     NavigationComponent,
-
+    ItemTableComponent
   ],
   imports: [
     BrowserModule,
@@ -139,6 +143,8 @@ import { NavigationComponent } from './components/navigation/navigation.componen
     ScrollingModule,
     LayoutModule,
     ReactiveFormsModule,
+    MatFormFieldModule,
+        MatInputModule
   ],
   providers: [ ClientService, ReceiptService ],
   bootstrap: [AppComponent]
