@@ -12,22 +12,36 @@
   <mat-form-field appearance="outline" class="input-field">
     <mat-label>Time limit</mat-label>
     <input matInput name="time_limit" formControlName="time_limit">
+    <div *ngIf="receiptForm.get('time_limit').invalid && (receiptForm.get('time_limit').touched || receiptForm.get('time_limit').dirty)">
+      <div *ngIf="receiptForm.get('time_limit').errors.required"></div>
+      Please enter a valid time limit!
+    </div>
   </mat-form-field>
   <br>
   <mat-form-field appearance="outline" class="input-field">
     <mat-label>Total amount</mat-label>
     <input matInput name="total_amount" formControlName="total_amount">
+    <span matPrefix>$&nbsp;</span>
+      <span matSuffix>.00</span>
+    <div *ngIf="receiptForm.get('total_amount').invalid && (receiptForm.get('total_amount').touched || receiptForm.get('total_amount').dirty)">
+      <div *ngIf="receiptForm.get('total_amount').errors.required"></div>
+      Please enter a valid total amount!
+    </div>
   </mat-form-field>
   <br>
   <mat-form-field appearance="outline" class="input-field">
     <mat-label>Debt</mat-label>
-    <input matInput name="dept" formControlName="debt">
+    <input matInput name="debt" formControlName="debt">
+    <div *ngIf="receiptForm.get('debt').invalid && (receiptForm.get('debt').touched || receiptForm.get('debt').dirty)">
+      <div *ngIf="receiptForm.get('debt').errors.required"></div>
+      Please enter a valid debt!
+    </div>
   </mat-form-field>
   <br>
   <div formArrayName="items">
-    <h4>Your items</h4>
+    <h4>Items</h4>
     <button
-      class="btn btn-default"
+      class="btn btn-default button-pos"
       type="button"
       (click)="onAddItem()">Add item</button>
       <!--<div
@@ -51,7 +65,7 @@
   <br>
   <br>
   <div class="button-pos">
-  <button class=" btn submit-button">Submit</button>
+  <button class=" btn submit-button" [disabled]="!receiptForm.valid">Submit</button>
 </div>
 </form>
 </div>

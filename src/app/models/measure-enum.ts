@@ -1,5 +1,7 @@
 export enum Measure {
-  HOUR,
-	DAY,
-	PIECE
+  HOUR = 'HOUR',
+	DAY = 'DAY',
+  PIECE= 'PIECE',
+  KG = 'KG',
+  
   }

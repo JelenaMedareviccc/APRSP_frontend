@@ -70,6 +70,9 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ItemTableComponent } from './components/item/item_table/item_table.components';
+import { ItemFormComponent } from './components/item/item-form/item-form.component';
+import { PaymentTableComponent } from './components/payment/payment-table/payment-table.component';
+import { PaymentFormComponent } from './components/payment/payment-form/payment-form.component';
 
 
 @NgModule({
@@ -88,7 +91,10 @@ import { ItemTableComponent } from './components/item/item_table/item_table.comp
     ReceiptFormComponent,
     ReceiptTableComponent,
     NavigationComponent,
-    ItemTableComponent
+    ItemTableComponent,
+    ItemFormComponent,
+    PaymentTableComponent,
+    PaymentFormComponent
   ],
   imports: [
     BrowserModule,

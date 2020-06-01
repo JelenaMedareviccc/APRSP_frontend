@@ -1,48 +1,56 @@
-<div  class="example-container">
-  <form [formGroup]="clientForm" (ngSubmit)="createOrEditClient()" >
-  <mat-form-field appearance="outline" class="input-field">
-    <mat-label>Name</mat-label>
-    <input matInput id="name"  name="name" formControlName="name" >
-  
-  </mat-form-field>
-  <br>
-  <mat-form-field appearance="outline" class="input-field">
-    <mat-label>Client registration number</mat-label>
-    <input matInput name="client_reg_number" formControlName="client_reg_number"  >
-  
-  </mat-form-field>
-  <br>
-  <mat-form-field appearance="outline" class="input-field">
-    <mat-label>Address</mat-label>
-    <input matInput name="address" formControlName="address"  >
-    
-  </mat-form-field>
-  <br>
-  <mat-form-field appearance="outline" class="input-field">
-    <mat-label>Contact</mat-label>
-    <input matInput name="contact" formControlName="contact"  >
-   
-  </mat-form-field>
-  <br>
-  <mat-form-field appearance="outline" class="input-field">
-    <mat-label>Email</mat-label>
-    <input matInput name="email" formControlName="email" >
-   
+<div class="example-container">
+  <form [formGroup]="clientForm" (ngSubmit)="createOrEditClient()">
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Name</mat-label>
+      <input matInput id="name" name="name" formControlName="name" />
+      <span *ngIf="!clientForm.get('name').valid && clientForm.get('name').touched">Please enter a valid name!</span>
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Client registration number</mat-label>
+      <input
+        matInput
+        name="client_reg_number"
+        formControlName="client_reg_number"
+      />
+      <span *ngIf="!clientForm.get('client_reg_number').valid && clientForm.get('client_reg_number').touched">Please enter a valid client registration number!</span>
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Address</mat-label>
+      <input matInput name="address" formControlName="address" />
+      <span *ngIf="!clientForm.get('address').valid && clientForm.get('address').touched">Please enter a valid adrress!</span>
 
-  </mat-form-field>
-  <br>
-  <mat-form-field appearance="outline" class="input-field">
-    <mat-label>Account number</mat-label>
-    <input matInput name="account_number" formControlName="account_number" > 
- 
-  </mat-form-field>
-  <br>
-  <!--<button mat-raised-button (click)="createClient()">Add client</button>-->
-  <br>
-  <br>
-  <div class="button-pos">
-  <button class="btn submit-button" [disabled]="!clientForm.valid">Submit</button>
-  </div>
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Contact</mat-label>
+      <input matInput name="contact" formControlName="contact" />
+      <span *ngIf="!clientForm.get('contact').valid && clientForm.get('contact').touched">Please enter a valid contact number!</span>
 
-</form>
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Email</mat-label>
+      <input matInput name="email" formControlName="email" />
+      <span *ngIf="!clientForm.get('email').valid && clientForm.get('email').touched">Please enter a valid email!</span>
+
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Account number</mat-label>
+      <input matInput name="account_number" formControlName="account_number" />
+      <span *ngIf="!clientForm.get('account_number').valid && clientForm.get('account_number').touched">Please enter a valid account number!</span>
+
+    </mat-form-field>
+    <br />
+    <!--<button mat-raised-button (click)="createClient()">Add client</button>-->
+    <br />
+    <br />
+    <div class="button-pos">
+      <button class="btn submit-button" [disabled]="!clientForm.valid">
+        Submit
+      </button>
+    </div>
+  </form>
 </div>

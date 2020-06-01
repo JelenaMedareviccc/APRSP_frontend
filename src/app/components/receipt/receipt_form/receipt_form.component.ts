@@ -16,6 +16,9 @@ import {
 import { ReceiptService } from "src/app/services/receipt/receipt.service";
 import { Receipt } from "src/app/models/receipt";
 import { ActivatedRoute, Router, Params } from "@angular/router";
+import { ItemService } from 'src/app/services/item/item.service';
+import { Item } from 'src/app/models/item';
+
 
 @Component({
   selector: "app-receipt-form",
@@ -27,6 +30,7 @@ export class ReceiptFormComponent implements OnInit {
 
   constructor(
     private receiptService: ReceiptService,
+    private itemService: ItemService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -37,8 +41,8 @@ export class ReceiptFormComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
-      this.editId = +params["id"];
-      this.editMode = params["id"] != null;
+      this.editId = +params["receiptid"];
+      this.editMode = params["receiptid"] != null;
       this.createForm(null, null, null, null, []);
       if (this.editMode) {
         this.initForm();
@@ -76,8 +80,8 @@ export class ReceiptFormComponent implements OnInit {
         Validators.required,
         Validators.minLength(0),
       ]),
-      debt: new FormControl(debt, Validators.required),
-      items: new FormArray(items),
+      debt: new FormControl(debt, Validators.required)
+    /*   items: new FormArray(items), */
     });
   }
 
@@ -92,8 +96,8 @@ export class ReceiptFormComponent implements OnInit {
             newReceipt.date_of_issue,
             newReceipt.time_limit,
             newReceipt.total_amount,
-            newReceipt.debt,
-            newReceipt.items
+            newReceipt.debt/* ,
+            newReceipt.items */
 
           )
         )
@@ -106,8 +110,13 @@ export class ReceiptFormComponent implements OnInit {
           }
         );
     } else {
+     
       this.receiptService.createReceipt(newReceipt).subscribe(
         (data) => {
+          if(this.itemService.items){
+            this.createItem(data.receiptId);
+            }
+        
           this.redirectTo();
         },
         (error) => {
@@ -117,9 +126,26 @@ export class ReceiptFormComponent implements OnInit {
     }
   }
 
+  createItem(receiptId: number ){
+    let items = this.itemService.items;
+
+    for(let item of items ){
+      item.receiptId =receiptId;
+      this.itemService.createItem(item).subscribe(
+        (data) => {
+       
+          console.log(data);
+        }
+      )
+      
+  }
+  this.itemService.items = [];
+}
+
   onAddItem(){
-    const control = new FormControl(null, Validators.required);
-    (<FormArray>this.receiptForm.get('items')).push(control);
+/*     const control = new FormControl(null, Validators.required);
+    (<FormArray>this.receiptForm.get('items')).push(control); */
+    this.router.navigate(["/newItem"], { relativeTo: this.route });
   }
 
   redirectTo() {

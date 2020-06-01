@@ -3,14 +3,15 @@ import { Component, ViewChild, OnInit, Input } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ItemService } from 'src/app/services/item/item.service';
 import { MatSort } from '@angular/material/sort';
 import { DialogComponent } from '../../dialog/dialog.component';
 
 @Component({
   selector: 'app-item-table',
-  templateUrl: 'item_table.component.html'
+  templateUrl: './item_table.component.html',
+  styleUrls: ['./item_table.component.css']
 })
 export class ItemTableComponent implements OnInit{
   displayedColumns = [
@@ -23,9 +24,10 @@ export class ItemTableComponent implements OnInit{
   dataSource: MatTableDataSource<Item>;
 
   items: Item[];
-  @Input() hasItems = true;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
+  receiptId: number;  
 
   constructor(
     private itemService: ItemService,
@@ -35,15 +37,20 @@ export class ItemTableComponent implements OnInit{
   ) {}
 
   ngOnInit() {
-    this.initializeDataSource();
+    this.route.params.subscribe((params: Params) => {
+      this.receiptId = +params["receiptid"];
+      this.initializeDataSource();
+    
+    });
+    
   }
 
   initializeDataSource() {
-    this.itemService.getItems().subscribe(
+    this.itemService.getItemByReceipt(this.receiptId).subscribe(
       (items) => {
-        if (this.hasItems) {
+        
           this.items = items;
-        }
+        
         this.dataSource = new MatTableDataSource<Item>(this.items);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -57,11 +64,11 @@ export class ItemTableComponent implements OnInit{
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  edititem(id: number) {
-    this.router.navigate([`${id}`], { relativeTo: this.route });
+  editItem(itemid: number) {
+    this.router.navigate([`${itemid}`], { relativeTo: this.route });
   }
 
-  deleteitem(id: number) {
+  deleteItem(id: number) {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
     });
@@ -78,6 +85,10 @@ export class ItemTableComponent implements OnInit{
         (error) => {}
       );
     });
+  }
+
+  getTotalCost(){
+    return this.items.map(item => item.price).reduce((acc, value) => acc + value , 0);
   }
 
 }

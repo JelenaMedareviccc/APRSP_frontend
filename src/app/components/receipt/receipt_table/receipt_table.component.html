@@ -7,34 +7,41 @@
 <br>
 
 
-<table mat-table [dataSource]="dataSource" matSort>
+<div *ngIf="showText" class="showTextMsg">CLICK</div>
 
+<table mat-table [dataSource]="dataSource" matSort  >
 
 <ng-container>
-    <ng-container matColumnDef="receiptId" >
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Receipt ID </th>
-      <td mat-cell *matCellDef="let element" > {{element.receiptId}} </td>
+    <ng-container matColumnDef="receiptId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header (mouseenter)="showTextChange(true)" (mouseleave)="showTextChange(false)" > Receipt ID </th>
+      <td mat-cell *matCellDef="let element" (mouseenter)="showTextChange(true)" (mouseleave)="showTextChange(false)" > {{element.receiptId}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="date_of_issue">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Date of issue </th>
-      <td mat-cell *matCellDef="let element"> {{element.date_of_issue}} </td>
+    <ng-container matColumnDef="date_of_issue" >
+      <th mat-header-cell *matHeaderCellDef mat-sort-header > Date of issue </th>
+      <td mat-cell *matCellDef="let element" (mouseenter)="showTextChange(true)" (mouseleave)="showTextChange(false)"> {{element.date_of_issue}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="time_limit">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Time limit </th>
-      <td mat-cell *matCellDef="let element"> {{element.time_limit}} </td>
+    <ng-container matColumnDef="time_limit" >
+      <th mat-header-cell *matHeaderCellDef mat-sort-header > Time limit </th>
+      <td mat-cell *matCellDef="let element" (mouseenter)="showTextChange(true)" (mouseleave)="showTextChange(false)"> {{element.time_limit}} </td>
     </ng-container>
 
     <ng-container matColumnDef="total_amount">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Total amount </th>
-      <td mat-cell *matCellDef="let element"> {{element.total_amount}} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header > Total amount </th>
+      <td mat-cell *matCellDef="let element" (mouseenter)="showTextChange(true)" (mouseleave)="showTextChange(false)"> {{element.total_amount | currency}} </td>
     </ng-container>
 
     <ng-container matColumnDef="dept">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Debt </th>
-      <td mat-cell *matCellDef="let element"> {{element.dept}} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header > Debt </th>
+      <td mat-cell *matCellDef="let element" (mouseenter)="showTextChange(true)" (mouseleave)="showTextChange(false)"> {{element.dept}} </td>
     </ng-container>
+
+    <ng-container matColumnDef="payment" >
+      <th mat-header-cell *matHeaderCellDef > Payment </th>
+      <td mat-cell *matCellDef="let element"> <button mat-button (click)="viewPayment(element.receiptId)">Payment</button> </td>
+    </ng-container>
+
 
 
 
@@ -49,10 +56,6 @@
     </ng-container>
 
 
-    <!--<ng-container matColumnDef="payments">
-      <th mat-header-cell *matHeaderCellDef> Payments </th>
-      <td mat-cell *matCellDef="let element"> <button mat-button (click)="displayPayment()">Display payment</button> </td>
-    </ng-container>-->
   </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"
@@ -61,7 +64,5 @@
   <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
   </mat-paginator>
 </div>
-
-
 
 

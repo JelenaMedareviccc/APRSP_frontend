@@ -1,0 +1,51 @@
+<div class="example-container">
+  <form [formGroup]="itemForm" (ngSubmit)="createOrEditItem()">
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Name</mat-label>
+      <input matInput id="name" name="name" formControlName="name" />
+      <span
+        *ngIf="!itemForm.get('name').valid && itemForm.get('name').touched"
+        >Please enter a valid name!</span
+      >
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Price</mat-label>
+      <input matInput name="price" formControlName="price" />
+      <span matPrefix>$&nbsp;</span>
+      <span matSuffix>.00</span>
+      <span
+        *ngIf="!itemForm.get('price').valid && itemForm.get('price').touched"
+        >Please enter a valid price!</span
+      >
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Measure</mat-label>
+      <mat-select formControlName="measure">
+        <mat-option
+          *ngFor="let enum of measures | keyvalue"
+          [value]="enum.key"
+          
+          >{{  enum.value }}</mat-option
+        >
+      </mat-select>
+      <span
+        *ngIf="
+          !itemForm.get('measure').valid && itemForm.get('measure').touched"
+        >Please choose a valid measure!</span
+      >
+    </mat-form-field>
+    <br />
+
+    <br />
+    <!--<button mat-raised-button (click)="createClient()">Add client</button>-->
+    <br />
+    <br />
+    <div class="button-pos">
+      <button class="btn submit-button" [disabled]="!itemForm.valid">
+        Submit
+      </button>
+    </div>
+  </form>
+</div>

@@ -30,6 +30,7 @@ export class ReceiptTableComponent implements OnInit {
     "time_limit",
     "total_amount",
     "dept",
+    "payment",
     "delete",
     "edit",
   ];
@@ -37,6 +38,7 @@ export class ReceiptTableComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
+  showText: boolean;
 
 
 
@@ -47,10 +49,17 @@ export class ReceiptTableComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { 
+    this.showText=false;
+  }
 
   ngOnInit(): void {
     this.initializeDataSource();
+
+  }
+
+  showTextChange(show: boolean){
+    this.showText=show;
 
   }
 
@@ -97,10 +106,15 @@ export class ReceiptTableComponent implements OnInit {
   }
 
   addNewReceipt() {
-    this.router.navigate(["new"], { relativeTo: this.route });
+    this.router.navigate(["newReceipt"], { relativeTo: this.route });
   }
 
-  editReceipt(id: number) {
-    this.router.navigate([`${id}`], { relativeTo: this.route });
+  editReceipt(receiptid: number) {
+    this.router.navigate([`${receiptid}`], { relativeTo: this.route });
+  }
+
+  viewPayment(receiptid: number){
+    this.router.navigate([`${receiptid} /payments`], { relativeTo: this.route });
+
   }
 }
