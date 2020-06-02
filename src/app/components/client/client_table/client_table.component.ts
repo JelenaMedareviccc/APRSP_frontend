@@ -76,8 +76,8 @@ export class ClientTableComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  editClient(id: number) {
-    this.router.navigate([`${id}`], { relativeTo: this.route });
+  editClient(clientid: number) {
+    this.router.navigate([`${clientid}`], { relativeTo: this.route });
   }
 
   deleteClient(id: number) {

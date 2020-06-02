@@ -12,7 +12,7 @@ import { MatPaginator } from "@angular/material/paginator";
 import { ReceiptService } from "src/app/services/receipt/receipt.service";
 import { MatDialog } from "@angular/material/dialog";
 import { DialogComponent } from "../../dialog/dialog.component";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router, ActivatedRoute, Params } from "@angular/router";
 import { MatSort } from '@angular/material/sort';
 
 
@@ -39,6 +39,7 @@ export class ReceiptTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   showText: boolean;
+  clientId: number;
 
 
 
@@ -54,7 +55,12 @@ export class ReceiptTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initializeDataSource();
+    this.route.params.subscribe((params: Params) => {
+      this.clientId = +params["clientid"];
+      this.initializeDataSource();
+   
+      })
+
 
   }
 
@@ -74,7 +80,7 @@ export class ReceiptTableComponent implements OnInit {
   }
 
   initializeDataSource() {
-    this.receiptService.getReceipts().subscribe(
+    this.receiptService.getReceiptByClient(this.clientId).subscribe(
       (receipts) => {
         this.receipts = receipts;
         this.dataSource = new MatTableDataSource<Receipt>(this.receipts);

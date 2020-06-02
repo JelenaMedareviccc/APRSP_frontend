@@ -14,7 +14,7 @@ import { ItemFormComponent } from "./components/item/item-form/item-form.compone
 import { ItemComponent } from "./components/item/item.component";
 import { PaymentComponent } from "./components/payment/payment.component";
 import { PaymentFormComponent } from "./components/payment/payment-form/payment-form.component";
-import { PaymentTableComponent } from './components/payment/payment-table/payment-table.component';
+import { PaymentTableComponent } from "./components/payment/payment-table/payment-table.component";
 
 const routes: Routes = [
   { path: "company", component: CompanyComponent },
@@ -25,40 +25,41 @@ const routes: Routes = [
     children: [
       { path: "", component: ClientTableComponent },
       { path: "new", component: ClientFormComponent },
-      { path: ":id", component: ClientFormComponent },
-    ],
-  },
-  {
-    path: "receipts",
-    component: ReceiptComponent,
-    children: [
-      { path: "", component: ReceiptTableComponent },
-    
-   
-      { path: ":receiptid/edit", component: ReceiptFormComponent}, 
-    /*   { path: ":receiptid/payments",component:PaymentTableComponent},
-      {path: ":receiptid/payments/:paymentid", component: PaymentFormComponent},
-      {path: ":receiptid/payments/newPayment", component: PaymentFormComponent},
-      {path: ":receiptid/items", component: ItemTableComponent},
-      { path: ":receiptid/items/:itemid", component: ItemFormComponent} */
-{ path: ":receiptid" ,
-         children: [
-          { path: "items", component: ItemTableComponent },
-          
-          { path: "items/:itemid", component: ItemFormComponent },
-      
-          { path: "payments", component: PaymentComponent, children: [
-            
-              {path: "", component: PaymentTableComponent},
-              { path: "newPayment", component: PaymentFormComponent },
-              { path: ":paymentid", component: PaymentFormComponent },
+      { path: ":clientid/edit", component: ClientFormComponent },
+
+      {
+        path: ":clientid",
+        children: [
+          {
+            path: "receipts",
+            component: ReceiptTableComponent,
+            children: [
+              { path: ":receiptid/edit", component: ReceiptFormComponent },
+
+              {
+                path: ":receiptid",
+                children: [
+                  { path: "items", component: ItemTableComponent },
+
+                  { path: "items/:itemid", component: ItemFormComponent },
+
+                  {
+                    path: "payments",
+                    component: PaymentComponent,
+                    children: [
+                      { path: "", component: PaymentTableComponent },
+                      { path: "newPayment", component: PaymentFormComponent },
+                      { path: ":paymentid", component: PaymentFormComponent },
+                    ],
+                  },
+                ],
+              },
+              { path: "newReceipt", component: ReceiptFormComponent },
+              { path: "newReceipt/newItem", component: ItemFormComponent },
             ],
           },
-         
-        ]
+        ],
       },
-      { path: "newReceipt", component: ReceiptFormComponent },
-      { path: "newReceipt/newItem", component: ItemFormComponent} ,
     ],
   },
 ];

@@ -30,8 +30,8 @@ export class ClientFormComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
 
-      this.editID = +params["id"];
-      this.editMode = params["id"] != null;
+      this.editID = +params["clientid"];
+      this.editMode = params["clientid"] != null;
       this.createForm(null, null, null, null, null, null);
 
       if (this.editMode) {
