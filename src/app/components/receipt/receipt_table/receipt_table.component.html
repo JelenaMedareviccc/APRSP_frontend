@@ -1,5 +1,7 @@
 <div class="client-padding">
 <button class="btn btn-add" (click) ="addNewReceipt()"> Add new receipt </button>
+<h1 class="textColor">{{clientName}}'s receipts</h1>
+
 <mat-form-field>
   <mat-label>Filter</mat-label>
   <input matInput (keyup)="applyFilter($event)" placeholder="Search">
@@ -55,11 +57,15 @@
       <td mat-cell *matCellDef="let element"> <button mat-button (click)="editReceipt(element.receiptId)">Edit</button> </td>
     </ng-container>
 
+    <ng-container matColumnDef="items">
+      <th mat-header-cell *matHeaderCellDef>  Items </th>
+      <td mat-cell *matCellDef="let element"> <button mat-button (click)="showItems(element.receiptId)">Items</button> </td>
+    </ng-container>
+
 
   </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-      (click)="selected(row)" style="cursor: pointer"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
   <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
   </mat-paginator>

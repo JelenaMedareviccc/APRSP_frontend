@@ -27,3 +27,7 @@ mat-paginator{
   border-style: solid;
   width: max-content;
 }
+
+.textColor {
+  color: grey;
+}

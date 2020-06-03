@@ -1,3 +1,4 @@
+import { ClientService } from './../../../services/client/client.service';
 import { Receipt } from "./../../../models/receipt";
 import {
   Component,
@@ -33,6 +34,7 @@ export class ReceiptTableComponent implements OnInit {
     "payment",
     "delete",
     "edit",
+    "items"
   ];
   dataSource: MatTableDataSource<Receipt>;
 
@@ -40,6 +42,7 @@ export class ReceiptTableComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   showText: boolean;
   clientId: number;
+  clientName: String;
 
 
 
@@ -49,8 +52,9 @@ export class ReceiptTableComponent implements OnInit {
     private receiptService: ReceiptService,
     public dialog: MatDialog,
     private router: Router,
-    private route: ActivatedRoute
-  ) { 
+    private route: ActivatedRoute,
+    private clientService: ClientService
+  ) {
     this.showText=false;
   }
 
@@ -58,7 +62,11 @@ export class ReceiptTableComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.clientId = +params["clientid"];
       this.initializeDataSource();
-   
+      this.clientService.getClient(this.clientId).subscribe((data) => {
+        this.clientName = data.name;
+
+      });
+
       })
 
 
@@ -69,10 +77,7 @@ export class ReceiptTableComponent implements OnInit {
 
   }
 
-  selected(receipt: Receipt) {
-    this.router.navigate([`${receipt.receiptId}:/items`], { relativeTo: this.route });
 
-  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -116,11 +121,16 @@ export class ReceiptTableComponent implements OnInit {
   }
 
   editReceipt(receiptid: number) {
-    this.router.navigate([`${receiptid}`], { relativeTo: this.route });
+    this.router.navigate([`${receiptid}/edit`], { relativeTo: this.route });
   }
 
   viewPayment(receiptid: number){
-    this.router.navigate([`${receiptid} /payments`], { relativeTo: this.route });
+    this.router.navigate([`${receiptid}/payments`], { relativeTo: this.route });
+
+  }
+
+  showItems(receiptid: number){
+    this.router.navigate([`${receiptid}/items`], { relativeTo: this.route });
 
   }
 }

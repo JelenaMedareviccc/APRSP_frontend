@@ -27,7 +27,7 @@ export class ItemTableComponent implements OnInit{
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
-  receiptId: number;  
+  receiptId: number;
 
   constructor(
     private itemService: ItemService,
@@ -40,17 +40,17 @@ export class ItemTableComponent implements OnInit{
     this.route.params.subscribe((params: Params) => {
       this.receiptId = +params["receiptid"];
       this.initializeDataSource();
-    
+
     });
-    
+
   }
 
   initializeDataSource() {
     this.itemService.getItemByReceipt(this.receiptId).subscribe(
       (items) => {
-        
+
           this.items = items;
-        
+
         this.dataSource = new MatTableDataSource<Item>(this.items);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;

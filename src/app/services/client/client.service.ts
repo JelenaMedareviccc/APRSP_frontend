@@ -59,7 +59,7 @@ export class ClientService {
   }
 
   public createClient(client: Client): Observable<Client> {
- 
+    console.log(client);
     return this.httpClient.post<Client>(this.API_URL, JSON.stringify(client), httpOptions)
     .pipe(
       retry(1),
@@ -67,7 +67,7 @@ export class ClientService {
   }
 
   public updateClient(client: Client): Observable<Client> {
-    return this.httpClient.put<Client>(this.API_URL, client)
+    return this.httpClient.put<Client>(this.API_URL, client);
   }
 
   public deleteClient(id: number): Observable<{}> {

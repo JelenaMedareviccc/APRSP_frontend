@@ -71,8 +71,7 @@ export class ClientFormComponent implements OnInit {
     this.clientForm = new FormGroup({
       name: new FormControl(name, [
         Validators.required,
-        Validators.maxLength(20),
-        Validators.pattern(/^[1-9]+[0-9]*$/)
+        Validators.maxLength(20)
       ]),
       client_reg_number: new FormControl(client_reg_number, [
         Validators.required,
@@ -82,8 +81,7 @@ export class ClientFormComponent implements OnInit {
       ]),
       address: new FormControl(address, [
         Validators.required,
-        Validators.maxLength(20),
-        Validators.pattern(/^[1-9]+[0-9]*$/)
+        Validators.maxLength(20)
       ]),
       contact: new FormControl(contact, Validators.required),
       email: new FormControl(email, [Validators.required, Validators.email]),
@@ -98,9 +96,10 @@ export class ClientFormComponent implements OnInit {
 
   createOrEditClient() {
     const newClient = this.clientForm.value;
- 
+
 
     if (this.editMode) {
+      console.log(newClient);
       this.clientService
         .updateClient(
           new Client(
@@ -110,7 +109,9 @@ export class ClientFormComponent implements OnInit {
             newClient.address,
             newClient.contact,
             newClient.email,
-            newClient.account_number
+            newClient.account_number,
+            1
+
           )
         )
         .subscribe(
@@ -123,8 +124,10 @@ export class ClientFormComponent implements OnInit {
           }
         );
     } else {
+      console.log(newClient);
       this.clientService.createClient(newClient).subscribe(
         (data) => {
+          // DODATI I KOMPANIJU KOJOJ PRIPADA
           this.redirectTo();
           this.clientForm.reset();
         },
@@ -136,7 +139,11 @@ export class ClientFormComponent implements OnInit {
   }
 
   redirectTo(){
-    this.router.navigate(['../'], {relativeTo: this.route});
+    if(this.editMode){
+      this.router.navigate(['../../'], {relativeTo: this.route});
+    } else {
+      this.router.navigate(['../'], {relativeTo: this.route});
+    }
 
   }
 }

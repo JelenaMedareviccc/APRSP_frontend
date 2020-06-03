@@ -1,3 +1,4 @@
+import { CompanyService } from './../../../services/company/company.service';
 import { ClientService } from "./../../../services/client/client.service";
 import {
   Component,
@@ -40,6 +41,9 @@ export class ClientTableComponent implements OnInit {
   @Input() clients: Client[];
   @Input() hasClients = true;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
+  companyName: String;
+  companyId: number;
+
 
 
 
@@ -47,18 +51,24 @@ export class ClientTableComponent implements OnInit {
     private clientService: ClientService,
     public dialog: MatDialog,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private companyService: CompanyService
   ) {}
 
   ngOnInit() {
     this.initializeDataSource();
-    
+
   }
 
 
 
   initializeDataSource() {
-    this.clientService.getClients().subscribe(
+    this.route.queryParams
+    .subscribe(params => {
+     this.companyId = params.companyId;
+    });
+
+    this.clientService.getClientByCompany(this.companyId).subscribe(
       (clients) => {
         if (this.hasClients) {
           this.clients = clients;
@@ -66,9 +76,12 @@ export class ClientTableComponent implements OnInit {
         this.dataSource = new MatTableDataSource<Client>(this.clients);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.companyName = "KOMPANIJA";
       },
       (error) => {}
     );
+
+
   }
 
   applyFilter(event: Event) {
@@ -77,7 +90,7 @@ export class ClientTableComponent implements OnInit {
   }
 
   editClient(clientid: number) {
-    this.router.navigate([`${clientid}`], { relativeTo: this.route });
+    this.router.navigate([`${clientid}/edit`], { relativeTo: this.route });
   }
 
   deleteClient(id: number) {

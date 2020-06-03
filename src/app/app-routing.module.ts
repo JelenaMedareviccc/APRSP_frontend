@@ -15,8 +15,10 @@ import { ItemComponent } from "./components/item/item.component";
 import { PaymentComponent } from "./components/payment/payment.component";
 import { PaymentFormComponent } from "./components/payment/payment-form/payment-form.component";
 import { PaymentTableComponent } from "./components/payment/payment-table/payment-table.component";
+import { AuthComponent } from './components/auth/auth.component';
 
 const routes: Routes = [
+  { path: 'auth', component: AuthComponent },
   { path: "company", component: CompanyComponent },
   { path: "", redirectTo: "company", pathMatch: "full" },
   {
@@ -32,8 +34,11 @@ const routes: Routes = [
         children: [
           {
             path: "receipts",
-            component: ReceiptTableComponent,
+            component: ReceiptComponent,
             children: [
+              {path: "", component: ReceiptTableComponent},
+              { path: "newReceipt", component: ReceiptFormComponent },
+              { path: "newReceipt/newItem", component: ItemFormComponent },
               { path: ":receiptid/edit", component: ReceiptFormComponent },
 
               {
@@ -53,9 +58,7 @@ const routes: Routes = [
                     ],
                   },
                 ],
-              },
-              { path: "newReceipt", component: ReceiptFormComponent },
-              { path: "newReceipt/newItem", component: ItemFormComponent },
+              }
             ],
           },
         ],

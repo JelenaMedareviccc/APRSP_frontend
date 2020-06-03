@@ -23,14 +23,15 @@ export class CompanyComponent implements OnInit {
 
     this.initializeDataSource();
     this.isViewable = true;
-   
-   
+
+
 
   }
 
   isViewableOutForm($event) {
     this.isViewable = $event;
-  } 
+    this.initializeDataSource();
+  }
 
 
   initializeDataSource() {

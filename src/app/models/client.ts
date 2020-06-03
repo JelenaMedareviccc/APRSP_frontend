@@ -9,10 +9,9 @@ export class Client {
     contact : string;
     email : string;
     account_number: string;
-    company: Company;
-    receipts: Receipt[];
+    companyId: number;
 
-    constructor(clientId, name, client_reg_number, address, contact, email, account_number){
+    constructor(clientId, name, client_reg_number, address, contact, email, account_number, companyId){
         this.clientId=clientId;
         this.name=name;
         this.client_reg_number=client_reg_number;
@@ -20,6 +19,7 @@ export class Client {
         this.contact=contact;
         this.email=email;
         this.account_number=account_number;
+        this.companyId=companyId;
 
     }
 }

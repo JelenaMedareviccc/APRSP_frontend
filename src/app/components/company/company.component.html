@@ -1,7 +1,7 @@
      <mat-card class="dashboard-card" *ngIf="isViewable">
       <mat-card-header>
         <mat-card-title>
-        <strong> {{company.name}}</strong> 
+        <strong> {{company.name}}</strong>
           <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
             <mat-icon>more_vert</mat-icon>
           </button>
@@ -26,19 +26,16 @@
           <mat-list-item role="listitem">{{company.contact}}</mat-list-item>
           <mat-list-item role="listitem">{{company.email}}</mat-list-item>
           <mat-list-item role="listitem">{{company.account_number}}</mat-list-item>
-          <div routerLink="/client" style="cursor: pointer"> <strong>&rarr;</strong></div>
+          <div routerLink="/client" [queryParams]="{ companyId: company.companyId}" style="cursor: pointer"> <strong>&rarr;</strong></div>
 
         </div>
-        
+
       </mat-card-content>
-    
-
-    </mat-card> 
 
 
-
+    </mat-card>
 
  <app-company-form *ngIf="!isViewable" (isViewableOutput)="isViewableOutForm($event)"  [formCompany] = "company"></app-company-form>
- 
- 
+<router-outlet></router-outlet>
+
 

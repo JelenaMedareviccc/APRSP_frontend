@@ -3,7 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DialogComponent } from '../../dialog/dialog.component';
 import { Payment } from 'src/app/models/payment';
 import { PaymentService } from 'src/app/services/payment/payment.service';
@@ -27,7 +27,7 @@ export class PaymentTableComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
-
+  receiptId: number;
 
 
   private payments: Payment[];
@@ -40,7 +40,12 @@ export class PaymentTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.initializeDataSource();
+    this.route.params.subscribe((params: Params) => {
+      this.receiptId = +params["receiptid"];
+      this.initializeDataSource();
+
+    });
+
 
   }
 
@@ -51,7 +56,7 @@ export class PaymentTableComponent implements OnInit {
   }
 
   initializeDataSource() {
-    this.paymentService.getPayments().subscribe(
+    this.paymentService.getPaymentByReceipt(this.receiptId).subscribe(
       (payments) => {
         this.payments = payments;
         this.dataSource = new MatTableDataSource<Payment>(this.payments);
