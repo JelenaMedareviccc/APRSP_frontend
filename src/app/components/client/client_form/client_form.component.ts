@@ -10,6 +10,7 @@ import { ClientService } from "./../../../services/client/client.service";
 import { Client } from "src/app/models/client";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ActivatedRoute, Router, Params } from "@angular/router";
+import { CompanyService } from 'src/app/services/company/company.service';
 
 @Component({
   selector: "app-client-form",
@@ -20,14 +21,19 @@ export class ClientFormComponent implements OnInit {
   editID: number;
   editMode: boolean = false;
   clientForm: FormGroup;
+  companyId: number;
 
   constructor(
     private clientService: ClientService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private companyService: CompanyService
   ) {}
 
   ngOnInit() {
+    this.companyService.companyEmitter.subscribe( id => {
+      this.companyId = +id;
+    })
     this.route.params.subscribe((params: Params) => {
 
       this.editID = +params["clientid"];
@@ -95,12 +101,13 @@ export class ClientFormComponent implements OnInit {
   }
 
   createOrEditClient() {
-    const newClient = this.clientForm.value;
+    let newClient = this.clientForm.value;
+    let company = {company: this.companyId}
+    newClient = {...newClient, ...company}
 
 
     if (this.editMode) {
-      console.log(newClient);
-      this.clientService
+        this.clientService
         .updateClient(
           new Client(
             this.editID,
@@ -110,13 +117,11 @@ export class ClientFormComponent implements OnInit {
             newClient.contact,
             newClient.email,
             newClient.account_number,
-            1
-
+            newClient.company
           )
         )
         .subscribe(
           (data) => {
-            this.clientService.clientEmiter.emit(this.editMode);
             this.redirectTo();
           },
           (error) => {
@@ -124,7 +129,6 @@ export class ClientFormComponent implements OnInit {
           }
         );
     } else {
-      console.log(newClient);
       this.clientService.createClient(newClient).subscribe(
         (data) => {
           // DODATI I KOMPANIJU KOJOJ PRIPADA
@@ -139,6 +143,8 @@ export class ClientFormComponent implements OnInit {
   }
 
   redirectTo(){
+
+    this.clientService.clientEmiter.emit(this.editMode);
     if(this.editMode){
       this.router.navigate(['../../'], {relativeTo: this.route});
     } else {

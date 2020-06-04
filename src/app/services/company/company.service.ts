@@ -1,7 +1,7 @@
 import { Injectable, Output, EventEmitter} from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Company } from '../../models/company'
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
 import * as config from '../../config/config.json';
 import { catchError } from 'rxjs/operators';
 
@@ -19,7 +19,8 @@ const httpOptions = {
 })
 export class CompanyService{
   private readonly API_URL = config.apiUrl + '/company';
-
+   companyEmitter = new ReplaySubject(1);
+  
 
   
 

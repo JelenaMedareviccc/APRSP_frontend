@@ -47,6 +47,7 @@ export class ClientTableComponent implements OnInit {
 
 
 
+
   constructor(
     private clientService: ClientService,
     public dialog: MatDialog,
@@ -56,17 +57,27 @@ export class ClientTableComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.initializeDataSource();
+    this.companyService.companyEmitter.subscribe({
+      next: (id) =>{ 
+        this.companyId = +id;
+
+        this.companyService.getCompany(this.companyId).subscribe(c => {
+          this.companyName = c.name;
+        });
+
+      this.initializeDataSource();
+    }
+})
 
   }
 
 
 
   initializeDataSource() {
-    this.route.queryParams
+ /*    this.route.queryParams
     .subscribe(params => {
      this.companyId = params.companyId;
-    });
+    }); */
 
     this.clientService.getClientByCompany(this.companyId).subscribe(
       (clients) => {
@@ -76,7 +87,7 @@ export class ClientTableComponent implements OnInit {
         this.dataSource = new MatTableDataSource<Client>(this.clients);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        this.companyName = "KOMPANIJA";
+       
       },
       (error) => {}
     );
@@ -86,7 +97,7 @@ export class ClientTableComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter= filterValue.trim().toLowerCase();
   }
 
   editClient(clientid: number) {

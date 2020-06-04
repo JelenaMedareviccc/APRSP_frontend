@@ -26,15 +26,10 @@
           <mat-list-item role="listitem">{{company.contact}}</mat-list-item>
           <mat-list-item role="listitem">{{company.email}}</mat-list-item>
           <mat-list-item role="listitem">{{company.account_number}}</mat-list-item>
-          <div routerLink="/client" [queryParams]="{ companyId: company.companyId}" style="cursor: pointer"> <strong>&rarr;</strong></div>
-
+          <div routerLink="/client" style="cursor: pointer"> <strong>&rarr;</strong></div>
         </div>
-
       </mat-card-content>
-
-
     </mat-card>
-
  <app-company-form *ngIf="!isViewable" (isViewableOutput)="isViewableOutForm($event)"  [formCompany] = "company"></app-company-form>
 <router-outlet></router-outlet>
 

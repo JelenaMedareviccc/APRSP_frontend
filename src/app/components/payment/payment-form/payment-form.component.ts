@@ -64,7 +64,10 @@ export class PaymentFormComponent implements OnInit {
   }
 
   createEditPayment() {
-    const newPayment =this.paymentForm.value;
+    let newPayment =this.paymentForm.value;
+    const receipt = {receipt: this.receiptId};
+    newPayment= {...newPayment, ...receipt};
+
 
     if (this.editPaymentId) {
       this.paymentService
@@ -73,7 +76,7 @@ export class PaymentFormComponent implements OnInit {
             this.editPaymentId,
             newPayment.date_of_issue,
             newPayment.amount,
-            this.receiptId
+            newPayment.receipt
 
           )
         )
@@ -86,8 +89,7 @@ export class PaymentFormComponent implements OnInit {
           }
         );
     } else {
-      let createPayment= newPayment.push(this.receiptId);
-      this.paymentService.createPayment(createPayment).subscribe(
+      this.paymentService.createPayment(newPayment).subscribe(
         (data) => {
         
           this.redirectTo();

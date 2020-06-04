@@ -11,7 +11,6 @@ import { ReceiptFormComponent } from "./components/receipt/receipt_form/receipt_
 import { ReceiptTableComponent } from "./components/receipt/receipt_table/receipt_table.component";
 import { ItemTableComponent } from "./components/item/item_table/item_table.components";
 import { ItemFormComponent } from "./components/item/item-form/item-form.component";
-import { ItemComponent } from "./components/item/item.component";
 import { PaymentComponent } from "./components/payment/payment.component";
 import { PaymentFormComponent } from "./components/payment/payment-form/payment-form.component";
 import { PaymentTableComponent } from "./components/payment/payment-table/payment-table.component";

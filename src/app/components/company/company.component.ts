@@ -26,6 +26,7 @@ export class CompanyComponent implements OnInit {
 
 
 
+
   }
 
   isViewableOutForm($event) {
@@ -36,9 +37,10 @@ export class CompanyComponent implements OnInit {
 
   initializeDataSource() {
       this.companyService.getCompany(1).subscribe(company =>{
-        console.log(company);
         this.company = company;
+        this.companyService.companyEmitter.next(company.companyId);
       }, erros => {});
+
     }
 
   getCompanies(){

@@ -37,11 +37,13 @@ export class ReceiptFormComponent implements OnInit {
   @Input() receipt: Receipt;
   editId: number;
   editMode: boolean = false;
+  clientId: number;
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.editId = +params["receiptid"];
       this.editMode = params["receiptid"] != null;
+      this.clientId=+params["clientid"];
       this.createForm(null, null, null, null);
       if (this.editMode) {
         this.initForm();
@@ -84,10 +86,21 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   createEditReceipt() {
-    const newReceipt = this.receiptForm.value;
+    let newReceipt = this.receiptForm.value;
+    const client = {client: this.clientId}
+    newReceipt = {...newReceipt, ...client}
 
     if (this.editId) {
-      this.receiptService.updateReceipt(newReceipt).subscribe(
+      this.receiptService.updateReceipt(
+        new Receipt(
+          this.editId,
+          newReceipt.date_of_issue,
+          newReceipt.time_limit,
+          newReceipt.total_amount,
+          newReceipt.debt,
+          newReceipt.client
+        )
+      ).subscribe(
         (data) => {
           this.redirectTo();
         },

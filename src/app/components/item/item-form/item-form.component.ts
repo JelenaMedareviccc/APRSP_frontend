@@ -80,7 +80,9 @@ export class ItemFormComponent implements OnInit {
   }
 
   createOrEditItem() {
-    const newItem = this.itemForm.value;
+    let newItem = this.itemForm.value;
+    const receipt = {receipt: this.receiptId}
+    newItem = {...newItem, ...receipt}
 
     if (this.editMode) {
       this.itemService
@@ -96,7 +98,6 @@ export class ItemFormComponent implements OnInit {
         )
         .subscribe(
           (data) => {
-            this.itemService.itemEmitter.emit(this.editMode);
             this.redirectTo();
           },
           (error) => {
@@ -112,6 +113,7 @@ export class ItemFormComponent implements OnInit {
   }
 
   redirectTo() {
+    this.itemService.itemEmitter.emit(this.editMode);
     this.router.navigate(["../"], { relativeTo: this.route });
   }
 }
