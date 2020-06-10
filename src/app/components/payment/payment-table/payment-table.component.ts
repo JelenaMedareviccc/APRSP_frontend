@@ -40,7 +40,7 @@ export class PaymentTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
+    this.route.parent.params.subscribe((params: Params) => {
       this.receiptId = +params["receiptid"];
       this.initializeDataSource();
 
@@ -50,12 +50,15 @@ export class PaymentTableComponent implements OnInit {
   }
 
   initializeDataSource() {
+    console.log(this.receiptId);
     this.paymentService.getPaymentByReceipt(this.receiptId).subscribe(
       (payments) => {
+        if(payments){
         this.payments = payments;
         this.dataSource = new MatTableDataSource<Payment>(this.payments);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        }
       },
       (error) => {}
     );
@@ -85,7 +88,7 @@ export class PaymentTableComponent implements OnInit {
   }
 
   editPayment(paymentid: number) {
-    this.router.navigate([`${paymentid}`], { relativeTo: this.route });
+    this.router.navigate([`${paymentid}/edit`], { relativeTo: this.route });
   }
 
 }

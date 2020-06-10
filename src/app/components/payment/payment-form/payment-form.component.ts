@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { PaymentService } from 'src/app/services/payment/payment.service';
 import { Payment } from 'src/app/models/payment';
+import { ReceiptService } from 'src/app/services/receipt/receipt.service';
 
 @Component({
   selector: 'app-payment-form',
@@ -15,7 +16,8 @@ export class PaymentFormComponent implements OnInit {
   constructor(
     private paymentService: PaymentService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private receiptService: ReceiptService
   ) {}
 
   payment: Payment;
@@ -25,11 +27,13 @@ export class PaymentFormComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
-      this.receiptId=+params["receiptid"];
+    
       this.editPaymentId = +params["paymentid"];
-      this.editMode = params["paymentid"] != null;
+      this.route.parent.params.subscribe((p: Params) => {
+        this.receiptId=+p["receiptid"];
+      })
       this.createForm(null, null);
-      if (this.editMode) {
+      if (this.editPaymentId) {
         this.initForm();
       }
     });
@@ -65,21 +69,16 @@ export class PaymentFormComponent implements OnInit {
 
   createEditPayment() {
     let newPayment =this.paymentForm.value;
-    const receipt = {receipt: this.receiptId};
+    this.receiptService.getReceipt(this.receiptId).subscribe(r => {
+    const receipt = {receipt: r};
     newPayment= {...newPayment, ...receipt};
 
 
     if (this.editPaymentId) {
+      const id = {paymentId: this.editPaymentId};
+      newPayment = {...id, ...newPayment};
       this.paymentService
-        .updatePayment(
-          new Payment(
-            this.editPaymentId,
-            newPayment.date_of_issue,
-            newPayment.amount,
-            newPayment.receipt
-
-          )
-        )
+        .updatePayment(newPayment)
         .subscribe(
           (data) => {
             this.redirectTo();
@@ -99,13 +98,18 @@ export class PaymentFormComponent implements OnInit {
         }
       );
     }
+  })
   }
 
 
 
   redirectTo() {
-    this.paymentService.paymentEmitter.emit(this.editMode);
+    this.paymentService.paymentEmitter.emit(this.editPaymentId);
+    if(this.editPaymentId){
+      this.router.navigate(["../../"], { relativeTo: this.route });
+    } else {
     this.router.navigate(["../"], { relativeTo: this.route });
+    }
   }
 
 }

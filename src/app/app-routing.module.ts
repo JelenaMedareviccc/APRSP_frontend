@@ -45,16 +45,16 @@ const routes: Routes = [
             children: [
               {path: "", component: ReceiptTableComponent},
               { path: "newReceipt", component: ReceiptFormComponent },
-             
+              { path: "newReceipt/newItem", component: ItemFormComponent },
 
               {
                 path: ":receiptid",
                 children: [
-                  
+                
                   { path: "edit", component: ReceiptFormComponent },
-                  { path: "newReceipt/newItem", component: ItemFormComponent },
                   { path: "items", component: ItemTableComponent },
-                  { path: "items/:itemid", component: ItemFormComponent },
+                  {path: "items/newItem", component: ItemFormComponent},
+                  { path: "items/:itemid/edit", component: ItemFormComponent },
 
                   {
                     path: "payments",
@@ -62,7 +62,7 @@ const routes: Routes = [
                     children: [
                       { path: "", component: PaymentTableComponent },
                       { path: "newPayment", component: PaymentFormComponent },
-                      { path: ":paymentid", component: PaymentFormComponent },
+                      { path: ":paymentid/edit", component: PaymentFormComponent },
                     ],
                   },
                 ],

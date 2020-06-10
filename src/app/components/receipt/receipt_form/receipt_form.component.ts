@@ -41,20 +41,16 @@ export class ReceiptFormComponent implements OnInit {
   ngOnInit() {
 
     
+    this.route.parent.params.subscribe(data => {
+      console.log(+data["clientid"] + " parametri");
+      this.clientId = +data["clientid"];
+      this.editId = +data["receiptid"];
+     
 
-    this.clientId = +this.route.snapshot.paramMap.get('clientid');
-    this.editId = +this.route.snapshot.paramMap.get('editid');
-    console.log(this.clientId);
-
-      this.editMode = this.editId != null;
-      
       this.createForm(null, null, null);
 
-      console.log(this.itemService.getItemsList());
       if(this.itemService.itemsList.length !== 0){
-        console.log("USAO!");
         this.receiptService.saveReceiptDataEmitter.subscribe(data => {
-          console.log("DATA: ");
           console.log(data);
           this.createForm(data.date_of_issue, data.time_limit,data.dept);
 
@@ -62,9 +58,12 @@ export class ReceiptFormComponent implements OnInit {
       }
       
       
-      if (this.editMode) {
+      if (this.editId) {
+        console.log(this.editId);
+
         this.initForm();
       }
+    });
   }
 
   initForm() {
@@ -72,7 +71,6 @@ export class ReceiptFormComponent implements OnInit {
     let time_limit = null;
     let debt = null;
 
-    console.log(this.editId);
     this.receiptService.getReceipt(this.editId).subscribe(
       (data) => {
         
@@ -87,26 +85,25 @@ export class ReceiptFormComponent implements OnInit {
     );
   }
 
-  createForm(date, time_limit, debt) {
+  createForm(date: Date, time_limit: number, debt: number) {
     this.receiptForm = new FormGroup({
       date: new FormControl(date, Validators.required),
       time_limit: new FormControl(time_limit, Validators.required),
-      debt: new FormControl(debt, Validators.required),
-      /*   items: new FormArray(items), */
+      debt: new FormControl(debt, Validators.required)
     });
   }
  
   createEditReceipt() {
+
      this.newReceipt= this.receiptForm.value;
     this.clientService.getClient(this.clientId).subscribe(clientInfo => {
       let client = {client: clientInfo}
       this.newReceipt = {...this.newReceipt, ...client}
 
-      
-    
     if (this.editId) {
       const receiptId = {receiptId: this.editId}
       this.newReceipt = {...this.newReceipt, ...receiptId}
+      console.log(this.newReceipt);
       this.receiptService.updateReceipt(this.newReceipt).subscribe(
         (data) => {
           this.redirectTo();
@@ -116,47 +113,52 @@ export class ReceiptFormComponent implements OnInit {
         }
       );
     } else {
-      console.log(this.itemService.itemsList.length);
-      if(this.itemService.itemsList.length !== 0){
-        console.log("ZASTO NISI OVDJE");
       this.receiptService.createReceipt(this.newReceipt).subscribe(
         (data) => {
           if (this.itemService.itemsList) {
-            this.createItem(data.receiptId);
+            this.createItem(this.newReceipt);
           }
 
+          console.log(data);
           this.redirectTo();
         },
         (error) => {
           console.log(error);
         }
       );
-      }
+      
     }
   })
   }
 
-  createItem(receiptId: number) {
+  createItem(receipt: Receipt) {
     let items = this.itemService.itemsList;
 
     for (let item of items) {
-      item.receiptId = receiptId;
+      const itemReceipt = {receipt : receipt}
+      item = {...item, ...itemReceipt};
+      console.log("ITEEEEEM")
+      console.log(item)
       this.itemService.createItem(item).subscribe((data) => {
         console.log(data);
       });
     }
-    this.itemService.itemsList;
+    this.itemService.itemsList = [];
   }
 
   onAddItem() {
     this.newReceipt= this.receiptForm.value;
-    console.log(this.newReceipt);
     this.receiptService.saveReceiptDataEmitter.next(this.newReceipt);
     this.router.navigate(["newItem"], { relativeTo: this.route });
   }
 
   redirectTo() {
-    this.receiptService.receiptEmiter.emit(this.editMode);
+    this.receiptService.receiptEmiter.emit(this.editId);
+    if(this.editId){
+      this.router.navigate(["../../"], { relativeTo: this.route });
+
+    } else {
     this.router.navigate(["../"], { relativeTo: this.route });
+    }
   }
 }

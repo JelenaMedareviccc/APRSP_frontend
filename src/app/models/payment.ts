@@ -4,12 +4,12 @@ export class Payment {
     paymentId: number;
     amount : number;
     date_of_issue : Date;
-    receiptId: number;
+    receipt: Receipt;
 
-    constructor(paymentId:number, amount:number,date_of_issue: Date, receiptId: number){
+    constructor(paymentId:number, amount:number,date_of_issue: Date, receipt: Receipt){
         this.paymentId=paymentId;
         this.amount=amount;
         this.date_of_issue=date_of_issue;
-        this.receiptId=receiptId;
+        this.receipt=receipt;
     }
 }
