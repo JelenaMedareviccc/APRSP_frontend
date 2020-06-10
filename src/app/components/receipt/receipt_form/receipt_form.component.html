@@ -19,17 +19,6 @@
   </mat-form-field>
   <br>
   <mat-form-field appearance="outline" class="input-field">
-    <mat-label>Total amount</mat-label>
-    <input matInput name="total_amount" formControlName="total_amount">
-    <span matPrefix>$&nbsp;</span>
-      <span matSuffix>.00</span>
-    <div *ngIf="receiptForm.get('total_amount').invalid && (receiptForm.get('total_amount').touched || receiptForm.get('total_amount').dirty)">
-      <div *ngIf="receiptForm.get('total_amount').errors.required"></div>
-      Please enter a valid total amount!
-    </div>
-  </mat-form-field>
-  <br>
-  <mat-form-field appearance="outline" class="input-field">
     <mat-label>Debt</mat-label>
     <input matInput name="debt" formControlName="debt">
     <div *ngIf="receiptForm.get('debt').invalid && (receiptForm.get('debt').touched || receiptForm.get('debt').dirty)">
@@ -44,22 +33,9 @@
       class="btn btn-default button-pos"
       type="button"
       (click)="onAddItem()">Add item</button>
-      <!--<div
-        class="form-group"
-        *ngFor="let itemControl of receiptForm.get('items').controls; let i = index">
-        <input type="text" class="form-control" [formControlName]="i">
-      </div>-->
+   
   </div>
-  <!--<mat-form-field appearance="outline" class="input-field" formArrayName="items" >
-    <mat-label>Items</mat-label>
-    <button
-            class="btn"
-            type="button"
-            (click)="onAddItem()">Add Item</button>
 
-    <input matInput name="items" [formControlName]="i" *ngFor="let itemControl of receiptForm.get('items').controls; let i = index">
-    </div>
-  </mat-form-field>-->
   <br>
   <!--<button mat-raised-button (click)="createClient()">Add client</button>-->
   <br>

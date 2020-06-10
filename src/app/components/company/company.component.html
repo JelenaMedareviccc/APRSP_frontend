@@ -1,4 +1,4 @@
-     <mat-card class="dashboard-card" *ngIf="isViewable">
+     <mat-card class="dashboard-card" *ngIf="showCompany" >
       <mat-card-header>
         <mat-card-title>
         <strong> {{company.name}}</strong>
@@ -30,7 +30,6 @@
         </div>
       </mat-card-content>
     </mat-card>
- <app-company-form *ngIf="!isViewable" (isViewableOutput)="isViewableOutForm($event)"  [formCompany] = "company"></app-company-form>
-<router-outlet></router-outlet>
+    <div class="loader" *ngIf="!showCompany">Loading...</div>
 
 

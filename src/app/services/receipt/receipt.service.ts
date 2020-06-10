@@ -1,7 +1,7 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import * as config from '../../config/config.json';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, ReplaySubject } from 'rxjs';
 import { Receipt } from 'src/app/models/receipt.js';
 import { catchError } from 'rxjs/operators';
 
@@ -18,6 +18,8 @@ const httpOptions = {
 export class ReceiptService {
 
   @Output() receiptEmiter = new EventEmitter();
+  saveReceiptDataEmitter = new ReplaySubject<Receipt>(1);
+
   private readonly API_URL = config.apiUrl + '/receipt';
 
   constructor(private httpClient : HttpClient) { }
@@ -39,24 +41,30 @@ export class ReceiptService {
   };
 
   public getReceipts(): Observable<Receipt[]> {
-    return this.httpClient.get<Receipt[]>(this.API_URL);
+    return this.httpClient.get<Receipt[]>(this.API_URL).pipe(
+      catchError(this.handleError));;
   }
 
   public getReceipt(id: number): Observable<Receipt> {
-    return this.httpClient.get<Receipt>(this.API_URL + "/" + id);
+    return this.httpClient.get<Receipt>(this.API_URL + "/" + id).pipe(
+      catchError(this.handleError));;
   }
 
   public getReceiptByClient(clientId: number): Observable<Receipt[]> {
-    return this.httpClient.get<Receipt[]>(this.API_URL + "/client/"+ clientId);
+    console.log(clientId + "KLIJENT ID")
+    return this.httpClient.get<Receipt[]>(this.API_URL + "/client/"+ clientId).pipe(
+      catchError(this.handleError));;
   }
 
   public createReceipt(receipt: Receipt): Observable<Receipt> {
     
-    return this.httpClient.post<Receipt>(this.API_URL, receipt);
+    return this.httpClient.post<Receipt>(this.API_URL, receipt).pipe(
+      catchError(this.handleError));;
   }
 
   public updateReceipt(receipt: Receipt):  Observable<Receipt>  {
-    return this.httpClient.put<Receipt>(this.API_URL, receipt)
+    return this.httpClient.put<Receipt>(this.API_URL, receipt).pipe(
+      catchError(this.handleError));
   }
 
   public deleteReceipt(id: number): Observable<{}> {

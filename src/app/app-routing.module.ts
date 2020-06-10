@@ -4,7 +4,7 @@ import { ClientService } from "./services/client/client.service";
 import { ClientComponent } from "./components/client/client.component";
 
 import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
+import { Routes, RouterModule, ExtraOptions } from "@angular/router";
 import { CompanyComponent } from "./components/company/company.component";
 import { ClientFormComponent } from "./components/client/client_form/client_form.component";
 import { ReceiptFormComponent } from "./components/receipt/receipt_form/receipt_form.component";
@@ -15,10 +15,18 @@ import { PaymentComponent } from "./components/payment/payment.component";
 import { PaymentFormComponent } from "./components/payment/payment-form/payment-form.component";
 import { PaymentTableComponent } from "./components/payment/payment-table/payment-table.component";
 import { AuthComponent } from './components/auth/auth.component';
+import { CompanyFormComponent } from './components/company/company-form/company-form.component';
+
+
+export const routingConfiguration: ExtraOptions = {
+  paramsInheritanceStrategy: 'always'
+};
 
 const routes: Routes = [
   { path: 'auth', component: AuthComponent },
+  {path: 'auth/register', component: CompanyFormComponent},
   { path: "company", component: CompanyComponent },
+  {path: "company/edit", component: CompanyFormComponent},
   { path: "", redirectTo: "company", pathMatch: "full" },
   {
     path: "client",
@@ -37,14 +45,15 @@ const routes: Routes = [
             children: [
               {path: "", component: ReceiptTableComponent},
               { path: "newReceipt", component: ReceiptFormComponent },
-              { path: "newReceipt/newItem", component: ItemFormComponent },
-              { path: ":receiptid/edit", component: ReceiptFormComponent },
+             
 
               {
                 path: ":receiptid",
                 children: [
+                  
+                  { path: "edit", component: ReceiptFormComponent },
+                  { path: "newReceipt/newItem", component: ItemFormComponent },
                   { path: "items", component: ItemTableComponent },
-
                   { path: "items/:itemid", component: ItemFormComponent },
 
                   {
@@ -67,7 +76,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, routingConfiguration)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

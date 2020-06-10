@@ -11,15 +11,26 @@ import { Item } from 'src/app/models/item.js';
 export class ItemService {
   @Output() itemEmitter= new EventEmitter();
   @Output() itemAddadEmitter= new EventEmitter();
-  items: Item[];
+  itemsList: Item[] = [];
+
+  
 
   private readonly API_URL = config.apiUrl + '/item';
 
   constructor(private httpClient : HttpClient) { }
 
   public addItemInList(item:Item): Item[]{
-    this.items.push(item);
-    return this.items;
+    this.itemsList.push(item);
+    console.log(this.itemsList);
+    return this.itemsList;
+  }
+
+  public getItemsList(): Item[]{
+    return this.itemsList;
+  }
+
+  public setItemsList(item: Item[]){
+    this.itemsList = item;
   }
 
   public getItems(): Observable<Item[]> {

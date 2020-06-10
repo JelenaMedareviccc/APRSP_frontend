@@ -1,8 +1,9 @@
 import { CompanyService } from 'src/app/services/company/company.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormsModule, NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Company } from 'src/app/models/company';
 import {CompanyComponent} from '../company.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-company-form',
@@ -10,36 +11,125 @@ import {CompanyComponent} from '../company.component';
   styleUrls: ['./company-form.component.css']
 })
 export class CompanyFormComponent implements OnInit {
+  
+  companyId: number;
+  editMode: boolean = false;
+  companyForm: FormGroup;
 
-  @Input() formCompany: Company;
-  @Output() isViewableOutput =  new EventEmitter<boolean>();
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private companyService: CompanyService
+  ) {}
 
-  private isViewable : boolean;
+  ngOnInit() {
+    this.companyService.companyEmitter.subscribe( id => {
+      this.companyId = +id;
+      this.editMode = this.companyId != null;
+      this.createForm(null, null, null,null, null, null, null);
 
-  private company: Company;
+      if (this.editMode) {
+        this.initEditForm();
+      }
 
-  constructor(private companyService: CompanyService) { }
 
-  ngOnInit(): void {
+    })
   }
 
+  initEditForm() {
+    this.companyService.getCompany(this.companyId).subscribe(
+      (data) => {
+        console.log(data);
+        this.createForm(
+          data.name,
+          data.pib,
+          data.address,
+          data.contact,
+          data.email,
+          data.password,
+          data.account_number
+        );
+        this.companyForm.setValue({
+          name: data.name,
+          pib: data.pib,
+          address: data.address,
+          contact: data.contact,
+          email: data.email,
+          account_number: data.account_number,
+          password: data.password
+        });
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 
-  updateCompany(company: NgForm){
-    console.log(this.formCompany.companyId);
+  createForm(name, pib, address, contact, email, account_number, password) {
+    this.companyForm = new FormGroup({
+      name: new FormControl(name, [
+        Validators.required,
+        Validators.maxLength(20)
+      ]),
+        password: new FormControl(password, [
+          Validators.required,
+          Validators.minLength(6),
+        ]),
+        pib: new FormControl(pib, [
+        Validators.required,
+        Validators.maxLength(6),
+        Validators.minLength(6),
+        Validators.pattern(/^[1-9]+[0-9]*$/)
+      ]),
+      address: new FormControl(address, [
+        Validators.required,
+        Validators.maxLength(20)
+      ]),
+      contact: new FormControl(contact, Validators.required),
+      email: new FormControl(email, [Validators.required, Validators.email]),
+      account_number: new FormControl(account_number, [
+        Validators.required,
+        Validators.maxLength(16),
+        Validators.minLength(16),
+        Validators.pattern(/^[1-9]+[0-9]*$/)
+      ]),
+    });
+  }
 
-    this.company = company.value;
-    this.company.companyId = this.formCompany.companyId;
-    console.log(this.company);
+  createOrEditCompany() {
+    let newCompany = this.companyForm.value;
 
-    this.companyService.updateCompany(this.company).subscribe(data => {
-      this.isViewable = true;
-      this.isViewableOutput.emit(this.isViewable);
+
+    if (this.editMode) {
+      const companyId = {companyId : this.companyId};
+      newCompany ={...companyId, ...newCompany};
+        this.companyService
+        .updateCompany(newCompany)
+        .subscribe(
+          (data) => {
+            this.redirectTo();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    } else {
+      this.companyService.createCompany(newCompany).subscribe(
+        (data) => {
+          this.redirectTo();
+          this.companyForm.reset();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+  }
+
+  redirectTo(){
+      this.router.navigate(['../'], {relativeTo: this.route});
     
-      return true;
-    },
-    error => {
-      console.log(error);
-     });
+
   }
 
 

@@ -74,10 +74,6 @@ export class ClientTableComponent implements OnInit {
 
 
   initializeDataSource() {
- /*    this.route.queryParams
-    .subscribe(params => {
-     this.companyId = params.companyId;
-    }); */
 
     this.clientService.getClientByCompany(this.companyId).subscribe(
       (clients) => {
@@ -87,6 +83,9 @@ export class ClientTableComponent implements OnInit {
         this.dataSource = new MatTableDataSource<Client>(this.clients);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.dataSource.filterPredicate = function(data, filter: string): boolean {
+          return data.name.toLowerCase().includes(filter) || data.client_reg_number.toLowerCase().includes(filter);
+      };
        
       },
       (error) => {}
@@ -95,10 +94,10 @@ export class ClientTableComponent implements OnInit {
 
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter= filterValue.trim().toLowerCase();
+  applyFilter(filterValue: string) {
+  this.dataSource.filter= filterValue.trim().toLowerCase();
   }
+
 
   editClient(clientid: number) {
     this.router.navigate([`${clientid}/edit`], { relativeTo: this.route });
@@ -127,3 +126,5 @@ export class ClientTableComponent implements OnInit {
     this.router.navigate(["new"], { relativeTo: this.route });
   }
 }
+
+

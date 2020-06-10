@@ -1,7 +1,7 @@
 <div class="client-padding">
   <mat-form-field>
     <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Search" />
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search" />
   </mat-form-field>
   <br />
 

@@ -54,13 +54,15 @@ export class ItemTableComponent implements OnInit{
         this.dataSource = new MatTableDataSource<Item>(this.items);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.dataSource.filterPredicate = function(data, filter: string): boolean {
+          return data.name.toLowerCase().includes(filter);
+      };
       },
       (error) => {}
     );
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
+  applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 

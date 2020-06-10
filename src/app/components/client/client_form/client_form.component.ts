@@ -1,10 +1,6 @@
 import {
   Component,
-  OnInit,
-  Input,
-  Inject,
-  Output,
-  EventEmitter,
+  OnInit
 } from "@angular/core";
 import { ClientService } from "./../../../services/client/client.service";
 import { Client } from "src/app/models/client";
@@ -102,24 +98,17 @@ export class ClientFormComponent implements OnInit {
 
   createOrEditClient() {
     let newClient = this.clientForm.value;
-    let company = {company: this.companyId}
-    newClient = {...newClient, ...company}
+    
+    this.companyService.getCompany(this.companyId).subscribe(companyInfo => {
+      const company = {company: companyInfo}
+      newClient = {...newClient, ...company}
+      console.log(newClient);
 
-
-    if (this.editMode) {
+      if (this.editMode) {
+        let clientId = {clientId: this.editID};
+        newClient = {...clientId, ...newClient};
         this.clientService
-        .updateClient(
-          new Client(
-            this.editID,
-            newClient.name,
-            newClient.client_reg_number,
-            newClient.address,
-            newClient.contact,
-            newClient.email,
-            newClient.account_number,
-            newClient.company
-          )
-        )
+        .updateClient(newClient)
         .subscribe(
           (data) => {
             this.redirectTo();
@@ -131,7 +120,6 @@ export class ClientFormComponent implements OnInit {
     } else {
       this.clientService.createClient(newClient).subscribe(
         (data) => {
-          // DODATI I KOMPANIJU KOJOJ PRIPADA
           this.redirectTo();
           this.clientForm.reset();
         },
@@ -139,7 +127,10 @@ export class ClientFormComponent implements OnInit {
           console.log(error);
         }
       );
-    }
+    } 
+
+    })
+    
   }
 
   redirectTo(){

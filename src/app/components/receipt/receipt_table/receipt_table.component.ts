@@ -60,7 +60,7 @@ export class ReceiptTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.clientId = +params["clientid"];
+      this.clientId = +params["clientid"]; 
       this.initializeDataSource();
       this.clientService.getClient(this.clientId).subscribe((data) => {
         this.clientName = data.name;
@@ -71,13 +71,6 @@ export class ReceiptTableComponent implements OnInit {
 
 
   }
-
-  showTextChange(show: boolean){
-    this.showText=show;
-
-  }
-
-
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

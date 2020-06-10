@@ -19,14 +19,6 @@ mat-paginator{
 
 }
 
-.showTextMsg{
-  font-size: 14px;
-  color: white;
-  background-color: rgba(255, 255, 255, 0.15);
-  border: 0.2px;
-  border-style: solid;
-  width: max-content;
-}
 
 .textColor {
   color: grey;

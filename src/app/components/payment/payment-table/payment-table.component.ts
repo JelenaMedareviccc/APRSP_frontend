@@ -49,12 +49,6 @@ export class PaymentTableComponent implements OnInit {
 
   }
 
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
   initializeDataSource() {
     this.paymentService.getPaymentByReceipt(this.receiptId).subscribe(
       (payments) => {
@@ -62,7 +56,6 @@ export class PaymentTableComponent implements OnInit {
         this.dataSource = new MatTableDataSource<Payment>(this.payments);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-
       },
       (error) => {}
     );

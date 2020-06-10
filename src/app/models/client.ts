@@ -9,7 +9,7 @@ export class Client {
     contact : string;
     email : string;
     account_number: string;
-    company: number;
+    company: Company;
 
     constructor(clientId, name, client_reg_number, address, contact, email, account_number, company){
         this.clientId=clientId;

@@ -68,8 +68,7 @@ export class ItemFormComponent implements OnInit {
     this.itemForm = new FormGroup({
       name: new FormControl(name, [
         Validators.required,
-        Validators.maxLength(20),
-        Validators.pattern(/^[1-9]+[0-9]*$/),
+        Validators.maxLength(20)
       ]),
       price: new FormControl(price, [
         Validators.required,
@@ -81,10 +80,11 @@ export class ItemFormComponent implements OnInit {
 
   createOrEditItem() {
     let newItem = this.itemForm.value;
-    const receipt = {receipt: this.receiptId}
-    newItem = {...newItem, ...receipt}
+  
 
     if (this.editMode) {
+      const receipt = {receipt: this.receiptId}
+      newItem = {...newItem, ...receipt}
       this.itemService
         .updateItem(
           new Item(
@@ -105,7 +105,8 @@ export class ItemFormComponent implements OnInit {
           }
         );
     } else {
-     
+      console.log("ITEM U KOMPONENTI:");
+     console.log(newItem);
       this.itemService.addItemInList(newItem);
       this.redirectTo();
       this.itemForm.reset();

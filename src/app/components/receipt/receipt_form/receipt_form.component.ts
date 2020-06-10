@@ -2,22 +2,19 @@ import {
   Component,
   OnInit,
   Input,
-  Inject,
-  Output,
-  EventEmitter,
 } from "@angular/core";
 import {
-  NgForm,
+
   FormGroup,
   FormControl,
-  Validators,
-  FormArray,
+  Validators
 } from "@angular/forms";
 import { ReceiptService } from "src/app/services/receipt/receipt.service";
 import { Receipt } from "src/app/models/receipt";
-import { ActivatedRoute, Router, Params } from "@angular/router";
+import { ActivatedRoute, Router} from "@angular/router";
 import { ItemService } from "src/app/services/item/item.service";
-import { Item } from "src/app/models/item";
+
+import { ClientService } from 'src/app/services/client/client.service';
 
 @Component({
   selector: "app-receipt-form",
@@ -31,40 +28,58 @@ export class ReceiptFormComponent implements OnInit {
     private receiptService: ReceiptService,
     private itemService: ItemService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private clientService: ClientService
   ) {}
 
+   newReceipt: Receipt;
   @Input() receipt: Receipt;
   editId: number;
   editMode: boolean = false;
   clientId: number;
 
   ngOnInit() {
-    this.route.params.subscribe((params: Params) => {
-      this.editId = +params["receiptid"];
-      this.editMode = params["receiptid"] != null;
-      this.clientId=+params["clientid"];
-      this.createForm(null, null, null, null);
+
+    
+
+    this.clientId = +this.route.snapshot.paramMap.get('clientid');
+    this.editId = +this.route.snapshot.paramMap.get('editid');
+    console.log(this.clientId);
+
+      this.editMode = this.editId != null;
+      
+      this.createForm(null, null, null);
+
+      console.log(this.itemService.getItemsList());
+      if(this.itemService.itemsList.length !== 0){
+        console.log("USAO!");
+        this.receiptService.saveReceiptDataEmitter.subscribe(data => {
+          console.log("DATA: ");
+          console.log(data);
+          this.createForm(data.date_of_issue, data.time_limit,data.dept);
+
+        });
+      }
+      
+      
       if (this.editMode) {
         this.initForm();
       }
-    });
   }
 
   initForm() {
     let date = null;
     let time_limit = null;
-    let total_amount = null;
     let debt = null;
 
     console.log(this.editId);
     this.receiptService.getReceipt(this.editId).subscribe(
       (data) => {
+        
         date = data.date_of_issue;
         time_limit = data.time_limit;
-        total_amount = data.total_amount;
         debt = data.dept;
-        this.createForm(date, time_limit, total_amount, debt);
+        this.createForm(date, time_limit, debt);
       },
       (error) => {
         console.log(error);
@@ -72,35 +87,27 @@ export class ReceiptFormComponent implements OnInit {
     );
   }
 
-  createForm(date, time_limit, total_amount, debt) {
+  createForm(date, time_limit, debt) {
     this.receiptForm = new FormGroup({
       date: new FormControl(date, Validators.required),
       time_limit: new FormControl(time_limit, Validators.required),
-      total_amount: new FormControl(total_amount, [
-        Validators.required,
-        Validators.minLength(0),
-      ]),
       debt: new FormControl(debt, Validators.required),
       /*   items: new FormArray(items), */
     });
   }
-
+ 
   createEditReceipt() {
-    let newReceipt = this.receiptForm.value;
-    const client = {client: this.clientId}
-    newReceipt = {...newReceipt, ...client}
+     this.newReceipt= this.receiptForm.value;
+    this.clientService.getClient(this.clientId).subscribe(clientInfo => {
+      let client = {client: clientInfo}
+      this.newReceipt = {...this.newReceipt, ...client}
 
+      
+    
     if (this.editId) {
-      this.receiptService.updateReceipt(
-        new Receipt(
-          this.editId,
-          newReceipt.date_of_issue,
-          newReceipt.time_limit,
-          newReceipt.total_amount,
-          newReceipt.debt,
-          newReceipt.client
-        )
-      ).subscribe(
+      const receiptId = {receiptId: this.editId}
+      this.newReceipt = {...this.newReceipt, ...receiptId}
+      this.receiptService.updateReceipt(this.newReceipt).subscribe(
         (data) => {
           this.redirectTo();
         },
@@ -109,9 +116,12 @@ export class ReceiptFormComponent implements OnInit {
         }
       );
     } else {
-      this.receiptService.createReceipt(newReceipt).subscribe(
+      console.log(this.itemService.itemsList.length);
+      if(this.itemService.itemsList.length !== 0){
+        console.log("ZASTO NISI OVDJE");
+      this.receiptService.createReceipt(this.newReceipt).subscribe(
         (data) => {
-          if (this.itemService.items) {
+          if (this.itemService.itemsList) {
             this.createItem(data.receiptId);
           }
 
@@ -121,11 +131,13 @@ export class ReceiptFormComponent implements OnInit {
           console.log(error);
         }
       );
+      }
     }
+  })
   }
 
   createItem(receiptId: number) {
-    let items = this.itemService.items;
+    let items = this.itemService.itemsList;
 
     for (let item of items) {
       item.receiptId = receiptId;
@@ -133,13 +145,14 @@ export class ReceiptFormComponent implements OnInit {
         console.log(data);
       });
     }
-    this.itemService.items = [];
+    this.itemService.itemsList;
   }
 
   onAddItem() {
-    /*     const control = new FormControl(null, Validators.required);
-    (<FormArray>this.receiptForm.get('items')).push(control); */
-    this.router.navigate(["/newItem"], { relativeTo: this.route });
+    this.newReceipt= this.receiptForm.value;
+    console.log(this.newReceipt);
+    this.receiptService.saveReceiptDataEmitter.next(this.newReceipt);
+    this.router.navigate(["newItem"], { relativeTo: this.route });
   }
 
   redirectTo() {

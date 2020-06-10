@@ -1,5 +1,6 @@
 import { Payment } from './payment';
 import { Item } from './item';
+import { Client } from './client';
 
 
 export class Receipt {
@@ -8,13 +9,12 @@ export class Receipt {
     time_limit : number;
     total_amount : number;
     dept: number;
-    client: number;
+    client: Client;
 
-    constructor (receiptId: number,date_of_issue: Date, time_limit: number, total_amount: number, dept: number, client: number){
-        this.receiptId= receiptId;
+    constructor (date_of_issue: Date, time_limit: number, dept: number, client: Client){
+        
         this.date_of_issue=date_of_issue;
         this.time_limit=time_limit;
-        this.total_amount=total_amount;
         this.dept=dept;
         this.client=client;
      

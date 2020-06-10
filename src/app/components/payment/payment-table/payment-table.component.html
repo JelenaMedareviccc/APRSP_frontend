@@ -1,9 +1,5 @@
 <div class="client-padding">
   <button class="btn btn-add" (click)="addNewPayment()">Add new payment</button>
-  <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Search" />
-  </mat-form-field>
   <br />
   
   <table mat-table [dataSource]="dataSource" matSort>

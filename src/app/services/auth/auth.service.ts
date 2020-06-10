@@ -19,7 +19,7 @@ export interface AuthResponseData {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  user = new BehaviorSubject<Company>(null);
+  /* user = new BehaviorSubject<Company>(null);
   private tokenExpirationTimer: any;
   private readonly API_URL = config.apiUrl + '/auth';
 
@@ -45,7 +45,7 @@ export class AuthService {
             +resData.expiresIn
           );
         })
-      );
+      );  
   }
 
   login(email: string, password: string) {
@@ -82,21 +82,21 @@ export class AuthService {
       return;
     }
 
-    const loadedUser = new User(
+     const loadedCompany = new Comapany(
       userData.email,
       userData.id,
       userData._token,
       new Date(userData._tokenExpirationDate)
-    );
+    ); 
 
-    if (loadedUser.token) {
+     if (loadedUser.token) {
       this.user.next(loadedUser);
       const expirationDuration =
         new Date(userData._tokenExpirationDate).getTime() -
         new Date().getTime();
       this.autoLogout(expirationDuration);
     }
-  }
+  } 
 
   logout() {
     this.user.next(null);
@@ -144,5 +144,5 @@ export class AuthService {
         break;
     }
     return throwError(errorMessage);
-  }
+  } */
 }

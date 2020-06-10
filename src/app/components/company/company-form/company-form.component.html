@@ -1,78 +1,66 @@
-<div  class="example-container">
-  <form  #company="ngForm" (ngSubmit)="updateCompany(company)" >
-  <mat-form-field appearance="outline">
-    <mat-label>Name</mat-label>
-    <input matInput  name="name" [ngModel]="formCompany.name" #name="ngModel" maxlength="30" required>
-    <div *ngIf="company.submitted && (name.dirty || name.touched)"
-    class="alert alert-danger">
+<div class="example-container">
+  <form [formGroup]="companyForm" (ngSubmit)="createOrEditCompany()">
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Name</mat-label>
+      <input matInput id="name" name="name" formControlName="name" />
+      <span *ngIf="!companyForm.get('name').valid && companyForm.get('name').touched">Please enter a valid name!</span>
+    </mat-form-field>
+    <br />
 
-  <div *ngIf="name.errors?.required">
-    Name is required!
-  </div>
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Email</mat-label>
+      <input matInput name="email" type="email" formControlName="email" />
+      <span *ngIf="!companyForm.get('email').valid && companyForm.get('email').touched">Please enter a valid email!</span>
 
+    </mat-form-field>
+    <br />
+
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Password</mat-label>
+      <input matInput name="password" type="password" formControlName="password" />
+      <span *ngIf="!companyForm.get('password').valid && companyForm.get('password').touched">Please enter a valid password!</span>
+
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>PIB</mat-label>
+      <input
+        matInput
+        name="pib"
+        formControlName="pib"
+      />
+      <span *ngIf="!companyForm.get('pib').valid && companyForm.get('pib').touched">Please enter a valid company registration number!</span>
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Address</mat-label>
+      <input matInput name="address" formControlName="address" />
+      <span *ngIf="!companyForm.get('address').valid && companyForm.get('address').touched">Please enter a valid adrress!</span>
+
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Contact</mat-label>
+      <input matInput name="contact" formControlName="contact" />
+      <span *ngIf="!companyForm.get('contact').valid && companyForm.get('contact').touched">Please enter a valid contact number!</span>
+
+    </mat-form-field>
+    <br />
+
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Account number</mat-label>
+      <input matInput name="account_number" formControlName="account_number" />
+      <span *ngIf="!companyForm.get('account_number').valid && companyForm.get('account_number').touched">Please enter a valid account number!</span>
+
+    </mat-form-field>
+    <br />
+    <!--<button mat-raised-button (click)="createcompany()">Add company</button>-->
+    <br />
+    <br />
+    <div class="button-pos">
+      <button class="btn submit-button" [disabled]="!companyForm.valid">
+        Submit
+      </button>
     </div>
-  </mat-form-field>
-  <br>
-  <mat-form-field appearance="outline">
-    <mat-label>Client pib number</mat-label>
-    <input matInput name="pib" [ngModel]="formCompany.pib" #pib="ngModel" required>
-    <div class="text-danger"
-    *ngIf="(pib.dirty ||  pib.touched || company.submitted) && pib.errors?.required">
-    PIB is required!
-  </div>
-  </mat-form-field>
-  <br>
-  <mat-form-field appearance="outline">
-    <mat-label>Address</mat-label>
-    <input matInput name="address" [ngModel]="formCompany.address" #address="ngModel" ngModel required maxlength="30">
-    <div class="alert-danger" *ngIf="(address.dirty || address.touched || company.submitted)">
-
-      <div *ngIf="account_number.errors?.required">
-        Address is required!
-      </div>
-
-
-        </div>
-  </mat-form-field>
-  <br>
-  <mat-form-field appearance="outline">
-    <mat-label>Contact</mat-label>
-    <input matInput name="contact" [ngModel]="formCompany.contact" #contact="ngModel" required>
-    <div class="text-danger" *ngIf="(contact.dirty || contact.touched || company.submitted) && contact.errors?.required">
-      Contact is required!
-    </div>
-  </mat-form-field>
-  <br>
-  <mat-form-field appearance="outline">
-    <mat-label>Email</mat-label>
-    <input matInput name="email" [ngModel]="formCompany.email" #email="ngModel" ngModel required email>
-    <div class="alert-danger" *ngIf="(email.dirty || email.touched || company.submitted)">
-      <div *ngIf="email.errors?.required">
-        Email is required!
-      </div>
-      <div *ngIf="email.errors?.email">Email must be a valid email address!</div>
-
-        </div>
-  </mat-form-field>
-  <br>
-  <mat-form-field appearance="outline">
-    <mat-label>Account number</mat-label>
-    <input matInput type="email" name="account_number" [ngModel]="formCompany.account_number" #account_number="ngModel" minlength="16" maxlength="16">
-    <div class="alert-danger" *ngIf="(account_number.dirty || account_number.touched || company.submitted)">
-
-      <div *ngIf="account_number.errors?.required">
-        Company registration number is required!
-      </div>
-
-        </div>
-  </mat-form-field>
-  <br>
-  <div class="button-pos">
-  <button mat-raised-button class=" btn submit-button">Submit</button>
-</div>
-  <br>
-  <br>
-
-  <br>
-</form>
+  </form>
 </div>
