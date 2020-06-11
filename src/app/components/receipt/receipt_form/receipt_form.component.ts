@@ -85,6 +85,7 @@ export class ReceiptFormComponent implements OnInit {
     );
   }
 
+
   createForm(date: Date, time_limit: number, debt: number) {
     this.receiptForm = new FormGroup({
       date: new FormControl(date, Validators.required),
