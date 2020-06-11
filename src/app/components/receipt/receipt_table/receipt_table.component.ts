@@ -40,7 +40,6 @@ export class ReceiptTableComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
-  showText: boolean;
   clientId: number;
   clientName: String;
 
@@ -55,7 +54,6 @@ export class ReceiptTableComponent implements OnInit {
     private route: ActivatedRoute,
     private clientService: ClientService
   ) {
-    this.showText=false;
   }
 
   ngOnInit(): void {
@@ -124,6 +122,19 @@ export class ReceiptTableComponent implements OnInit {
 
   showItems(receiptid: number){
     this.router.navigate([`${receiptid}/items`], { relativeTo: this.route });
+
+  }
+
+  getTotalCost(){
+    if(this.receipts){
+    return this.receipts.map(r => r.total_amount).reduce((acc, value) => acc + value , 0);
+    }
+  }
+
+  getTotalDebt(){
+    if(this.receipts){
+      return this.receipts.map(r => r.dept).reduce((acc, value) => acc + value , 0);
+      }
 
   }
 }

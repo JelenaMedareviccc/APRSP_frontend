@@ -17,6 +17,7 @@ export class ItemTableComponent implements OnInit{
   displayedColumns = [
     "itemId",
     "name",
+    "totalPrice",
     "price",
     "measure",
     "delete",
@@ -59,6 +60,7 @@ export class ItemTableComponent implements OnInit{
         this.dataSource.sort = this.sort;
         this.dataSource.filterPredicate = function(data, filter: string): boolean {
           return data.name.toLowerCase().includes(filter);
+          
       };
       }},
       (error) => {}
@@ -98,7 +100,9 @@ export class ItemTableComponent implements OnInit{
   }
 
   getTotalCost(){
-    return this.items.map(item => item.price).reduce((acc, value) => acc + value , 0);
+    if(this.items){
+    return this.items.map(item => item.totalPrice).reduce((acc, value) => acc + value , 0);
+    }
   }
 
 }

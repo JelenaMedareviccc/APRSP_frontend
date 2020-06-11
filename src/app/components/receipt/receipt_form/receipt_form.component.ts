@@ -15,11 +15,14 @@ import { ActivatedRoute, Router} from "@angular/router";
 import { ItemService } from "src/app/services/item/item.service";
 
 import { ClientService } from 'src/app/services/client/client.service';
+import * as moment from 'moment';
+
+
 
 @Component({
   selector: "app-receipt-form",
   templateUrl: "./receipt_form.component.html",
-  styleUrls: ["./receipt_form.component.css"],
+  styleUrls: ["./receipt_form.component.css"]
 })
 export class ReceiptFormComponent implements OnInit {
   receiptForm: FormGroup;
@@ -35,24 +38,22 @@ export class ReceiptFormComponent implements OnInit {
    newReceipt: Receipt;
   @Input() receipt: Receipt;
   editId: number;
-  editMode: boolean = false;
   clientId: number;
 
   ngOnInit() {
 
     
     this.route.parent.params.subscribe(data => {
-      console.log(+data["clientid"] + " parametri");
       this.clientId = +data["clientid"];
       this.editId = +data["receiptid"];
      
 
-      this.createForm(null, null, null);
+      this.createForm(null, null);
 
       if(this.itemService.itemsList.length !== 0){
         this.receiptService.saveReceiptDataEmitter.subscribe(data => {
           console.log(data);
-          this.createForm(data.date_of_issue, data.time_limit,data.dept);
+          this.createForm(data.date_of_issue, data.time_limit);
 
         });
       }
@@ -67,17 +68,17 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   initForm() {
-    let date = null;
+    let date_of_issue = null;
     let time_limit = null;
-    let debt = null;
 
     this.receiptService.getReceipt(this.editId).subscribe(
       (data) => {
         
-        date = data.date_of_issue;
+        date_of_issue = data.date_of_issue;
+        console.log(date_of_issue);
         time_limit = data.time_limit;
-        debt = data.dept;
-        this.createForm(date, time_limit, debt);
+
+        this.createForm(date_of_issue, time_limit);
       },
       (error) => {
         console.log(error);
@@ -86,11 +87,10 @@ export class ReceiptFormComponent implements OnInit {
   }
 
 
-  createForm(date: Date, time_limit: number, debt: number) {
+  createForm(date_of_issue, time_limit: number) {
     this.receiptForm = new FormGroup({
-      date: new FormControl(date, Validators.required),
-      time_limit: new FormControl(time_limit, Validators.required),
-      debt: new FormControl(debt, Validators.required)
+      date_of_issue: new FormControl(date_of_issue, Validators.required),
+      time_limit: new FormControl(time_limit, Validators.required)
     });
   }
  
@@ -100,7 +100,10 @@ export class ReceiptFormComponent implements OnInit {
     this.clientService.getClient(this.clientId).subscribe(clientInfo => {
       let client = {client: clientInfo}
       this.newReceipt = {...this.newReceipt, ...client}
-
+      const momentDate = new Date(this.newReceipt.date_of_issue);
+      const formattedDate = moment(momentDate).format("MM/DD/YYYY");
+      this.newReceipt.date_of_issue = formattedDate;
+      
     if (this.editId) {
       const receiptId = {receiptId: this.editId}
       this.newReceipt = {...this.newReceipt, ...receiptId}
@@ -116,7 +119,7 @@ export class ReceiptFormComponent implements OnInit {
     } else {
       this.receiptService.createReceipt(this.newReceipt).subscribe(
         (data) => {
-          
+          console.log(data.date_of_issue);
           if (this.itemService.itemsList) {
             let receiptForItem = data;
             this.createItem(receiptForItem);
@@ -140,8 +143,6 @@ export class ReceiptFormComponent implements OnInit {
     for (let item of items) {
       const itemReceipt = {receipt : receipt}
       item = {...item, ...itemReceipt};
-      console.log("ITEEEEEM")
-      console.log(item)
       this.itemService.createItem(item).subscribe((data) => {
         console.log(data);
       });
@@ -151,6 +152,10 @@ export class ReceiptFormComponent implements OnInit {
 
   onAddItem() {
     this.newReceipt= this.receiptForm.value;
+    const momentDate = new Date(this.newReceipt.date_of_issue);
+    const formattedDate = moment(momentDate).format("MM/DD/YYYY");
+    this.newReceipt.date_of_issue = formattedDate;
+
     this.receiptService.saveReceiptDataEmitter.next(this.newReceipt);
     this.router.navigate(["newItem"], { relativeTo: this.route });
   }
@@ -165,3 +170,4 @@ export class ReceiptFormComponent implements OnInit {
     }
   }
 }
+

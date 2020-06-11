@@ -57,7 +57,7 @@ export class ReceiptService {
   }
 
   public createReceipt(receipt: Receipt): Observable<Receipt> {
-    
+    console.log(receipt);
     return this.httpClient.post<Receipt>(this.API_URL, receipt).pipe(
       catchError(this.handleError));
   }

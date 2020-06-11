@@ -6,6 +6,7 @@ export class Item {
     name: string;
     price: number;
     measure: number;
+    totalPrice: number;
     receipt: Receipt;
 
     constructor(itemId:number, name:string, price:number, measure:number, receipt: Receipt){
