@@ -27,7 +27,8 @@
     </div>
   </mat-form-field>
   <br>
-  <div>
+  <div *ngIf="!editId">
+    
     <h4>Items</h4>
     <button
       class="btn btn-default button-pos"

@@ -18,7 +18,9 @@ export class ItemTableComponent implements OnInit{
     "itemId",
     "name",
     "price",
-    "measure"
+    "measure",
+    "delete",
+    "edit"
   ];
 
   dataSource: MatTableDataSource<Item>;
@@ -48,6 +50,7 @@ export class ItemTableComponent implements OnInit{
   initializeDataSource() {
     this.itemService.getItemByReceipt(this.receiptId).subscribe(
       (items) => {
+        if(items){
 
           this.items = items;
 
@@ -57,7 +60,7 @@ export class ItemTableComponent implements OnInit{
         this.dataSource.filterPredicate = function(data, filter: string): boolean {
           return data.name.toLowerCase().includes(filter);
       };
-      },
+      }},
       (error) => {}
     );
   }
@@ -67,7 +70,7 @@ export class ItemTableComponent implements OnInit{
   }
 
   editItem(itemid: number) {
-    this.router.navigate([`${itemid}`], { relativeTo: this.route });
+    this.router.navigate([`${itemid}/edit`], { relativeTo: this.route });
   }
 
   deleteItem(id: number) {
@@ -87,6 +90,11 @@ export class ItemTableComponent implements OnInit{
         (error) => {}
       );
     });
+  }
+
+  addNewItem(){
+    this.router.navigate(["newItem"], { relativeTo: this.route });
+
   }
 
   getTotalCost(){

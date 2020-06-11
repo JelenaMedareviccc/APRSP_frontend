@@ -126,4 +126,14 @@ export class ReceiptTableComponent implements OnInit {
     this.router.navigate([`${receiptid}/items`], { relativeTo: this.route });
 
   }
+
+  onShowLastYearReceipts() {
+    this.router.navigate(["filteredReceiptsLastYear"], { relativeTo: this.route });
+    console.log("last year");
+  }
+
+  onShowLast365DaysReceipts() {
+    this.router.navigate(["filteredReceiptsLast365Days"], { relativeTo: this.route });
+    console.log("last 365 days");
+  }
 }

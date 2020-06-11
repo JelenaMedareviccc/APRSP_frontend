@@ -22,14 +22,7 @@
     <br />
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Measure</mat-label>
-      <mat-select formControlName="measure">
-        <mat-option
-          *ngFor="let enum of measures | keyvalue"
-          [value]="enum.key"
-          
-          >{{  enum.value }}</mat-option
-        >
-      </mat-select>
+      <input matInput name="measure" formControlName="measure" type="number"/>
       <span
         *ngIf="
           !itemForm.get('measure').valid && itemForm.get('measure').touched"

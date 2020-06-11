@@ -46,7 +46,7 @@ export class ReceiptService {
   }
 
   public getReceipt(id: number): Observable<Receipt> {
-    return this.httpClient.get<Receipt>(this.API_URL + "/" + id).pipe(
+    return this.httpClient.get<Receipt>(this.API_URL + "/receiptId/" + id).pipe(
       catchError(this.handleError));
   }
 
@@ -77,6 +77,11 @@ export class ReceiptService {
     return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsLastYear").pipe(
       catchError(this.handleError)
     );
+  }
 
+  public getLast365DaysReceipts(id: number): Observable<Receipt[]> {
+    return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsLast365Days").pipe(
+      catchError(this.handleError)
+    );
   }
 }

@@ -1,17 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { ClientService } from "src/app/services/client/client.service";
 import { ActivatedRoute, Router, Params } from "@angular/router";
-import { Client } from "src/app/models/client";
-import { ItemService } from "src/app/services/item/item.service";
-import { Item } from "src/app/models/item";
 import { Measure } from "src/app/models/measure-enum";
+import { ReceiptService } from 'src/app/services/receipt/receipt.service';
+import { ItemService } from 'src/app/services/item/item.service';
 
-interface Food{
-  value: string;
-  view: string;
-
-}
 
 @Component({
   selector: "app-item-form",
@@ -22,41 +15,46 @@ interface Food{
 
 export class ItemFormComponent implements OnInit {
   editID: number;
-  editMode: boolean = false;
   itemForm: FormGroup;
   receiptId: number;
-  measures = Measure;
 
   constructor(
     private itemService: ItemService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private receiptService: ReceiptService
   ) {}
 
   ngOnInit() {
-    this.route.params.subscribe((params: Params) => {
-      this.editID = +params["itemid"];
-      this.receiptId = +params["receiptId"];
-      this.editMode = params["itemid"] != null;
-      this.createForm(null, null, null);
+    this.route.params.subscribe((p) => {
+      this.editID = +p["itemid"];
+    
+      this.route.parent.params.subscribe((params: Params) => {
+        
+         this.receiptId = +params["receiptid"];
+         if (this.editID) {
+          this.initEditForm();
+        }
 
-      if (this.editMode) {
-        this.initEditForm();
-      }
-    });
+         this.createForm(null, null, null);
+       
+       });
+
+
+    })
+    
    
   }
 
   initEditForm() {
+ 
     this.itemService.getItem(this.editID).subscribe(
       (data) => {
         console.log(data);
-        this.createForm(data.name, data.price, data.measure);
-        this.itemForm.setValue({
-          name: data.name,
-          price: data.price,
-          measure: data.measure,
-        });
+        const name = data.name;
+         const price= data.price;
+        const measure= data.measure;
+        this.createForm(name, price, measure);
       },
       (error) => {
         console.log(error);
@@ -74,28 +72,31 @@ export class ItemFormComponent implements OnInit {
         Validators.required,
         Validators.pattern(/^[1-9]+[0-9]*$/),
       ]),
-      measure: new FormControl(measure, [Validators.required]),
+      measure: new FormControl(measure, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)]),
     });
   }
 
   createOrEditItem() {
     let newItem = this.itemForm.value;
-  
 
-    if (this.editMode) {
-      const receipt = {receipt: this.receiptId}
-      newItem = {...newItem, ...receipt}
-      this.itemService
-        .updateItem(
-          new Item(
-            this.editID,
-            newItem.name,
-            newItem.price,
-            newItem.measure,
-            this.receiptId
+    if (this.router.url.includes('/newReceipt/')) 
+    {  
+      
+      this.itemService.addItemInList(newItem);
+      this.redirectTo();
+         
+    } else {
+
     
-          )
-        )
+      this.receiptService.getReceipt(this.receiptId).subscribe(receiptInfo => {
+        const receipt = {receipt: receiptInfo}
+        newItem = {...newItem, ...receipt}
+        console.log(newItem);
+        if (this.editID) {
+      const itemId ={itemId: this.editID};
+      newItem = {...itemId,...newItem}
+      this.itemService
+        .updateItem(newItem)
         .subscribe(
           (data) => {
             this.redirectTo();
@@ -104,17 +105,34 @@ export class ItemFormComponent implements OnInit {
             console.log(error);
           }
         );
+     
     } else {
-      console.log("ITEM U KOMPONENTI:");
-     console.log(newItem);
-      this.itemService.addItemInList(newItem);
-      this.redirectTo();
-      this.itemForm.reset();
+
+  this.itemService.createItem(newItem).subscribe(createdItem => {
+console.log("Item created!");
+console.log(createdItem);
+this.redirectTo();
+     
+  }, error => {
+    console.log(error);
+  }
+  )
+
+     
+      
     }
+  })
+}
   }
 
   redirectTo() {
-    this.itemService.itemEmitter.emit(this.editMode);
+    this.itemForm.reset();
+    this.itemService.itemEmitter.emit(this.editID);
+    if(this.editID){
+      this.router.navigate(["../../"], { relativeTo: this.route });
+
+    } else {
     this.router.navigate(["../"], { relativeTo: this.route });
+    }
   }
 }

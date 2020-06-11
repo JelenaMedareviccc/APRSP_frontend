@@ -18,7 +18,7 @@ export class PaymentService {
   }
 
   public getPayment(id: number): Observable<Payment> {
-    return this.httpClient.get<Payment>(this.API_URL + "/" + id);
+    return this.httpClient.get<Payment>(this.API_URL + "/paymentId/" + id);
   }
 
   public getPaymentByReceipt(receiptId: number): Observable<Payment[]> {

@@ -31,8 +31,6 @@ export class ReceiptComponent implements OnInit {
     })
   }
 
-  onShowLastYearReceipts() {
-    this.router.navigate(["filteredReceiptsLastYear"], { relativeTo: this.route });
-  }
+
 
 }
