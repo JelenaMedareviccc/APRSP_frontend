@@ -10,6 +10,28 @@
 <br>
 <br>
 
+<h2 class="textColor">Filter receipts between two dates:</h2>
+
+<mat-form-field>
+  <mat-label>Choose start date</mat-label>
+  <input matInput [matDatepicker]="startPicker">
+  <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+  <mat-datepicker #startPicker></mat-datepicker>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Choose end date</mat-label>
+  <input matInput [matDatepicker]="endPicker">
+  <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+  <mat-datepicker #endPicker></mat-datepicker>
+  <br>
+  <br>
+</mat-form-field>
+<button mat-raised-button>Confirm filter</button>
+
+<br>
+<br>
+
 <mat-form-field>
   <mat-label>Filter</mat-label>
   <input matInput (keyup)="applyFilter($event)" placeholder="Search">
@@ -73,3 +95,4 @@
   <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
   </mat-paginator>
 </div>
+
