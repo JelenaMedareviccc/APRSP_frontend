@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReceiptService } from 'src/app/services/receipt/receipt.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-receipt',
@@ -11,8 +12,12 @@ export class ReceiptComponent implements OnInit {
 
 
 
-  constructor(private receiptService: ReceiptService, private _snackBar: MatSnackBar) {
- 
+  constructor(
+    private receiptService: ReceiptService,
+    private _snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private router: Router) {
+
    }
 
   ngOnInit() {
@@ -26,8 +31,8 @@ export class ReceiptComponent implements OnInit {
     })
   }
 
- 
-
-
+  onShowLastYearReceipts() {
+    this.router.navigate(["filteredReceiptsLastYear"], { relativeTo: this.route });
+  }
 
 }

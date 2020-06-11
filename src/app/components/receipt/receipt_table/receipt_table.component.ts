@@ -60,7 +60,7 @@ export class ReceiptTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.clientId = +params["clientid"]; 
+      this.clientId = +params["clientid"];
       this.initializeDataSource();
       this.clientService.getClient(this.clientId).subscribe((data) => {
         this.clientName = data.name;

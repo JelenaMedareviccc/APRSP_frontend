@@ -42,24 +42,24 @@ export class ReceiptService {
 
   public getReceipts(): Observable<Receipt[]> {
     return this.httpClient.get<Receipt[]>(this.API_URL).pipe(
-      catchError(this.handleError));;
+      catchError(this.handleError));
   }
 
   public getReceipt(id: number): Observable<Receipt> {
     return this.httpClient.get<Receipt>(this.API_URL + "/" + id).pipe(
-      catchError(this.handleError));;
+      catchError(this.handleError));
   }
 
   public getReceiptByClient(clientId: number): Observable<Receipt[]> {
     console.log(clientId + "KLIJENT ID")
     return this.httpClient.get<Receipt[]>(this.API_URL + "/client/"+ clientId).pipe(
-      catchError(this.handleError));;
+      catchError(this.handleError));
   }
 
   public createReceipt(receipt: Receipt): Observable<Receipt> {
-    
+
     return this.httpClient.post<Receipt>(this.API_URL, receipt).pipe(
-      catchError(this.handleError));;
+      catchError(this.handleError));
   }
 
   public updateReceipt(receipt: Receipt):  Observable<Receipt>  {
@@ -71,5 +71,12 @@ export class ReceiptService {
     return this.httpClient.delete(this.API_URL + "/"+ id, httpOptions).pipe(
       catchError(this.handleError)
     );
+  }
+
+  public getLastYearReceipts(id: number): Observable<Receipt[]> {
+    return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsLastYear").pipe(
+      catchError(this.handleError)
+    );
+
   }
 }
