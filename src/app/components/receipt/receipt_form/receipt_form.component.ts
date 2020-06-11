@@ -115,8 +115,10 @@ export class ReceiptFormComponent implements OnInit {
     } else {
       this.receiptService.createReceipt(this.newReceipt).subscribe(
         (data) => {
+          
           if (this.itemService.itemsList) {
-            this.createItem(this.newReceipt);
+            let receiptForItem = data;
+            this.createItem(receiptForItem);
           }
 
           console.log(data);
