@@ -4,6 +4,7 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import { PaymentService } from 'src/app/services/payment/payment.service';
 import { Payment } from 'src/app/models/payment';
 import { ReceiptService } from 'src/app/services/receipt/receipt.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-payment-form',
@@ -23,7 +24,6 @@ export class PaymentFormComponent implements OnInit {
   payment: Payment;
   editPaymentId: number;
   receiptId: number;
-  editMode: boolean = false;
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
@@ -73,6 +73,9 @@ export class PaymentFormComponent implements OnInit {
     const receipt = {receipt: r};
     newPayment= {...newPayment, ...receipt};
 
+    const momentDate = new Date(newPayment.date_of_issue);
+    const formattedDate = moment(momentDate).format("MM/DD/YYYY");
+    newPayment.date_of_issue = formattedDate;
 
     if (this.editPaymentId) {
       const id = {paymentId: this.editPaymentId};

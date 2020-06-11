@@ -91,4 +91,11 @@ export class PaymentTableComponent implements OnInit {
     this.router.navigate([`${paymentid}/edit`], { relativeTo: this.route });
   }
 
+  getTotalCost(){
+    if(this.payments){
+    return this.payments.map(p => p.amount).reduce((acc, value) => acc + value , 0);
+    }
+  }
+
+
 }

@@ -4,7 +4,7 @@
     <mat-label>Date of issue</mat-label>
     <!-- <input matInput  name="date_of_issue" type="date" formControlName="date" >
  -->
-    <input matInput [matDatepicker]="picker" formControlName="date">
+    <input matInput [matDatepicker]="picker" formControlName="date_of_issue" name="date_of_issue">
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
@@ -15,15 +15,6 @@
     <div *ngIf="receiptForm.get('time_limit').invalid && (receiptForm.get('time_limit').touched || receiptForm.get('time_limit').dirty)">
       <div *ngIf="receiptForm.get('time_limit').errors.required"></div>
       Please enter a valid time limit!
-    </div>
-  </mat-form-field>
-  <br>
-  <mat-form-field appearance="outline" class="input-field">
-    <mat-label>Debt</mat-label>
-    <input matInput name="debt" formControlName="debt">
-    <div *ngIf="receiptForm.get('debt').invalid && (receiptForm.get('debt').touched || receiptForm.get('debt').dirty)">
-      <div *ngIf="receiptForm.get('debt').errors.required"></div>
-      Please enter a valid debt!
     </div>
   </mat-form-field>
   <br>
