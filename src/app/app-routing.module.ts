@@ -49,6 +49,7 @@ const routes: Routes = [
               { path: "newReceipt", component: ReceiptFormComponent },
               { path: "filteredReceiptsLastYear", component: ReceiptLastYearComponent},
               { path: "filteredReceiptsLast365Days", component: ReceiptLastYearComponent },
+              { path: "filteredReceiptsBetweenTwoDates", component: ReceiptLastYearComponent },
               { path: "newReceipt/newItem", component: ItemFormComponent },
 
               {

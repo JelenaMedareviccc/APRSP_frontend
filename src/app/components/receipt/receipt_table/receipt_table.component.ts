@@ -15,6 +15,8 @@ import { MatDialog } from "@angular/material/dialog";
 import { DialogComponent } from "../../dialog/dialog.component";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { MatSort } from '@angular/material/sort';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import * as moment from 'moment';
 
 
 
@@ -42,7 +44,7 @@ export class ReceiptTableComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   clientId: number;
   clientName: String;
-
+  dateForm: FormGroup;
 
 
   private receipts: Receipt[];
@@ -76,6 +78,10 @@ export class ReceiptTableComponent implements OnInit {
   }
 
   initializeDataSource() {
+    this.dateForm = new FormGroup({
+      startDate: new FormControl(null, Validators.required),
+      endDate: new FormControl(null, Validators.required)
+    });
     this.receiptService.getReceiptByClient(this.clientId).subscribe(
       (receipts) => {
         this.receipts = receipts;
@@ -145,5 +151,15 @@ export class ReceiptTableComponent implements OnInit {
   onShowLast365DaysReceipts() {
     this.router.navigate(["filteredReceiptsLast365Days"], { relativeTo: this.route });
 
+  }
+
+  filterReceipts(){
+    console.log(this.dateForm.value);
+    const start = new Date(this.dateForm.value.startDate);
+    const startDate = moment(start).format("MM/DD/YYYY");
+    const end = new Date(this.dateForm.value.startDate);
+    const endDate = moment(end).format("MM/DD/YYYY");
+    this.router.navigate(["filteredReceiptsBetweenTwoDates"], { relativeTo: this.route, queryParams: {startDate: startDate, endDate: endDate} });
+    
   }
 }

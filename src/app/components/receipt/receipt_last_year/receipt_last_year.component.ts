@@ -82,6 +82,25 @@ export class ReceiptLastYearComponent implements OnInit {
         },
         (error) => {}
       );
+    }  else if (this.router.url.includes("filteredReceiptsBetweenTwoDates")) {
+      this.route.queryParams.subscribe((params: Params) => {
+        const startDate = params["startDate"];
+        const endDate = params["endDate"];
+
+        this.receiptService.getReceiptsBetweenTwoDates(this.clientId, startDate, endDate).subscribe(
+          (receipts) => {
+            if (receipts) {
+              this.receipts = receipts;
+              this.dataSource = new MatTableDataSource<Receipt>(this.receipts);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+            }
+          },
+          (error) => {}
+        );
+
+      }) 
+     
     }
   }
 

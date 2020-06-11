@@ -83,4 +83,11 @@ export class ReceiptService {
       catchError(this.handleError)
     );
   }
+
+  public getReceiptsBetweenTwoDates(id:number, startDate: String,  endDate: String): Observable<Receipt[]> {
+    return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsBetweenTwoDates/?startDate="+startDate+"&endDate="+ endDate).pipe(
+      catchError(this.handleError)
+    );
+
+  }
 }

@@ -11,24 +11,24 @@
 <br>
 
 <h2 class="textColor">Filter receipts between two dates:</h2>
-
+<form [formGroup]="dateForm" (ngSubmit)="filterReceipts()" >
 <mat-form-field>
   <mat-label>Choose start date</mat-label>
-  <input matInput [matDatepicker]="startPicker">
+  <input matInput [matDatepicker]="startPicker"  formControlName="startDate">
   <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
   <mat-datepicker #startPicker></mat-datepicker>
 </mat-form-field>
 
 <mat-form-field>
   <mat-label>Choose end date</mat-label>
-  <input matInput [matDatepicker]="endPicker">
+  <input matInput [matDatepicker]="endPicker"  formControlName="endDate">
   <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
   <mat-datepicker #endPicker></mat-datepicker>
   <br>
   <br>
 </mat-form-field>
-<button mat-raised-button>Confirm filter</button>
-
+<button mat-raised-button [disabled]="!dateForm.valid">Confirm filter</button>
+</form>
 <br>
 <br>
 
