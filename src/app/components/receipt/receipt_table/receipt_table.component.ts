@@ -58,7 +58,7 @@ export class ReceiptTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.clientId = +params["clientid"]; 
+      this.clientId = +params["clientid"];
       this.initializeDataSource();
       this.clientService.getClient(this.clientId).subscribe((data) => {
         this.clientName = data.name;
@@ -136,5 +136,13 @@ export class ReceiptTableComponent implements OnInit {
       return this.receipts.map(r => r.dept).reduce((acc, value) => acc + value , 0);
       }
 
+  onShowLastYearReceipts() {
+    this.router.navigate(["filteredReceiptsLastYear"], { relativeTo: this.route });
+    console.log("last year");
+  }
+
+  onShowLast365DaysReceipts() {
+    this.router.navigate(["filteredReceiptsLast365Days"], { relativeTo: this.route });
+    console.log("last 365 days");
   }
 }

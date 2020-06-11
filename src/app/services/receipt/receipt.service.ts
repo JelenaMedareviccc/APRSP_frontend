@@ -57,7 +57,6 @@ export class ReceiptService {
   }
 
   public createReceipt(receipt: Receipt): Observable<Receipt> {
-    console.log(receipt);
     return this.httpClient.post<Receipt>(this.API_URL, receipt).pipe(
       catchError(this.handleError));
   }
@@ -69,6 +68,18 @@ export class ReceiptService {
 
   public deleteReceipt(id: number): Observable<{}> {
     return this.httpClient.delete(this.API_URL + "/"+ id, httpOptions).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  public getLastYearReceipts(id: number): Observable<Receipt[]> {
+    return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsLastYear").pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  public getLast365DaysReceipts(id: number): Observable<Receipt[]> {
+    return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsLast365Days").pipe(
       catchError(this.handleError)
     );
   }

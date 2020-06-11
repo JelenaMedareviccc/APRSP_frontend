@@ -2,6 +2,14 @@
 <button class="btn btn-add" (click) ="addNewReceipt()"> Add new receipt </button>
 <h1 class="textColor">{{clientName}}'s receipts</h1>
 
+
+<button mat-raised-button (click)="onShowLastYearReceipts()">Show last years receipts</button>
+<br>
+<br>
+<button mat-raised-button (click)="onShowLast365DaysReceipts()">Show last 365 days receipts</button>
+<br>
+<br>
+
 <mat-form-field>
   <mat-label>Filter</mat-label>
   <input matInput (keyup)="applyFilter($event)" placeholder="Search">

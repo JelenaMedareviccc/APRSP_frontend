@@ -1,3 +1,4 @@
+import { ReceiptLastYearComponent } from './components/receipt/receipt_last_year/receipt_last_year.component';
 import { ReceiptComponent } from "./components/receipt/receipt.component";
 import { ClientTableComponent } from "./components/client/client_table/client_table.component";
 import { ClientService } from "./services/client/client.service";
@@ -40,17 +41,19 @@ const routes: Routes = [
         path: ":clientid",
         children: [
           {
+
             path: "receipts",
             component: ReceiptComponent,
             children: [
               {path: "", component: ReceiptTableComponent},
               { path: "newReceipt", component: ReceiptFormComponent },
+              { path: "filteredReceiptsLastYear", component: ReceiptLastYearComponent},
+              { path: "filteredReceiptsLast365Days", component: ReceiptLastYearComponent },
               { path: "newReceipt/newItem", component: ItemFormComponent },
 
               {
                 path: ":receiptid",
                 children: [
-                
                   { path: "edit", component: ReceiptFormComponent },
                   { path: "items", component: ItemTableComponent },
                   {path: "items/newItem", component: ItemFormComponent},

@@ -1,3 +1,4 @@
+import { ReceiptLastYearComponent } from './components/receipt/receipt_last_year/receipt_last_year.component';
 
 import { ReceiptFormComponent } from './components/receipt/receipt_form/receipt_form.component';
 import { ReceiptService } from './services/receipt/receipt.service';
@@ -96,7 +97,8 @@ import { AuthComponent } from './components/auth/auth.component';
     ItemFormComponent,
     PaymentTableComponent,
     PaymentFormComponent,
-    AuthComponent
+    AuthComponent,
+    ReceiptLastYearComponent
   ],
   imports: [
     BrowserModule,
