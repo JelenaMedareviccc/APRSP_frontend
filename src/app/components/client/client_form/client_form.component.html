@@ -3,30 +3,30 @@
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Name</mat-label>
       <input matInput id="name" name="name" formControlName="name" />
-      <span *ngIf="!clientForm.get('name').valid && clientForm.get('name').touched">Please enter a valid name!</span>
+      <span *ngIf="!clientForm.get('name').valid && clientForm.get('name').touched ">Name must contains between 3 and 40 charachters!</span>
     </mat-form-field>
     <br />
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Client registration number</mat-label>
-      <input
+      <input 
         matInput
         name="client_reg_number"
         formControlName="client_reg_number"
       />
-      <span *ngIf="!clientForm.get('client_reg_number').valid && clientForm.get('client_reg_number').touched">Please enter a valid client registration number!</span>
+      <span *ngIf="!clientForm.get('client_reg_number').valid && clientForm.get('client_reg_number').touched">Registration number must contain 6 digits!</span>
     </mat-form-field>
     <br />
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Address</mat-label>
       <input matInput name="address" formControlName="address" />
-      <span *ngIf="!clientForm.get('address').valid && clientForm.get('address').touched">Please enter a valid adrress!</span>
+      <span *ngIf="!clientForm.get('address').valid && clientForm.get('address').touched">Address must contain less than 40 charachters! </span>
 
     </mat-form-field>
     <br />
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Contact</mat-label>
       <input matInput name="contact" formControlName="contact" />
-      <span *ngIf="!clientForm.get('contact').valid && clientForm.get('contact').touched">Please enter a valid contact number!</span>
+      <span *ngIf="!clientForm.get('contact').valid && clientForm.get('contact').touched">Contact must contain only digits!</span>
 
     </mat-form-field>
     <br />
@@ -40,7 +40,7 @@
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Account number</mat-label>
       <input matInput name="account_number" formControlName="account_number" />
-      <span *ngIf="!clientForm.get('account_number').valid && clientForm.get('account_number').touched">Please enter a valid account number!</span>
+      <span *ngIf="!clientForm.get('account_number').valid && clientForm.get('account_number').touched">Account number must contain 16 digits!</span>
 
     </mat-form-field>
     <br />

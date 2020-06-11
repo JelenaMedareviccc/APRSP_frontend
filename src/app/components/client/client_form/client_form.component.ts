@@ -73,7 +73,8 @@ export class ClientFormComponent implements OnInit {
     this.clientForm = new FormGroup({
       name: new FormControl(name, [
         Validators.required,
-        Validators.maxLength(20)
+        Validators.maxLength(40),
+        Validators.minLength(3),
       ]),
       client_reg_number: new FormControl(client_reg_number, [
         Validators.required,
@@ -83,9 +84,9 @@ export class ClientFormComponent implements OnInit {
       ]),
       address: new FormControl(address, [
         Validators.required,
-        Validators.maxLength(20)
+        Validators.maxLength(40)
       ]),
-      contact: new FormControl(contact, Validators.required),
+      contact: new FormControl(contact, [Validators.required, Validators.pattern(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/)]),
       email: new FormControl(email, [Validators.required, Validators.email]),
       account_number: new FormControl(account_number, [
         Validators.required,

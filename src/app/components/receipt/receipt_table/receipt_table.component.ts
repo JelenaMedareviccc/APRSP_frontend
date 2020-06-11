@@ -135,14 +135,15 @@ export class ReceiptTableComponent implements OnInit {
     if(this.receipts){
       return this.receipts.map(r => r.dept).reduce((acc, value) => acc + value , 0);
       }
+    }
 
   onShowLastYearReceipts() {
     this.router.navigate(["filteredReceiptsLastYear"], { relativeTo: this.route });
-    console.log("last year");
+
   }
 
   onShowLast365DaysReceipts() {
     this.router.navigate(["filteredReceiptsLast365Days"], { relativeTo: this.route });
-    console.log("last 365 days");
+
   }
 }

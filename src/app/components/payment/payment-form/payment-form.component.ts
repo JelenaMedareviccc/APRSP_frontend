@@ -61,8 +61,7 @@ export class PaymentFormComponent implements OnInit {
     this.paymentForm = new FormGroup({
       date: new FormControl(date, Validators.required),
       amount: new FormControl(amount, [
-        Validators.required,
-        Validators.minLength(0),
+        Validators.required
       ])
     });
   }

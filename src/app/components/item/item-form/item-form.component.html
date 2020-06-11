@@ -5,7 +5,7 @@
       <input matInput id="name" name="name" formControlName="name" />
       <span
         *ngIf="!itemForm.get('name').valid && itemForm.get('name').touched"
-        >Please enter a valid name!</span
+        >Name must contains between 3 and 40 charachters!</span
       >
     </mat-form-field>
     <br />
@@ -26,7 +26,7 @@
       <span
         *ngIf="
           !itemForm.get('measure').valid && itemForm.get('measure').touched"
-        >Please choose a valid measure!</span
+        >Please enter a valid measure!</span
       >
     </mat-form-field>
     <br />

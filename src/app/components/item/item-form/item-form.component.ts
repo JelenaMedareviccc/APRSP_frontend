@@ -66,7 +66,8 @@ export class ItemFormComponent implements OnInit {
     this.itemForm = new FormGroup({
       name: new FormControl(name, [
         Validators.required,
-        Validators.maxLength(20)
+        Validators.maxLength(40),
+        Validators.minLength(3)
       ]),
       price: new FormControl(price, [
         Validators.required,
@@ -109,8 +110,6 @@ export class ItemFormComponent implements OnInit {
     } else {
 
   this.itemService.createItem(newItem).subscribe(createdItem => {
-console.log("Item created!");
-console.log(createdItem);
 this.redirectTo();
      
   }, error => {

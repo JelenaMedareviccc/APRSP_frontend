@@ -11,7 +11,7 @@
   <br>
   <mat-form-field appearance="outline" class="input-field">
     <mat-label>Time limit</mat-label>
-    <input matInput name="time_limit" formControlName="time_limit">
+    <input matInput name="time_limit" type= "number" formControlName="time_limit">
     <div *ngIf="receiptForm.get('time_limit').invalid && (receiptForm.get('time_limit').touched || receiptForm.get('time_limit').dirty)">
       <div *ngIf="receiptForm.get('time_limit').errors.required"></div>
       Please enter a valid time limit!

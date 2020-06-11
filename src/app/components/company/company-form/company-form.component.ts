@@ -1,8 +1,7 @@
 import { CompanyService } from 'src/app/services/company/company.service';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormsModule, NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Company } from 'src/app/models/company';
-import {CompanyComponent} from '../company.component';
+import { Component, OnInit, } from '@angular/core';
+import {FormGroup, FormControl, Validators } from '@angular/forms';
+
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -26,7 +25,7 @@ export class CompanyFormComponent implements OnInit {
     this.companyService.companyEmitter.subscribe( id => {
       this.companyId = +id;
       this.editMode = this.companyId != null;
-      this.createForm(null, null, null,null, null, null, null);
+      this.createForm(null, null, null,null, null, null);
 
       if (this.editMode) {
         this.initEditForm();
@@ -46,7 +45,7 @@ export class CompanyFormComponent implements OnInit {
           data.address,
           data.contact,
           data.email,
-          data.password,
+         /*  data.password, */
           data.account_number
         );
         this.companyForm.setValue({
@@ -55,8 +54,8 @@ export class CompanyFormComponent implements OnInit {
           address: data.address,
           contact: data.contact,
           email: data.email,
-          account_number: data.account_number,
-          password: data.password
+          account_number: data.account_number/* ,
+          password: data.password */
         });
       },
       (error) => {
@@ -65,16 +64,17 @@ export class CompanyFormComponent implements OnInit {
     );
   }
 
-  createForm(name, pib, address, contact, email, account_number, password) {
+  createForm(name, pib, address, contact, email, account_number) {
     this.companyForm = new FormGroup({
       name: new FormControl(name, [
         Validators.required,
-        Validators.maxLength(20)
+        Validators.maxLength(40),
+        Validators.minLength(3)
       ]),
-        password: new FormControl(password, [
+       /*  password: new FormControl(password, [
           Validators.required,
-          Validators.minLength(6),
-        ]),
+          Validators.minLength(6)]
+        ), */
         pib: new FormControl(pib, [
         Validators.required,
         Validators.maxLength(6),
@@ -83,9 +83,9 @@ export class CompanyFormComponent implements OnInit {
       ]),
       address: new FormControl(address, [
         Validators.required,
-        Validators.maxLength(20)
+        Validators.maxLength(40)
       ]),
-      contact: new FormControl(contact, Validators.required),
+      contact: new FormControl(contact, [Validators.required,  Validators.pattern(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/)]),
       email: new FormControl(email, [Validators.required, Validators.email]),
       account_number: new FormControl(account_number, [
         Validators.required,
