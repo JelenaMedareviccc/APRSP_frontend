@@ -74,18 +74,21 @@ export class ReceiptService {
   }
 
   public getLastYearReceipts(id: number): Observable<Receipt[]> {
-    return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsLastYear", httpOptions).pipe(
+    console.log(id);
+    return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsLastYear").pipe(
       catchError(this.handleError)
     );
   }
 
   public getLast365DaysReceipts(id: number): Observable<Receipt[]> {
-    return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsLast365Days", httpOptions).pipe(
+    console.log(id);
+    return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsLast365Days").pipe(
       catchError(this.handleError)
     );
   }
 
   public getReceiptsBetweenTwoDates(id:number, startDate: String,  endDate: String): Observable<Receipt[]> {
+    console.log(id, startDate, endDate);
     return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsBetweenTwoDates/?startDate="+startDate+"&endDate="+ endDate).pipe(
       catchError(this.handleError)
     );
