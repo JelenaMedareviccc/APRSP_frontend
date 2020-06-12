@@ -1,27 +1,5 @@
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
-/* 
-* {
-  box-sizing: border-box;
-  padding: 0%;
-  margin: 0px;
-}
 
-html, body {
-  min-height: 100%;
-}
-body {
-  font-family: "Lato", sans-serif;
-  margin: 0;
-}
-.basic-container {
-  padding: 20px;
-}
-.version-info {
-  font-size: 8pt;
-  float: right;
-  margin: 8px;
-}
- */
 
 html,
 body {
@@ -49,7 +27,7 @@ body {
 }
 
 .client-padding {
-  padding-top: 30px;
+  padding-top: 20px;
   z-index: 1;
   width: 90%;
   position: absolute;

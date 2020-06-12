@@ -2,8 +2,7 @@
   <form [formGroup]="receiptForm" (ngSubmit)="createEditReceipt()" >
   <mat-form-field appearance="outline">
     <mat-label>Date of issue</mat-label>
-    <!-- <input matInput  name="date_of_issue" type="date" formControlName="date" >
- -->
+
     <input matInput [matDatepicker]="picker" formControlName="date_of_issue" name="date_of_issue">
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
@@ -18,20 +17,23 @@
     </div>
   </mat-form-field>
   <br>
-  <div *ngIf="!editId">
+  <div *ngIf="!editId" class="items-container">
+    <div class="items-center">
     
-    <h4>Items</h4>
+    <h4>Add Items</h4>
     <button
       class="btn btn-default button-pos"
       type="button"
       (click)="onAddItem()">Add item</button>
+      <div *ngIf="showItems">
+        <div *ngFor="let item of items">
+          <h3>{{item.name}}</h3>
+        </div>
+      </div>
+      </div>
    
   </div>
 
-  <br>
-  <!--<button mat-raised-button (click)="createClient()">Add client</button>-->
-  <br>
-  <br>
   <div class="button-pos">
   <button class=" btn submit-button" [disabled]="!receiptForm.valid">Submit</button>
 </div>

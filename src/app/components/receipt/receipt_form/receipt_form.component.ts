@@ -7,6 +7,7 @@ import { ItemService } from "src/app/services/item/item.service";
 
 import { ClientService } from 'src/app/services/client/client.service';
 import * as moment from 'moment';
+import { Item } from 'src/app/models/item';
 
 @Component({
   selector: "app-receipt-form",
@@ -28,6 +29,9 @@ export class ReceiptFormComponent implements OnInit {
   @Input() receipt: Receipt;
   editId: number;
   clientId: number;
+   items : Item[]=null;
+  showItems: boolean = false;
+
 
   ngOnInit() {
 
@@ -40,6 +44,8 @@ export class ReceiptFormComponent implements OnInit {
 
       if (this.itemService.itemsList.length !== 0) {
         this.receiptService.saveReceiptDataEmitter.subscribe((data) => {
+          this.items = this.itemService.itemsList;
+          this.showItems= true;
           console.log(data);
           this.createForm(data.date_of_issue, data.time_limit);
 
@@ -121,9 +127,9 @@ createEditReceipt() {
   }
 
   createItem(receipt: Receipt) {
-    let items = this.itemService.itemsList;
+    this.items = this.itemService.itemsList;
 
-    for (let item of items) {
+    for (let item of this.items) {
       const itemReceipt = {receipt : receipt}
       item = {...item, ...itemReceipt};
 
@@ -132,6 +138,7 @@ createEditReceipt() {
       });
     }
     this.itemService.itemsList = [];
+    this.showItems = false;
   }
 
   onAddItem() {

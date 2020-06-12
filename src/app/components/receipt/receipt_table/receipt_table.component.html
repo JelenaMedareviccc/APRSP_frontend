@@ -1,34 +1,33 @@
 <div class="client-padding">
+ 
 <button class="btn btn-add" (click) ="addNewReceipt()"> Add new receipt </button>
+<button class="btn btn-add" (click)="onShowLastYearReceipts()">Show last years receipts</button>
+<button class="btn btn-add" (click)="onShowLast365DaysReceipts()">Show last 365 days receipts</button>
+<button class="btn btn-add" (click)="onShowBetweenTwoDates()">Show receipts between dates</button>
+<br>
+<br>
+<br>
 <h1 class="textColor">{{clientName}}'s receipts</h1>
 
-
-<button mat-raised-button (click)="onShowLastYearReceipts()">Show last years receipts</button>
-<br>
-<br>
-<button mat-raised-button (click)="onShowLast365DaysReceipts()">Show last 365 days receipts</button>
-<br>
-<br>
-
+<div *ngIf="showBetweenFilter">
 <h2 class="textColor">Filter receipts between two dates:</h2>
 <form [formGroup]="dateForm" (ngSubmit)="filterReceipts()" >
-<mat-form-field>
+<mat-form-field >
   <mat-label>Choose start date</mat-label>
   <input matInput [matDatepicker]="startPicker"  formControlName="startDate">
   <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
   <mat-datepicker #startPicker></mat-datepicker>
 </mat-form-field>
 
-<mat-form-field>
+<mat-form-field >
   <mat-label>Choose end date</mat-label>
   <input matInput [matDatepicker]="endPicker"  formControlName="endDate">
   <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
   <mat-datepicker #endPicker></mat-datepicker>
-  <br>
-  <br>
 </mat-form-field>
 <button mat-raised-button [disabled]="!dateForm.valid">Confirm filter</button>
 </form>
+</div>
 <br>
 <br>
 

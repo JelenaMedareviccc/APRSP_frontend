@@ -25,9 +25,9 @@ export class ReceiptLastYearComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  showText: boolean;
   clientId: number;
   clientName: String;
+  reportType: String;
 
   private receipts: Receipt[];
 
@@ -38,7 +38,7 @@ export class ReceiptLastYearComponent implements OnInit {
     private route: ActivatedRoute,
     private clientService: ClientService
   ) {
-    this.showText = false;
+   
   }
 
   ngOnInit(): void {
@@ -49,7 +49,6 @@ export class ReceiptLastYearComponent implements OnInit {
         this.clientName = data.name;
       });
     });
-    console.log(this.clientId);
   }
 
   applyFilter(event: Event) {
@@ -66,6 +65,7 @@ export class ReceiptLastYearComponent implements OnInit {
             this.dataSource = new MatTableDataSource<Receipt>(this.receipts);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
+            this.reportType ="for last year!"
           }
         },
         (error) => {}
@@ -78,6 +78,7 @@ export class ReceiptLastYearComponent implements OnInit {
             this.dataSource = new MatTableDataSource<Receipt>(this.receipts);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
+            this.reportType ="for last 365 days!"
           }
         },
         (error) => {}
@@ -94,6 +95,7 @@ export class ReceiptLastYearComponent implements OnInit {
               this.dataSource = new MatTableDataSource<Receipt>(this.receipts);
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;
+              this.reportType ="between " + startDate+" and "+ endDate + "!";
             }
           },
           (error) => {}

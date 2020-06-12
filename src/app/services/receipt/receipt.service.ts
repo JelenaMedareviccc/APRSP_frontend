@@ -8,7 +8,8 @@ import { catchError } from 'rxjs/operators';
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'Content-Type':  'application/json'
+    'Content-Type':  'application/json',
+    'Access-Control-Allow-Origin' : '*'
   })
 };
 
@@ -73,13 +74,13 @@ export class ReceiptService {
   }
 
   public getLastYearReceipts(id: number): Observable<Receipt[]> {
-    return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsLastYear").pipe(
+    return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsLastYear", httpOptions).pipe(
       catchError(this.handleError)
     );
   }
 
   public getLast365DaysReceipts(id: number): Observable<Receipt[]> {
-    return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsLast365Days").pipe(
+    return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsLast365Days", httpOptions).pipe(
       catchError(this.handleError)
     );
   }

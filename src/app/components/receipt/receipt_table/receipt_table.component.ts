@@ -45,6 +45,7 @@ export class ReceiptTableComponent implements OnInit {
   clientId: number;
   clientName: String;
   dateForm: FormGroup;
+  showBetweenFilter: boolean;
 
 
   private receipts: Receipt[];
@@ -62,6 +63,7 @@ export class ReceiptTableComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.clientId = +params["clientid"];
       this.initializeDataSource();
+      this.showBetweenFilter = false;
       this.clientService.getClient(this.clientId).subscribe((data) => {
         this.clientName = data.name;
 
@@ -161,5 +163,10 @@ export class ReceiptTableComponent implements OnInit {
     const endDate = moment(end).format("MM/DD/YYYY");
     this.router.navigate(["filteredReceiptsBetweenTwoDates"], { relativeTo: this.route, queryParams: {startDate: startDate, endDate: endDate} });
     
+  }
+
+  onShowBetweenTwoDates(){
+    this.showBetweenFilter = !this.showBetweenFilter;
+
   }
 }
