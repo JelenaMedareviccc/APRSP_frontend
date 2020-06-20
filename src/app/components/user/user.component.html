@@ -1,0 +1,55 @@
+<div class="example-container">
+  <form [formGroup]="userForm" (ngSubmit)="signInOrSignUp()">
+      <div  *ngIf="!signin">
+        <mat-form-field appearance="outline" class="input-field">
+      <mat-label>First name</mat-label>
+      <input matInput id="firstName" name="firstName" formControlName="firstName" />
+      <span *ngIf="!userForm.get('firstName').valid && userForm.get('firstName').touched ">First name must contains between 2 and 20 charachters!</span>
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Last name</mat-label>
+      <input 
+        matInput
+        name="lastName"
+        formControlName="lastName"
+      />
+      <span *ngIf="!userForm.get('firstName').valid && userForm.get('lastName').touched">Last name must contains between 2 and 30 charachters!</span>
+    </mat-form-field>
+
+    <br />
+    
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Email</mat-label>
+      <input matInput name="email" formControlName="email" />
+      <span *ngIf="!userForm.get('email').valid && userForm.get('email').touched">Please enter a valid email!</span>
+
+    </mat-form-field>
+  </div>
+
+    <br />
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Username</mat-label>
+      <input matInput name="username" formControlName="username" />
+      <span *ngIf="!userForm.get('username').valid && userForm.get('username').touched">Username must contains between 2 and 40 charachters! </span>
+
+    </mat-form-field>
+   
+    <br />
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Password</mat-label>
+      <input matInput name="password" formControlName="password" type="password" />
+      <span *ngIf="!userForm.get('password').valid && userForm.get('password').touched">Password must contains 6 or more charachters!</span>
+
+    </mat-form-field>
+    <br />
+    <div class="button-pos">
+      <button class="btn submit-button" [disabled]="!userForm.valid">
+        {{ signin ? 'Login' : 'Sign Up' }}
+      </button>
+      <br/>
+      <br/>
+      <div  (click)="switch()"><strong>{{ signin ? 'Sign Up' : 'Login' }}</strong></div>
+    </div>
+  </form>
+</div>

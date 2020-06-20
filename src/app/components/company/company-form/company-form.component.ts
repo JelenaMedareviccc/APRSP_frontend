@@ -127,7 +127,12 @@ export class CompanyFormComponent implements OnInit {
   }
 
   redirectTo(){
+    if(this.editMode){
       this.router.navigate(['../'], {relativeTo: this.route});
+    } else {
+      this.router.navigate(['../company'], {relativeTo: this.route});
+
+    }
     
 
   }

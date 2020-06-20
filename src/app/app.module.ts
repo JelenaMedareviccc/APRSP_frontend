@@ -75,6 +75,7 @@ import { ItemFormComponent } from './components/item/item-form/item-form.compone
 import { PaymentTableComponent } from './components/payment/payment-table/payment-table.component';
 import { PaymentFormComponent } from './components/payment/payment-form/payment-form.component';
 import { AuthComponent } from './components/auth/auth.component';
+import { UserComponent } from './components/user/user.component';
 
 
 @NgModule({
@@ -98,7 +99,8 @@ import { AuthComponent } from './components/auth/auth.component';
     PaymentTableComponent,
     PaymentFormComponent,
     AuthComponent,
-    ReceiptLastYearComponent
+    ReceiptLastYearComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,

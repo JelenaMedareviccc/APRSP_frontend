@@ -1,4 +1,6 @@
 import { Client } from './client';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { User } from './user';
 
 export class Company {
     companyId: number;
@@ -8,6 +10,7 @@ export class Company {
     contact : string;
     email : string;
     account_number : string;
+    user: User;
    // password: string;
     private _token: string;
     private _tokenExpirationDate: Date;
@@ -20,7 +23,7 @@ export class Company {
       this.contact=contact;
       this.email=email;
       this.account_number=account_number;
-    //  this.password=password;
+      
 
   }
 

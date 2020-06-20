@@ -17,6 +17,7 @@ import { PaymentFormComponent } from "./components/payment/payment-form/payment-
 import { PaymentTableComponent } from "./components/payment/payment-table/payment-table.component";
 import { AuthComponent } from './components/auth/auth.component';
 import { CompanyFormComponent } from './components/company/company-form/company-form.component';
+import { UserComponent } from './components/user/user.component';
 
 
 export const routingConfiguration: ExtraOptions = {
@@ -24,11 +25,13 @@ export const routingConfiguration: ExtraOptions = {
 };
 
 const routes: Routes = [
-  { path: 'auth', component: AuthComponent },
-  {path: 'auth/register', component: CompanyFormComponent},
+ 
+  {path: 'signup', component: UserComponent},
+  {path: 'signin', component: UserComponent},
   { path: "company", component: CompanyComponent },
+  { path: "newCompany", component: CompanyFormComponent },
   {path: "company/edit", component: CompanyFormComponent},
-  { path: "", redirectTo: "company", pathMatch: "full" },
+  { path: "", redirectTo: "signin", pathMatch: "full" },
   {
     path: "client",
     component: ClientComponent,
