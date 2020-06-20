@@ -15,7 +15,6 @@ import { ItemFormComponent } from "./components/item/item-form/item-form.compone
 import { PaymentComponent } from "./components/payment/payment.component";
 import { PaymentFormComponent } from "./components/payment/payment-form/payment-form.component";
 import { PaymentTableComponent } from "./components/payment/payment-table/payment-table.component";
-import { AuthComponent } from './components/auth/auth.component';
 import { CompanyFormComponent } from './components/company/company-form/company-form.component';
 import { UserComponent } from './components/user/user.component';
 
