@@ -3,6 +3,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-navigation',
@@ -18,7 +19,8 @@ export class NavigationComponent {
     );
 
   constructor(private breakpointObserver: BreakpointObserver,
-              private router: Router) {}
+              private router: Router,
+              private userService: UserService) {}
 
   redirectTo(uri:string){
     this.router.navigate([uri])
@@ -26,5 +28,12 @@ export class NavigationComponent {
    /*  this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
     this.router.navigate([uri])); */
  } 
+
+ logout(){
+  if(this.userService.logout()){
+    this.router.navigate(['/signin']);
+  };
+
+ }
   }
 

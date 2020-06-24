@@ -60,12 +60,12 @@ export class UserComponent implements OnInit {
 
   createForm(firstName, lastName, username, email, password) {
     this.userForm = new FormGroup({
-      firstName: new FormControl(firstName, [
+      first_name: new FormControl(firstName, [
         Validators.required,
         Validators.maxLength(20),
         Validators.minLength(2),
       ]),
-      lastName: new FormControl(lastName, [
+      last_name: new FormControl(lastName, [
         Validators.required,
         Validators.maxLength(30),
         Validators.minLength(2)
@@ -87,28 +87,29 @@ export class UserComponent implements OnInit {
     let newUser = this.userForm.value;
 
     if(this.signin) {
-      this.userService.login(newUser.userForm, newUser.password).subscribe((data) => {
-        console.log(data);
+      this.userService.login(newUser) .subscribe( next => {
         this.router.navigate(['../company'], {relativeTo: this.route});
 
 
       }, error => {
         console.log(error);
-      })
-    }
-
-
-
+      }) 
+    } else {
+      let userId;
     this.userService.signUp(newUser).subscribe(
       (data) => {
-        this.router.navigate(['../company'], {relativeTo: this.route});
+        userId = data.userId;
+        this.router.navigate(['../newCompany'], {relativeTo: this.route});
+
+      
     
         this.userForm.reset();
       },
       (error) => {
         console.log(error);
       }
-    )}
+    ) 
+  }}
   
     switch(){
       this.signin=!this.signin;

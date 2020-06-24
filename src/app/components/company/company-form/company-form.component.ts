@@ -3,6 +3,7 @@ import { Component, OnInit, } from '@angular/core';
 import {FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-company-form',
@@ -14,25 +15,29 @@ export class CompanyFormComponent implements OnInit {
   companyId: number;
   editMode: boolean = false;
   companyForm: FormGroup;
+  userId: number;
+  username: String;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private companyService: CompanyService
+    private companyService: CompanyService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
+    this.createForm(null, null, null,null, null, null);
+
+      let userData = JSON.parse(localStorage.getItem('userData'));
+      this.userId = userData['id'];
+      console.log(this.userId);
+      this.username=userData['username'];
+    if(this.router.url.includes("edit")){
     this.companyService.companyEmitter.subscribe( id => {
       this.companyId = +id;
-      this.editMode = this.companyId != null;
-      this.createForm(null, null, null,null, null, null);
-
-      if (this.editMode) {
         this.initEditForm();
-      }
-
-
     })
+  }
   }
 
   initEditForm() {
@@ -45,7 +50,6 @@ export class CompanyFormComponent implements OnInit {
           data.address,
           data.contact,
           data.email,
-         /*  data.password, */
           data.account_number
         );
         this.companyForm.setValue({
@@ -54,8 +58,7 @@ export class CompanyFormComponent implements OnInit {
           address: data.address,
           contact: data.contact,
           email: data.email,
-          account_number: data.account_number/* ,
-          password: data.password */
+          account_number: data.account_number
         });
       },
       (error) => {
@@ -71,10 +74,6 @@ export class CompanyFormComponent implements OnInit {
         Validators.maxLength(40),
         Validators.minLength(3)
       ]),
-       /*  password: new FormControl(password, [
-          Validators.required,
-          Validators.minLength(6)]
-        ), */
         pib: new FormControl(pib, [
         Validators.required,
         Validators.maxLength(6),
@@ -98,32 +97,41 @@ export class CompanyFormComponent implements OnInit {
 
   createOrEditCompany() {
     let newCompany = this.companyForm.value;
+    this.userService.getUser(this.userId).subscribe(userData => {
+      const user = {user : userData};
+        newCompany ={...newCompany, ...user};
 
 
-    if (this.editMode) {
-      const companyId = {companyId : this.companyId};
-      newCompany ={...companyId, ...newCompany};
-        this.companyService
-        .updateCompany(newCompany)
-        .subscribe(
+      if (this.editMode) {
+        const companyId = {companyId : this.companyId};
+        newCompany ={...companyId, ...newCompany};
+          this.companyService
+          .updateCompany(newCompany)
+          .subscribe(
+            (data) => {
+              this.redirectTo();
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+      } else {
+        this.companyService.createCompany(newCompany).subscribe(
           (data) => {
             this.redirectTo();
+            this.companyForm.reset();
           },
           (error) => {
             console.log(error);
           }
         );
-    } else {
-      this.companyService.createCompany(newCompany).subscribe(
-        (data) => {
-          this.redirectTo();
-          this.companyForm.reset();
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    }
+      }
+
+
+    })
+
+
+   
   }
 
   redirectTo(){

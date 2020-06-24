@@ -15,7 +15,7 @@ export class CompanyComponent implements OnInit {
 
 
   constructor(private companyService : CompanyService, private route: ActivatedRoute,
-    private router: Router,) { };
+    private router: Router) { };
  
   ngOnInit() {
     this.showCompany = false;
@@ -24,7 +24,9 @@ export class CompanyComponent implements OnInit {
 
 
   initializeDataSource() {
+    console.log("Company");
       this.companyService.getCompany(1).subscribe(company =>{
+        console.log("Company 1");
         this.showCompany =true;
         this.company = company;
         this.companyService.companyEmitter.next(company.companyId);

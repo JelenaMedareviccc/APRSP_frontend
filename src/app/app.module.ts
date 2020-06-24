@@ -11,7 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CompanyComponent } from './components/company/company.component';
 import { ReceiptComponent } from './components/receipt/receipt.component';
 import { ItemComponent } from './components/item/item.component';
@@ -76,6 +76,7 @@ import { PaymentTableComponent } from './components/payment/payment-table/paymen
 import { PaymentFormComponent } from './components/payment/payment-form/payment-form.component';
 
 import { UserComponent } from './components/user/user.component';
+import { InterceptorService } from './services/user/interceptor.service';
 
 
 @NgModule({
@@ -157,7 +158,7 @@ import { UserComponent } from './components/user/user.component';
     MatFormFieldModule,
         MatInputModule
   ],
-  providers: [ ClientService, ReceiptService ],
+  providers: [ ClientService, ReceiptService, {provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi:true} ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,26 +3,31 @@ import { Role } from './role';
 
 export class User {
     userId: number;
-    firstName : string;
-    lastName : string;
+    first_name : string;
+    last_name : string;
     username : string;
     email : string;
     password: string;
     role: Role;
+    token: string;
+    tokenExpirationDate: Date;
+    expiration: number;
 
-    constructor(){
-
-    }
-
-   /*  constructor(userId, fisrtName, lastName, username, email, password, role){
-      this.userId = userId;
-      this.firstName= fisrtName;
-      this.lastName=lastName;
+ 
+    constructor(userId, username, token, expiration){
+ 
       this.username=username;
-      this.email=email;
-      this.password=password;
-      this.role=role;
-        
+    this.token=token;
+    this.userId=userId;
+    this.expiration=expiration;
+   // this.tokenExpirationDate=tokenExpirationDate;
 
-    } */
+    } 
+
+    get _token(){
+      if(!this.tokenExpirationDate || new Date()> this.tokenExpirationDate){
+        return null;
+      }
+      return this.token;
+    }
 }
