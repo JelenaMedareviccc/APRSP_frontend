@@ -11,6 +11,9 @@ export class InterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler){
    return this.userService.user.pipe(take(1), exhaustMap(user => {
    
+   // let userData = JSON.parse(localStorage.getItem('userData'));
+
+    //const token = userData['token'];
     console.log("INTERECEPTION");
     if(!user){
       return next.handle(req);

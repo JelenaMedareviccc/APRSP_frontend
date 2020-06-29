@@ -96,6 +96,7 @@ export class UserComponent implements OnInit {
       }) 
     } else {
       let userId;
+      console.log(newUser);
     this.userService.signUp(newUser).subscribe(
       (data) => {
         userId = data.userId;

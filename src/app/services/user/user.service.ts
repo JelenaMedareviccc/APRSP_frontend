@@ -45,7 +45,7 @@ export class UserService {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     let options = { headers: headers};
-    console.log(userRegistration);
+
     return this.http.post<User>(
       this.api+'signup',
       userRegistration,
@@ -53,7 +53,7 @@ export class UserService {
     ).pipe(catchError(this.handlerError), tap(res => {
      
       this.handleAuthentication(res);
-     // const expirationDate = new Date(new Date().getTime() + )
+  
    
 
     })); 
@@ -83,45 +83,54 @@ export class UserService {
     let values = Object.keys(res).map( (r)  => { 
       return res[r]; 
     })
-    const expirationData = new Date(new Date().getTime() + +values[2] * 1000);
+    const expiration = values[2];
+    const expirationData = new Date(new Date().getTime() + expiration*2 );
+    console.log(expirationData);
     const logUser = new User(values[3], values[0], values[1], expirationData );
     
     this.user.next(logUser);
-    //this.autoLogOut(values[2] * 1000);
-
+    console.log("EXPIRATIOn");
+    console.log(expiration*2);
+    this.autoLogOut(expiration*2);
+    res.expiration = new Date(new Date().getTime() + values[2]*2 );
+    
      localStorage.setItem('userData', JSON.stringify(res));
   }
 
   logout(): boolean{
     this.user.next(null);
     localStorage.removeItem('userData');
+     if(this.tokenExpirationTimer){
+      clearTimeout(this.tokenExpirationTimer);
+    } 
     if(localStorage.length != 0){
       return false;
     }  
-    return true;
-   /*  if(this.tokenExpirationTimer){
-      clearTimeout(this.tokenExpirationTimer);
-    } 
     this.tokenExpirationTimer = null;
-    */
+  
+    return true;
+    
 
   }
 
-  /* autoLogin(){
+   autoLogin(){
     const userData = JSON.parse(localStorage.getItem('userData'));
+ 
     
     if(!userData){
       return;
     }
 
-    const loadedUser = new User(userData.email,userData.id,userData.token, new Date(userData.expiration));
+    const loadedUser = new User(userData['id'],userData['username'],userData['token'], userData['expiration']);
   
-    if(loadedUser.token){
+    if(loadedUser._token){
+
       this.user.next(loadedUser);
       const expirationDuration =new Date(userData.expiration).getTime() - new Date().getTime();
-      this.autoLogOut(expirationDuration);
+     this.autoLogOut(expirationDuration);
     }
   }
+  
 
 
 
@@ -129,7 +138,7 @@ export class UserService {
    this.tokenExpirationTimer = setTimeout(()=> {
       this.logout();
     }, expirationDuration)
-} */
+} 
 
 public getUser(id: number): Observable<User> {
   return this.http.get<User>(this.api + "userId/" +id).pipe(

@@ -11,7 +11,7 @@ export class User {
     role: Role;
     token: string;
     tokenExpirationDate: Date;
-    expiration: number;
+    expiration: Date;
 
  
     constructor(userId, username, token, expiration){
@@ -25,7 +25,7 @@ export class User {
     } 
 
     get _token(){
-      if(!this.tokenExpirationDate || new Date()> this.tokenExpirationDate){
+      if(!this.expiration || new Date()> this.expiration){
         return null;
       }
       return this.token;

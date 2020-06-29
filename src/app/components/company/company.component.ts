@@ -25,13 +25,13 @@ export class CompanyComponent implements OnInit {
 
   initializeDataSource() {
     console.log("Company");
-      this.companyService.getCompany(1).subscribe(company =>{
+    /*   this.companyService.getCompany(1).subscribe(company =>{
         console.log("Company 1");
         this.showCompany =true;
         this.company = company;
         this.companyService.companyEmitter.next(company.companyId);
       }, error => {});
-
+ */
     }
 
   editCompany() {

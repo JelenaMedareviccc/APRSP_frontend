@@ -77,6 +77,7 @@ import { PaymentFormComponent } from './components/payment/payment-form/payment-
 
 import { UserComponent } from './components/user/user.component';
 import { InterceptorService } from './services/user/interceptor.service';
+import { CompanyTableComponent } from './components/company/company-table/company-table.component';
 
 
 @NgModule({
@@ -100,7 +101,8 @@ import { InterceptorService } from './services/user/interceptor.service';
     PaymentTableComponent,
     PaymentFormComponent,
     ReceiptLastYearComponent,
-    UserComponent
+    UserComponent,
+    CompanyTableComponent
   ],
   imports: [
     BrowserModule,

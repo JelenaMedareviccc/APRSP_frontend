@@ -98,11 +98,13 @@ export class CompanyFormComponent implements OnInit {
   createOrEditCompany() {
     let newCompany = this.companyForm.value;
     this.userService.getUser(this.userId).subscribe(userData => {
-      const user = {user : userData};
+
+      const user = {authuser : userData};
         newCompany ={...newCompany, ...user};
+        console.log(newCompany);
 
 
-      if (this.editMode) {
+      if (this.router.url.includes("edit")) {
         const companyId = {companyId : this.companyId};
         newCompany ={...companyId, ...newCompany};
           this.companyService
@@ -135,7 +137,7 @@ export class CompanyFormComponent implements OnInit {
   }
 
   redirectTo(){
-    if(this.editMode){
+    if(this.router.url.includes("edit")){
       this.router.navigate(['../'], {relativeTo: this.route});
     } else {
       this.router.navigate(['../company'], {relativeTo: this.route});

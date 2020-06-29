@@ -1,5 +1,5 @@
 import { Company } from './company';
-import { Receipt } from './receipt';
+
 
 export class Client {
     clientId: number;

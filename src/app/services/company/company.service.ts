@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Company } from '../../models/company'
 import { Observable, throwError, Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
 import * as config from '../../config/config.json';
-import { catchError } from 'rxjs/operators';
+import { catchError, retry, map } from 'rxjs/operators';
 
 
 
@@ -55,16 +55,29 @@ export class CompanyService{
       }
 
     public createCompany(company: Company): Observable<Company> {
-        return this.httpClient.post<Company>(this.API_URL, JSON.stringify(company));
+      console.log(company);
+      console.log(JSON.stringify(company));
+        return this.httpClient.post<Company>(this.API_URL, company).pipe(
+          retry(1),
+          catchError(this.handleError));
     }
 
     public updateCompany(company: Company): Observable<Company>  {
-        return this.httpClient.put<Company>(this.API_URL, company, httpOptions).pipe(
+        return this.httpClient.put<Company>(this.API_URL, company).pipe(
           catchError(this.handleError)
         );
     }
 
-    public deleteCompany(id: number): void {
-        this.httpClient.delete(this.API_URL + id);
+    public deleteCompany(id: number): Observable<Company> {
+        return this.httpClient.delete<Company>(this.API_URL + id);
     }
+
+    
+  public getCompanyByUser(userId: number): Observable<Company[]> {
+    return this.httpClient.get<Company[]>(this.API_URL + "/user/"+ userId).pipe(
+      retry(1),
+    
+      
+    )
+  }
 }

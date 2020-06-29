@@ -17,6 +17,9 @@ import { PaymentFormComponent } from "./components/payment/payment-form/payment-
 import { PaymentTableComponent } from "./components/payment/payment-table/payment-table.component";
 import { CompanyFormComponent } from './components/company/company-form/company-form.component';
 import { UserComponent } from './components/user/user.component';
+import { CompanyTableComponent } from './components/company/company-table/company-table.component';
+import { AuthGuard } from './services/user/auth.guard';
+
 
 
 export const routingConfiguration: ExtraOptions = {
@@ -27,13 +30,13 @@ const routes: Routes = [
  
   {path: 'signup', component: UserComponent},
   {path: 'signin', component: UserComponent},
-  { path: "company", component: CompanyComponent },
+  { path: "company", component: CompanyTableComponent, canActivate: [AuthGuard] },
   { path: "newCompany", component: CompanyFormComponent },
-  {path: "company/edit", component: CompanyFormComponent},
+  {path: "company/edit", component: CompanyFormComponent, canActivate: [AuthGuard]},
   { path: "", redirectTo: "signin", pathMatch: "full" },
   {
     path: "client",
-    component: ClientComponent,
+    component: ClientComponent, canActivate: [AuthGuard],
     children: [
       { path: "", component: ClientTableComponent },
       { path: "new", component: ClientFormComponent },
