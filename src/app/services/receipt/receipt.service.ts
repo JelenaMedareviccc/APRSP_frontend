@@ -25,73 +25,46 @@ export class ReceiptService {
 
   constructor(private httpClient : HttpClient) { }
 
-  private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error.message);
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
-    }
-    // return an observable with a user-facing error message
-    return throwError(
-      'Something bad happened; please try again later.');
-  };
-
+  
   public getReceipts(): Observable<Receipt[]> {
-    return this.httpClient.get<Receipt[]>(this.API_URL).pipe(
-      catchError(this.handleError));
+    return this.httpClient.get<Receipt[]>(this.API_URL)
   }
 
   public getReceipt(id: number): Observable<Receipt> {
-    return this.httpClient.get<Receipt>(this.API_URL + "/receiptId/" + id).pipe(
-      catchError(this.handleError));
+    return this.httpClient.get<Receipt>(this.API_URL + "/receiptId/" + id)
   }
 
   public getReceiptByClient(clientId: number): Observable<Receipt[]> {
     console.log(clientId + "KLIJENT ID")
-    return this.httpClient.get<Receipt[]>(this.API_URL + "/client/"+ clientId).pipe(
-      catchError(this.handleError));
+    return this.httpClient.get<Receipt[]>(this.API_URL + "/client/"+ clientId)
   }
 
   public createReceipt(receipt: Receipt): Observable<Receipt> {
-    return this.httpClient.post<Receipt>(this.API_URL, receipt).pipe(
-      catchError(this.handleError));
+    return this.httpClient.post<Receipt>(this.API_URL, receipt)
   }
 
   public updateReceipt(receipt: Receipt):  Observable<Receipt>  {
-    return this.httpClient.put<Receipt>(this.API_URL, receipt).pipe(
-      catchError(this.handleError));
+    return this.httpClient.put<Receipt>(this.API_URL, receipt)
   }
 
   public deleteReceipt(id: number): Observable<{}> {
-    return this.httpClient.delete(this.API_URL + "/"+ id, httpOptions).pipe(
-      catchError(this.handleError)
-    );
+    return this.httpClient.delete(this.API_URL + "/"+ id, httpOptions)
   }
 
   public getLastYearReceipts(id: number): Observable<Receipt[]> {
     console.log(id);
-    return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsLastYear").pipe(
-      catchError(this.handleError)
-    );
+    return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsLastYear")
+    
   }
 
   public getLast365DaysReceipts(id: number): Observable<Receipt[]> {
     console.log(id);
-    return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsLast365Days").pipe(
-      catchError(this.handleError)
-    );
+    return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsLast365Days")
+    
   }
 
   public getReceiptsBetweenTwoDates(id:number, startDate: String,  endDate: String): Observable<Receipt[]> {
     console.log(id, startDate, endDate);
-    return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsBetweenTwoDates/?startDate="+startDate+"&endDate="+ endDate).pipe(
-      catchError(this.handleError)
-    );
-
+    return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsBetweenTwoDates/?startDate="+startDate+"&endDate="+ endDate)
   }
 }

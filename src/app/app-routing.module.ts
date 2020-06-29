@@ -31,12 +31,13 @@ const routes: Routes = [
   {path: 'signup', component: UserComponent},
   {path: 'signin', component: UserComponent},
   { path: "company", component: CompanyTableComponent, canActivate: [AuthGuard] },
-  { path: "newCompany", component: CompanyFormComponent },
+  { path: "newCompany", component: CompanyFormComponent,canActivate: [AuthGuard] },
   {path: "company/edit", component: CompanyFormComponent, canActivate: [AuthGuard]},
   { path: "", redirectTo: "signin", pathMatch: "full" },
+  {path: "company/companyid",  canActivate: [AuthGuard], children: [
   {
     path: "client",
-    component: ClientComponent, canActivate: [AuthGuard],
+    component: ClientComponent,
     children: [
       { path: "", component: ClientTableComponent },
       { path: "new", component: ClientFormComponent },
@@ -82,6 +83,7 @@ const routes: Routes = [
       },
     ],
   },
+] }
 ];
 
 @NgModule({

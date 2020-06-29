@@ -13,7 +13,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatDialog } from "@angular/material/dialog";
 import { DialogComponent } from "../../dialog/dialog.component";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router, ActivatedRoute, Params } from "@angular/router";
 import { MatSort } from '@angular/material/sort';
 
 @Component({
@@ -57,7 +57,7 @@ export class ClientTableComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.companyService.companyEmitter.subscribe({
+/*     this.companyService.companyEmitter.subscribe({
       next: (id) =>{ 
         this.companyId = +id;
 
@@ -67,10 +67,14 @@ export class ClientTableComponent implements OnInit {
 
       this.initializeDataSource();
     }
+} */
+
+this.route.params.subscribe((params: Params) => {
+  this.companyId = +params["companyid"];
+  this.initializeDataSource();
+
 })
-
   }
-
 
 
   initializeDataSource() {

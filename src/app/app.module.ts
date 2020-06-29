@@ -78,6 +78,7 @@ import { PaymentFormComponent } from './components/payment/payment-form/payment-
 import { UserComponent } from './components/user/user.component';
 import { InterceptorService } from './services/user/interceptor.service';
 import { CompanyTableComponent } from './components/company/company-table/company-table.component';
+import { HttpErrorInterceptor } from './services/httperrorinterceptopr.service';
 
 
 @NgModule({
@@ -160,7 +161,14 @@ import { CompanyTableComponent } from './components/company/company-table/compan
     MatFormFieldModule,
         MatInputModule
   ],
-  providers: [ ClientService, ReceiptService, {provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi:true} ],
+  providers: [ ClientService, ReceiptService,
+     {provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi:true},
+      {
+        provide: HTTP_INTERCEPTORS,
+        useClass: HttpErrorInterceptor,
+        multi: true
+      }
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

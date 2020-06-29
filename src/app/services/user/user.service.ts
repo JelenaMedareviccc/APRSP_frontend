@@ -6,34 +6,12 @@ import { User } from 'src/app/models/user.js';
 import { map, catchError, tap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 
-
-
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   router: any;
   private tokenExpirationTimer: any;
-
-  private handlerError(error: HttpErrorResponse){
-    let errorMessage = "An unknown error occured!"
-    if(!error.error || !error.error.error){
-      return throwError(errorMessage);
-    }
-    switch(error.error.error.message){
-    case 'EMAIL_EXISTS':
-      errorMessage ="This email exist already!"
-      break;
-    case 'EMAIL_NOT_FOUND': 
-      errorMessage="This email does not exist!"
-      break;
-    case 'INVALID PASSWORD':{
-      errorMessage="This password is not correct!"
-      break;
-    }
-   }
-   return throwError(errorMessage);
-  }
 
   private api = config.apiUrl + '/user/';
 
@@ -50,7 +28,7 @@ export class UserService {
       this.api+'signup',
       userRegistration,
       options
-    ).pipe(catchError(this.handlerError), tap(res => {
+    ).pipe( tap(res => {
      
       this.handleAuthentication(res);
   
@@ -63,18 +41,14 @@ export class UserService {
 
 
   login(user){
-
-   // localStorage.setItem('token', '');
     let headers = new HttpHeaders().set('Content-Type', 'application/json');    
   
-   // let params = new HttpParams().set("username",username).set("password", password); //Create new HttpParams
-   
     let options = { headers: headers};
 
     return this.http.post(
       this.api+'signin', user,
       options
-    ).pipe(catchError(this.handlerError), tap(res => {
+    ).pipe(tap(res => {
       this.handleAuthentication(res);
     }))
   }
@@ -141,8 +115,7 @@ export class UserService {
 } 
 
 public getUser(id: number): Observable<User> {
-  return this.http.get<User>(this.api + "userId/" +id).pipe(
-    catchError(this.handlerError));
+  return this.http.get<User>(this.api + "userId/" +id);
 }
 
 
@@ -233,11 +206,5 @@ public getUser(id: number): Observable<User> {
     return this.user.asObservable();
   }
 
- 
-  
+
 }
-
-
-
-
-
