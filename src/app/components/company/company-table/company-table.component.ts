@@ -45,6 +45,7 @@ export class CompanyTableComponent implements OnInit {
   userId: number;
   companies: Company[];
   showCompany: boolean;
+  showText: boolean;
 
   constructor(
     public dialog: MatDialog,
@@ -55,6 +56,7 @@ export class CompanyTableComponent implements OnInit {
 
   ngOnInit() {
     this.showCompany = false;
+    this.showText = false;
     let userData = JSON.parse(localStorage.getItem("userData"));
     this.userId = userData["id"];
     this.userName = userData["username"];
@@ -65,13 +67,9 @@ export class CompanyTableComponent implements OnInit {
   initializeDataSource() {
     this.companyService.getCompanyByUser(this.userId).subscribe(
       (c) => {
-        /*  if (this.hasClients) {
-          this.clients = clients;
-        } */
-
-        console.log(c);
+        
+      if(c){
         this.companies = c;
-        this.showCompany = true;
         this.dataSource = new MatTableDataSource<Company>(this.companies);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -84,6 +82,10 @@ export class CompanyTableComponent implements OnInit {
             data.email.toLowerCase().includes(filter)
           );
         };
+      } else {
+        this.showText = true;
+      }
+      this.showCompany = true;
       },
       (error) => {
         console.log(error);
@@ -120,5 +122,9 @@ export class CompanyTableComponent implements OnInit {
 
   addNewCompany() {
     this.router.navigate(["newCompany"], { relativeTo: this.route });
+  }
+
+  addNewClient() {
+    this.router.navigate(["client/newClient"], { relativeTo: this.route });
   }
 }

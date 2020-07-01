@@ -41,18 +41,7 @@ const routes: Routes = [
     {path: "edit", component: CompanyFormComponent},
     {path: "client",
     component: ClientComponent,
-    children: [
-      { path: "", component: ClientTableComponent },
-      { path: "newClient", component: ClientFormComponent },
-      { path: ":clientid/edit", component: ClientFormComponent },
-      {
-        path: "edit",
-        component: CompanyFormComponent,
-        canActivate: [AuthGuard],
-      },
-      {
-        path: "client",
-        component: ClientComponent,
+   
         children: [
           { path: "", component: ClientTableComponent },
           { path: "new", component: ClientFormComponent },
@@ -115,8 +104,6 @@ const routes: Routes = [
           },
         ],
       },
-    ],
-  },
 ],
   },
 ];

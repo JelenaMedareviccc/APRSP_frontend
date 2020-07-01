@@ -1,9 +1,11 @@
 <div class="client-padding" *ngIf="showCompany">
   <button class="btn btn-add" (click)="addNewCompany()">Add new company</button>
   <br />
+  <button class="btn btn-add" (click)="addNewClient()">Add new client</button>
+  <br/>
 
   <h1 class="textColor">{{ userName }}'s companies</h1>
-
+<div *ngIf="!showText" >
   <mat-form-field>
     <mat-label>Filter</mat-label>
     <input
@@ -94,5 +96,7 @@
   >
   </mat-paginator>
 </div>
+</div>
+<h1 *ngIf="showText" color="grey"><strong>Please add new company!</strong></h1>
 
 <div class="loader spinner" *ngIf="!showCompany">Loading...</div>

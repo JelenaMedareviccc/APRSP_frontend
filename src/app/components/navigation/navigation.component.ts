@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user/user.service';
+import {Location} from '@angular/common';
 
 @Component({
   selector: "app-navigation",
@@ -23,7 +24,8 @@ export class NavigationComponent implements OnInit {
   constructor(private breakpointObserver: BreakpointObserver,
               private router: Router,
               private userService: UserService,
-              private route: ActivatedRoute) {}
+              private route: ActivatedRoute,
+              private _location: Location) {}
 
 
   ngOnInit(): void {
@@ -48,7 +50,7 @@ export class NavigationComponent implements OnInit {
  }
 
  goBack(){
-  this.router.navigate(['../'], {relativeTo: this.route});
+  this._location.back();
  }
   
 }

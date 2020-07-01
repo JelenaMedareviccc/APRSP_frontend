@@ -36,12 +36,12 @@ export class UserService {
       );
   }
 
-  login(user) {
+  login(user): Observable<User>  {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
 
     let options = { headers: headers };
 
-    return this.http.post(this.api + "signin", user, options).pipe(
+    return this.http.post<User>(this.api + "signin", user, options).pipe(
       tap((res) => {
         this.handleAuthentication(res);
       })

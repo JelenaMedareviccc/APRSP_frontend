@@ -86,8 +86,15 @@ export class UserComponent implements OnInit {
 
     if (this.signin) {
       this.userService.login(newUser).subscribe(
-        (next) => {
-          this.router.navigate(["../company"], { relativeTo: this.route });
+        (data) => {
+          userId = data.userId;
+          this.companyService.getCompanyByUser(userId).subscribe(company => {
+            if(company){
+              this.router.navigate(["../company"], { relativeTo: this.route });
+            } else {
+              this.router.navigate(["../newCompany"], { relativeTo: this.route });
+            }
+          })
         },
         (error) => {
           console.log(error);

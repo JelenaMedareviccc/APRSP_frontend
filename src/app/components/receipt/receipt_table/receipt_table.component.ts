@@ -70,10 +70,12 @@ export class ReceiptTableComponent implements OnInit {
     });
     this.receiptService.getReceiptByClient(this.clientId).subscribe(
       (receipts) => {
+        if(receipts){
         this.receipts = receipts;
         this.dataSource = new MatTableDataSource<Receipt>(this.receipts);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        }
       },
       (error) => {}
     );

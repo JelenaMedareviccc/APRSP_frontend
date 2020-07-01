@@ -82,7 +82,7 @@ export class ClientFormComponent implements OnInit {
       ]),
       contact: new FormControl(contact, [
         Validators.required,
-        Validators.pattern(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/),
+        Validators.pattern(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/),
       ]),
       email: new FormControl(email, [Validators.required, Validators.email]),
       account_number: new FormControl(account_number, [
@@ -96,10 +96,12 @@ export class ClientFormComponent implements OnInit {
 
   createOrEditClient() {
     let newClient = this.clientForm.value;
-
+console.log("OVDJE");
     this.companyService.getCompany(this.companyId).subscribe((companyInfo) => {
+     console.log("USLO");
       const company = { company: companyInfo };
       newClient = { ...newClient, ...company };
+
       console.log(newClient);
 
       if (this.editMode) {
