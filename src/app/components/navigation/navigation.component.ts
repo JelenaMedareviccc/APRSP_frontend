@@ -1,18 +1,9 @@
-<<<<<<< HEAD
 import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user/user.service';
-=======
-import { Component, OnInit, OnChanges, SimpleChanges } from "@angular/core";
-import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
-import { Observable } from "rxjs";
-import { map, shareReplay } from "rxjs/operators";
-import { Router } from "@angular/router";
-import { UserService } from "src/app/services/user/user.service";
->>>>>>> 57f07c03a2eec1974b0c42389c48a12c0997222f
 
 @Component({
   selector: "app-navigation",
@@ -29,19 +20,11 @@ export class NavigationComponent implements OnInit {
       shareReplay()
     );
 
-<<<<<<< HEAD
   constructor(private breakpointObserver: BreakpointObserver,
               private router: Router,
               private userService: UserService,
               private route: ActivatedRoute) {}
 
-=======
-  constructor(
-    private breakpointObserver: BreakpointObserver,
-    private router: Router,
-    private userService: UserService
-  ) {}
->>>>>>> 57f07c03a2eec1974b0c42389c48a12c0997222f
 
   ngOnInit(): void {
     this.userService.user.subscribe((user) => {
@@ -61,14 +44,11 @@ export class NavigationComponent implements OnInit {
     } else {
       this.router.navigate(["/signin"]);
     }
-<<<<<<< HEAD
 
  }
 
  goBack(){
   this.router.navigate(['../'], {relativeTo: this.route});
  }
-=======
->>>>>>> 57f07c03a2eec1974b0c42389c48a12c0997222f
-  }
+  
 }

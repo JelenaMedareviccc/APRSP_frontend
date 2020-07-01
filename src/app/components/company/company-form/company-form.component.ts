@@ -27,20 +27,10 @@ export class CompanyFormComponent implements OnInit {
   ngOnInit() {
     this.createForm(null, null, null, null, null, null);
 
-<<<<<<< HEAD
       let userData = JSON.parse(localStorage.getItem('userData'));
       this.userId = userData['id'];
-
       this.username=userData['username'];
     if(this.router.url.includes("edit")){
-=======
-    let userData = JSON.parse(localStorage.getItem("userData"));
-    this.userId = userData["id"];
-    console.log(this.userId);
-    this.username = userData["username"];
-    if (this.router.url.includes("edit")) {
-      console.log("edit imaaa");
->>>>>>> 57f07c03a2eec1974b0c42389c48a12c0997222f
       this.route.params.subscribe((params: Params) => {
         this.companyId = +params["companyid"];
         this.initEditForm();
