@@ -3,33 +3,34 @@
   position: relative;
 }
 
-
 .sidenav .mat-toolbar {
   background: inherit;
 }
 
-.color-text{
+.color-text {
   color: black;
 }
-
-
 
 .mat-toolbar.mat-primary {
   position: sticky;
   top: 0;
   z-index: 1;
-  background-color: #A8A8A8;
-
-
+  background-color: #a8a8a8;
 }
 
+<<<<<<< HEAD
 
+=======
+.icon {
+  color: black;
+}
+>>>>>>> 57f07c03a2eec1974b0c42389c48a12c0997222f
 
-.mat-drawer{
-  background-color: #A8A8A8;
-
+.mat-drawer {
+  background-color: #a8a8a8;
 }
 
+<<<<<<< HEAD
 .material-icons{
   color:  #A8A8A8;
  
@@ -46,40 +47,26 @@
 
 
 .auth{
+=======
+.auth {
+>>>>>>> 57f07c03a2eec1974b0c42389c48a12c0997222f
   color: black;
   position: absolute;
-  left:87% ;
-
-
-
+  left: 87%;
 }
 
 .container {
-background-image: url(../../../assets/img/moon.jpeg)   /* , linear-gradient(to right top,
-  #F8DAE9 0.8,
-  #EFB0CD 0.8); */;
-/*  background-image:  linear-gradient(
-  100deg, 
-  #a2798f, #d7c6cf);
- */
-  
+  background-image: url(../../../assets/img/moon.jpeg);
   background-size: cover;
   height: 100%;
   width: 100%;
-/*   clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
- */ 
- background-position: center;
+  background-position: center;
   background-repeat: no-repeat;
   z-index: -1;
-
   overflow: scroll;
   position: relative;
-
 }
 
-
-.mat-drawer-content{
+.mat-drawer-content {
   overflow: hidden;
 }
-
-

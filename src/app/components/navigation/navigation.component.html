@@ -1,4 +1,5 @@
 <mat-sidenav-container class="sidenav-container">
+<<<<<<< HEAD
 
   <mat-sidenav   #drawer class="sidenav" fixedInViewport
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
@@ -6,15 +7,26 @@
       [opened]="(isHandset$ | async) === false">
     <mat-toolbar >Menu</mat-toolbar>
     <mat-nav-list >
+=======
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item (click)="redirectTo('/client')">Client</a>
+>>>>>>> 57f07c03a2eec1974b0c42389c48a12c0997222f
       <a mat-list-item (click)="redirectTo('/company')">Company</a>
     </mat-nav-list>
   </mat-sidenav>
 
   <mat-sidenav-content>
-    
     <mat-toolbar color="primary">
-     
-      <button 
+      <button
         type="button"
         aria-label="Toggle sidenav"
         mat-icon-button
@@ -24,26 +36,18 @@
         >
         <span aria-label="Side nav toggle icon" class="material-icons icon">menu</span>
       </button>
-    
       <span class="color-text"><strong>APRSP</strong></span>
       <div class="auth">
-      <button mat-button (click)="auth()" color="grey"><strong>{{ authText ? 'LOGIN' : 'LOGOUT' }}</strong></button>
-    </div>
-
-
+        <button mat-button (click)="auth()" color="grey">
+          <strong>{{ authText ? "LOGIN" : "LOGOUT" }}</strong>
+        </button>
+      </div>
     </mat-toolbar>
     <div class="container">
       <div class="back">
       <span class="material-icons" (click)="goBack()">arrow_back</span>
     </div>
-
-
-
-
    <router-outlet></router-outlet>
-
 </div>
-
-
   </mat-sidenav-content>
 </mat-sidenav-container>

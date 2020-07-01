@@ -1,23 +1,25 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { CompanyService } from 'src/app/services/company/company.service';
 import { Company } from 'src/app/models/company';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 
 @Component({
-  selector: 'app-company',
-  templateUrl: './company.component.html',
-  styleUrls: ['./company.component.css']
+  selector: "app-company",
+  templateUrl: "./company.component.html",
+  styleUrls: ["./company.component.css"],
 })
 export class CompanyComponent implements OnInit {
-  company: Company ;
+  company: Company;
   showCompany: boolean;
   companyId: number;
 
+  constructor(
+    private companyService: CompanyService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
-  constructor(private companyService : CompanyService, private route: ActivatedRoute,
-    private router: Router) { };
- 
   ngOnInit() {
     this.showCompany = false;
     this.route.params.subscribe((params: Params) => {
@@ -28,13 +30,14 @@ export class CompanyComponent implements OnInit {
     
   }
 
-
   initializeDataSource() {
    
       this.companyService.getCompany(this.companyId).subscribe(company =>{
         this.showCompany =true;
         this.company = company;
-      }, error => {});
+      }, error => {
+        console.log(error);
+      });
 
     }
 

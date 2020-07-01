@@ -1,9 +1,7 @@
-import { ReceiptLastYearComponent } from './components/receipt/receipt_last_year/receipt_last_year.component';
+import { ReceiptLastYearComponent } from "./components/receipt/receipt_last_year/receipt_last_year.component";
 import { ReceiptComponent } from "./components/receipt/receipt.component";
 import { ClientTableComponent } from "./components/client/client_table/client_table.component";
-import { ClientService } from "./services/client/client.service";
 import { ClientComponent } from "./components/client/client.component";
-
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule, ExtraOptions } from "@angular/router";
 import { CompanyComponent } from "./components/company/company.component";
@@ -15,23 +13,28 @@ import { ItemFormComponent } from "./components/item/item-form/item-form.compone
 import { PaymentComponent } from "./components/payment/payment.component";
 import { PaymentFormComponent } from "./components/payment/payment-form/payment-form.component";
 import { PaymentTableComponent } from "./components/payment/payment-table/payment-table.component";
-import { CompanyFormComponent } from './components/company/company-form/company-form.component';
-import { UserComponent } from './components/user/user.component';
-import { CompanyTableComponent } from './components/company/company-table/company-table.component';
-import { AuthGuard } from './services/user/auth.guard';
-
-
+import { CompanyFormComponent } from "./components/company/company-form/company-form.component";
+import { UserComponent } from "./components/user/user.component";
+import { CompanyTableComponent } from "./components/company/company-table/company-table.component";
+import { AuthGuard } from "./services/user/auth.guard";
 
 export const routingConfiguration: ExtraOptions = {
-  paramsInheritanceStrategy: 'always'
+  paramsInheritanceStrategy: "always",
 };
 
 const routes: Routes = [
- 
-  {path: 'signup', component: UserComponent},
-  {path: 'signin', component: UserComponent},
-  { path: "company", component: CompanyTableComponent, canActivate: [AuthGuard] },
-  { path: "newCompany", component: CompanyFormComponent,canActivate: [AuthGuard] },
+  { path: "signup", component: UserComponent },
+  { path: "signin", component: UserComponent },
+  {
+    path: "company",
+    component: CompanyTableComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "newCompany",
+    component: CompanyFormComponent,
+    canActivate: [AuthGuard],
+  },
   { path: "", redirectTo: "signin", pathMatch: "full" },
   {path: "company/:companyid",  canActivate: [AuthGuard], children: [
     {path: "", component: CompanyComponent },
@@ -42,48 +45,80 @@ const routes: Routes = [
       { path: "", component: ClientTableComponent },
       { path: "newClient", component: ClientFormComponent },
       { path: ":clientid/edit", component: ClientFormComponent },
-
       {
-        path: ":clientid",
+        path: "edit",
+        component: CompanyFormComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "client",
+        component: ClientComponent,
         children: [
+          { path: "", component: ClientTableComponent },
+          { path: "new", component: ClientFormComponent },
+          { path: ":clientid/edit", component: ClientFormComponent },
+
           {
-
-            path: "receipts",
-            component: ReceiptComponent,
+            path: ":clientid",
             children: [
-              {path: "", component: ReceiptTableComponent},
-              { path: "newReceipt", component: ReceiptFormComponent },
-              { path: "filteredReceiptsLastYear", component: ReceiptLastYearComponent},
-              { path: "filteredReceiptsLast365Days", component: ReceiptLastYearComponent },
-              { path: "filteredReceiptsBetweenTwoDates", component: ReceiptLastYearComponent },
-              { path: "newReceipt/newItem", component: ItemFormComponent },
-
               {
-                path: ":receiptid",
+                path: "receipts",
+                component: ReceiptComponent,
                 children: [
-                  { path: "edit", component: ReceiptFormComponent },
-                  { path: "items", component: ItemTableComponent },
-                  {path: "items/newItem", component: ItemFormComponent},
-                  { path: "items/:itemid/edit", component: ItemFormComponent },
+                  { path: "", component: ReceiptTableComponent },
+                  { path: "newReceipt", component: ReceiptFormComponent },
+                  {
+                    path: "filteredReceiptsLastYear",
+                    component: ReceiptLastYearComponent,
+                  },
+                  {
+                    path: "filteredReceiptsLast365Days",
+                    component: ReceiptLastYearComponent,
+                  },
+                  {
+                    path: "filteredReceiptsBetweenTwoDates",
+                    component: ReceiptLastYearComponent,
+                  },
+                  { path: "newReceipt/newItem", component: ItemFormComponent },
 
                   {
-                    path: "payments",
-                    component: PaymentComponent,
+                    path: ":receiptid",
                     children: [
-                      { path: "", component: PaymentTableComponent },
-                      { path: "newPayment", component: PaymentFormComponent },
-                      { path: ":paymentid/edit", component: PaymentFormComponent },
+                      { path: "edit", component: ReceiptFormComponent },
+                      { path: "items", component: ItemTableComponent },
+                      { path: "items/newItem", component: ItemFormComponent },
+                      {
+                        path: "items/:itemid/edit",
+                        component: ItemFormComponent,
+                      },
+
+                      {
+                        path: "payments",
+                        component: PaymentComponent,
+                        children: [
+                          { path: "", component: PaymentTableComponent },
+                          {
+                            path: "newPayment",
+                            component: PaymentFormComponent,
+                          },
+                          {
+                            path: ":paymentid/edit",
+                            component: PaymentFormComponent,
+                          },
+                        ],
+                      },
                     ],
                   },
                 ],
-              }
+              },
             ],
           },
         ],
       },
     ],
   },
-] }
+],
+  },
 ];
 
 @NgModule({

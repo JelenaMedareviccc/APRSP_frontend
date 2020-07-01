@@ -1,4 +1,4 @@
-import { CompanyService } from './../../../services/company/company.service';
+import { CompanyService } from "./../../../services/company/company.service";
 import { ClientService } from "./../../../services/client/client.service";
 import {
   Component,
@@ -14,8 +14,8 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MatDialog } from "@angular/material/dialog";
 import { DialogComponent } from "../../dialog/dialog.component";
 import { Router, ActivatedRoute } from "@angular/router";
-import { MatSort } from '@angular/material/sort';
-import { Company } from 'src/app/models/company';
+import { MatSort } from "@angular/material/sort";
+import { Company } from "src/app/models/company";
 
 @Component({
   selector: "app-company-table",
@@ -39,9 +39,8 @@ export class CompanyTableComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  
   @Input() hasCompany = true;
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   userName: String;
   userId: number;
   companies: Company[];
@@ -55,51 +54,46 @@ export class CompanyTableComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-  
     this.showCompany = false;
-    let userData = JSON.parse(localStorage.getItem('userData'));
-      this.userId = userData['id'];
-      this.userName= userData['username'];
+    let userData = JSON.parse(localStorage.getItem("userData"));
+    this.userId = userData["id"];
+    this.userName = userData["username"];
 
-      this.initializeDataSource();
-    
-
-
+    this.initializeDataSource();
   }
 
-
-
   initializeDataSource() {
-
-    this.companyService.getCompanyByUser(this.userId).subscribe(c => {
-
-       /*  if (this.hasClients) {
+    this.companyService.getCompanyByUser(this.userId).subscribe(
+      (c) => {
+        /*  if (this.hasClients) {
           this.clients = clients;
         } */
-  
+
         console.log(c);
-        this.companies =  c;
+        this.companies = c;
         this.showCompany = true;
         this.dataSource = new MatTableDataSource<Company>(this.companies);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        this.dataSource.filterPredicate = function(data, filter: string): boolean {
-          return data.name.toLowerCase().includes(filter) || data.email.toLowerCase().includes(filter);
-      };
-       
+        this.dataSource.filterPredicate = function (
+          data,
+          filter: string
+        ): boolean {
+          return (
+            data.name.toLowerCase().includes(filter) ||
+            data.email.toLowerCase().includes(filter)
+          );
+        };
       },
       (error) => {
         console.log(error);
       }
     );
-
-
   }
 
   applyFilter(filterValue: string) {
-  this.dataSource.filter= filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-
 
   editCompany(companyId) {
     this.router.navigate([`${companyId}/edit`], { relativeTo: this.route });
@@ -128,5 +122,3 @@ export class CompanyTableComponent implements OnInit {
     this.router.navigate(["newCompany"], { relativeTo: this.route });
   }
 }
-
-

@@ -1,25 +1,25 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { Receipt } from 'src/app/models/receipt';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { ReceiptService } from 'src/app/services/receipt/receipt.service';
-import { MatDialog } from '@angular/material/dialog';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { ClientService } from 'src/app/services/client/client.service';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { MatTableDataSource } from "@angular/material/table";
+import { Receipt } from "src/app/models/receipt";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { ReceiptService } from "src/app/services/receipt/receipt.service";
+import { MatDialog } from "@angular/material/dialog";
+import { Router, ActivatedRoute, Params } from "@angular/router";
+import { ClientService } from "src/app/services/client/client.service";
 
 @Component({
-  selector: 'app-receipt-last-year',
-  styleUrls: ['receipt_last_year.component.css'],
-  templateUrl: 'receipt_last_year.component.html',
+  selector: "app-receipt-last-year",
+  styleUrls: ["receipt_last_year.component.css"],
+  templateUrl: "receipt_last_year.component.html",
 })
 export class ReceiptLastYearComponent implements OnInit {
   displayedColumns = [
-    'receiptId',
-    'date_of_issue',
-    'time_limit',
-    'total_amount',
-    'dept',
+    "receiptId",
+    "date_of_issue",
+    "time_limit",
+    "total_amount",
+    "dept",
   ];
   dataSource: MatTableDataSource<Receipt>;
 
@@ -37,13 +37,11 @@ export class ReceiptLastYearComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private clientService: ClientService
-  ) {
-   
-  }
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.clientId = +params['clientid'];
+      this.clientId = +params["clientid"];
       this.initializeDataSource();
       this.clientService.getClient(this.clientId).subscribe((data) => {
         this.clientName = data.name;
@@ -57,7 +55,7 @@ export class ReceiptLastYearComponent implements OnInit {
   }
 
   initializeDataSource() {
-    if (this.router.url.includes('filteredReceiptsLastYear')) {
+    if (this.router.url.includes("filteredReceiptsLastYear")) {
       this.receiptService.getLastYearReceipts(this.clientId).subscribe(
         (receipts) => {
           if (receipts) {
@@ -65,12 +63,12 @@ export class ReceiptLastYearComponent implements OnInit {
             this.dataSource = new MatTableDataSource<Receipt>(this.receipts);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
-            this.reportType ='for last year!'
+            this.reportType = "for last year!";
           }
         },
         (error) => {}
       );
-    } else if (this.router.url.includes('filteredReceiptsLast365Days')) {
+    } else if (this.router.url.includes("filteredReceiptsLast365Days")) {
       this.receiptService.getLast365DaysReceipts(this.clientId).subscribe(
         (receipts) => {
           if (receipts) {
@@ -78,31 +76,33 @@ export class ReceiptLastYearComponent implements OnInit {
             this.dataSource = new MatTableDataSource<Receipt>(this.receipts);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
-            this.reportType ='for last 365 days!'
+            this.reportType = "for last 365 days!";
           }
         },
         (error) => {}
       );
-    }  else if (this.router.url.includes('filteredReceiptsBetweenTwoDates')) {
+    } else if (this.router.url.includes("filteredReceiptsBetweenTwoDates")) {
       this.route.queryParams.subscribe((params: Params) => {
-        const startDate = params['startDate'];
-        const endDate = params['endDate'];
-
-        this.receiptService.getReceiptsBetweenTwoDates(this.clientId, startDate, endDate).subscribe(
-          (receipts) => {
-            if (receipts) {
-              this.receipts = receipts;
-              this.dataSource = new MatTableDataSource<Receipt>(this.receipts);
-              this.dataSource.paginator = this.paginator;
-              this.dataSource.sort = this.sort;
-              this.reportType ='between ' + startDate+' and '+ endDate + '!';
-            }
-          },
-          (error) => {}
-        );
-
-      }) 
-     
+        const startDate = params["startDate"];
+        const endDate = params["endDate"];
+        this.receiptService
+          .getReceiptsBetweenTwoDates(this.clientId, startDate, endDate)
+          .subscribe(
+            (receipts) => {
+              if (receipts) {
+                this.receipts = receipts;
+                this.dataSource = new MatTableDataSource<Receipt>(
+                  this.receipts
+                );
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+                this.reportType =
+                  "between " + startDate + " and " + endDate + "!";
+              }
+            },
+            (error) => {}
+          );
+      });
     }
   }
 

@@ -3,8 +3,7 @@
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Name</mat-label>
       <input matInput id="name" name="name" formControlName="name" />
-      <span
-        *ngIf="!itemForm.get('name').valid && itemForm.get('name').touched"
+      <span *ngIf="!itemForm.get('name').valid && itemForm.get('name').touched"
         >Name must contains between 3 and 40 charachters!</span
       >
     </mat-form-field>
@@ -22,17 +21,16 @@
     <br />
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Measure</mat-label>
-      <input matInput name="measure" formControlName="measure" type="number"/>
+      <input matInput name="measure" formControlName="measure" type="number" />
       <span
         *ngIf="
-          !itemForm.get('measure').valid && itemForm.get('measure').touched"
+          !itemForm.get('measure').valid && itemForm.get('measure').touched
+        "
         >Please enter a valid measure!</span
       >
     </mat-form-field>
     <br />
-
     <br />
-    <!--<button mat-raised-button (click)="createClient()">Add client</button>-->
     <br />
     <br />
     <div class="button-pos">
