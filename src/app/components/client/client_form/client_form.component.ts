@@ -26,18 +26,24 @@ export class ClientFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.companyService.companyEmitter.subscribe( id => {
-      this.companyId = +id;
-    })
+    this.createForm(null, null, null, null, null, null);
+
     this.route.params.subscribe((params: Params) => {
+      
 
       this.editID = +params['clientid'];
       this.editMode = params['clientid'] != null;
-      this.createForm(null, null, null, null, null, null);
 
-      if (this.editMode) {
-        this.initEditForm();
-      }
+      this.route.parent.params.subscribe((params: Params) => {
+        
+        this.companyId = +params["companyid"];
+        if (this.editID) {
+         this.initEditForm();
+       } 
+
+      })
+
+
     });
   }
 
@@ -53,14 +59,14 @@ export class ClientFormComponent implements OnInit {
           data.email,
           data.account_number
         );
-        this.clientForm.setValue({
+       /*  this.clientForm.setValue({
           name: data.name,
           client_reg_number: data.client_reg_number,
           address: data.address,
           contact: data.contact,
           email: data.email,
           account_number: data.account_number,
-        });
+        }); */
       },
       (error) => {
         console.log(error);

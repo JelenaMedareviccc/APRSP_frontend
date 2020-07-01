@@ -57,20 +57,12 @@ export class ClientTableComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-/*     this.companyService.companyEmitter.subscribe({
-      next: (id) =>{ 
-        this.companyId = +id;
-
-        this.companyService.getCompany(this.companyId).subscribe(c => {
-          this.companyName = c.name;
-        });
-
-      this.initializeDataSource();
-    }
-} */
 
 this.route.params.subscribe((params: Params) => {
   this.companyId = +params["companyid"];
+  this.companyService.getCompany(this.companyId).subscribe(c => {
+    this.companyName = c.name;
+  });
   this.initializeDataSource();
 
 })
@@ -81,16 +73,16 @@ this.route.params.subscribe((params: Params) => {
 
     this.clientService.getClientByCompany(this.companyId).subscribe(
       (clients) => {
-        if (this.hasClients) {
+        if (clients) {
           this.clients = clients;
-        }
-        this.dataSource = new MatTableDataSource<Client>(this.clients);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.dataSource.filterPredicate = function(data, filter: string): boolean {
+          this.dataSource = new MatTableDataSource<Client>(this.clients);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.dataSource.filterPredicate = function(data, filter: string): boolean {
           return data.name.toLowerCase().includes(filter) || data.client_reg_number.toLowerCase().includes(filter);
       };
-       
+        }
+        
       },
       (error) => {}
     );
@@ -127,7 +119,7 @@ this.route.params.subscribe((params: Params) => {
   }
 
   addNewClient() {
-    this.router.navigate(["new"], { relativeTo: this.route });
+    this.router.navigate(["newClient"], { relativeTo: this.route });
   }
 }
 

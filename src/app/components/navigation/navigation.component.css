@@ -23,15 +23,26 @@
 
 }
 
-.icon{
-  color: black;
-}
+
 
 .mat-drawer{
   background-color: #A8A8A8;
 
 }
 
+.material-icons{
+  color:  #A8A8A8;
+ 
+}
+
+.icon {
+  color: black;
+}
+.back{
+  position: absolute;
+  left: 20px;
+  top: 20px;
+}
 
 
 .auth{

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CompanyService } from 'src/app/services/company/company.service';
 
 @Component({
   selector: 'app-user',
@@ -19,7 +20,8 @@ export class UserComponent implements OnInit {
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private companyService: CompanyService
   ) {}
 
   ngOnInit() {
@@ -27,9 +29,6 @@ export class UserComponent implements OnInit {
     if(this.router.url.includes("signin")) {
       this.signin = true;
       this.auth = "Sign In"
-     
-      
-
     } 
     this.initForm();
   }
@@ -85,25 +84,23 @@ export class UserComponent implements OnInit {
 
   signInOrSignUp() {
     let newUser = this.userForm.value;
+    let userId;
 
     if(this.signin) {
-      this.userService.login(newUser) .subscribe( next => {
+      this.userService.login(newUser).subscribe(
+        (data) => {
         this.router.navigate(['../company'], {relativeTo: this.route});
+        
 
 
       }, error => {
         console.log(error);
       }) 
     } else {
-      let userId;
-      console.log(newUser);
     this.userService.signUp(newUser).subscribe(
       (data) => {
         userId = data.userId;
         this.router.navigate(['../newCompany'], {relativeTo: this.route});
-
-      
-    
         this.userForm.reset();
       },
       (error) => {

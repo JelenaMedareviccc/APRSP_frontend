@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { CompanyService } from 'src/app/services/company/company.service';
 import { Company } from 'src/app/models/company';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 
 @Component({
@@ -12,6 +12,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class CompanyComponent implements OnInit {
   company: Company ;
   showCompany: boolean;
+  companyId: number;
 
 
   constructor(private companyService : CompanyService, private route: ActivatedRoute,
@@ -19,27 +20,22 @@ export class CompanyComponent implements OnInit {
  
   ngOnInit() {
     this.showCompany = false;
-    this.initializeDataSource();
+    this.route.params.subscribe((params: Params) => {
+
+      this.companyId = +params['companyid'];
+      this.initializeDataSource();
+    });
+    
   }
 
 
   initializeDataSource() {
-    console.log("Company");
-    /*   this.companyService.getCompany(1).subscribe(company =>{
-        console.log("Company 1");
+   
+      this.companyService.getCompany(this.companyId).subscribe(company =>{
         this.showCompany =true;
         this.company = company;
-        this.companyService.companyEmitter.next(company.companyId);
       }, error => {});
- */
+
     }
-
-  editCompany() {
-    this.router.navigate(['edit'], {relativeTo: this.route});
-
-  }
-
-
-
 
 }

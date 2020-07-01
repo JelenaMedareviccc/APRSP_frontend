@@ -2,7 +2,7 @@ import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -22,7 +22,8 @@ export class NavigationComponent implements OnInit {
 
   constructor(private breakpointObserver: BreakpointObserver,
               private router: Router,
-              private userService: UserService) {}
+              private userService: UserService,
+              private route: ActivatedRoute) {}
 
 
   ngOnInit(): void {
@@ -53,6 +54,10 @@ export class NavigationComponent implements OnInit {
       
     }
 
+ }
+
+ goBack(){
+  this.router.navigate(['../'], {relativeTo: this.route});
  }
   }
 
