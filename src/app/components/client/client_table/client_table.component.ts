@@ -1,20 +1,13 @@
-import { CompanyService } from './../../../services/company/company.service';
+import { CompanyService } from "./../../../services/company/company.service";
 import { ClientService } from "./../../../services/client/client.service";
-import {
-  Component,
-  OnInit,
-  Input,
-  ViewChild,
-  Output,
-  EventEmitter,
-} from "@angular/core";
+import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { Client } from "src/app/models/client";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatDialog } from "@angular/material/dialog";
 import { DialogComponent } from "../../dialog/dialog.component";
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { MatSort } from '@angular/material/sort';
+import { MatSort } from "@angular/material/sort";
 
 @Component({
   selector: "app-client-table",
@@ -40,13 +33,9 @@ export class ClientTableComponent implements OnInit {
 
   @Input() clients: Client[];
   @Input() hasClients = true;
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   companyName: String;
   companyId: number;
-
-
-
-
 
   constructor(
     private clientService: ClientService,
@@ -57,8 +46,8 @@ export class ClientTableComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-/*     this.companyService.companyEmitter.subscribe({
-      next: (id) =>{ 
+    /*     this.companyService.companyEmitter.subscribe({
+      next: (id) =>{
         this.companyId = +id;
 
         this.companyService.getCompany(this.companyId).subscribe(c => {
@@ -69,16 +58,13 @@ export class ClientTableComponent implements OnInit {
     }
 } */
 
-this.route.params.subscribe((params: Params) => {
-  this.companyId = +params["companyid"];
-  this.initializeDataSource();
-
-})
+    this.route.params.subscribe((params: Params) => {
+      this.companyId = +params["companyid"];
+      this.initializeDataSource();
+    });
   }
 
-
   initializeDataSource() {
-
     this.clientService.getClientByCompany(this.companyId).subscribe(
       (clients) => {
         if (this.hasClients) {
@@ -87,21 +73,23 @@ this.route.params.subscribe((params: Params) => {
         this.dataSource = new MatTableDataSource<Client>(this.clients);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        this.dataSource.filterPredicate = function(data, filter: string): boolean {
-          return data.name.toLowerCase().includes(filter) || data.client_reg_number.toLowerCase().includes(filter);
-      };
-       
+        this.dataSource.filterPredicate = function (
+          data,
+          filter: string
+        ): boolean {
+          return (
+            data.name.toLowerCase().includes(filter) ||
+            data.client_reg_number.toLowerCase().includes(filter)
+          );
+        };
       },
       (error) => {}
     );
-
-
   }
 
   applyFilter(filterValue: string) {
-  this.dataSource.filter= filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-
 
   editClient(clientid: number) {
     this.router.navigate([`${clientid}/edit`], { relativeTo: this.route });
@@ -130,5 +118,3 @@ this.route.params.subscribe((params: Params) => {
     this.router.navigate(["new"], { relativeTo: this.route });
   }
 }
-
-

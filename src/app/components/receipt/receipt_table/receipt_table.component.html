@@ -1,107 +1,145 @@
 <div class="client-padding">
- 
-<button class="btn btn-add" (click) ="addNewReceipt()"> Add new receipt </button>
-<button class="btn btn-add" (click)="onShowLastYearReceipts()">Show last years receipts</button>
-<button class="btn btn-add" (click)="onShowLast365DaysReceipts()">Show last 365 days receipts</button>
-<button class="btn btn-add" (click)="onShowBetweenTwoDates()">Show receipts between dates</button>
-<br>
-<br>
-<br>
-<h1 class="textColor">{{clientName}}'s receipts</h1>
+  <button class="btn btn-add" (click)="addNewReceipt()">Add new receipt</button>
+  <button class="btn btn-add" (click)="onShowLastYearReceipts()">
+    Show last years receipts
+  </button>
+  <button class="btn btn-add" (click)="onShowLast365DaysReceipts()">
+    Show last 365 days receipts
+  </button>
+  <button class="btn btn-add" (click)="onShowBetweenTwoDates()">
+    Show receipts between dates
+  </button>
+  <br />
+  <br />
+  <br />
+  <h1 class="textColor">{{ clientName }}'s receipts</h1>
 
-<div *ngIf="showBetweenFilter">
-<h2 class="textColor">Filter receipts between two dates:</h2>
-<form [formGroup]="dateForm" (ngSubmit)="filterReceipts()" >
-<mat-form-field >
-  <mat-label>Choose start date</mat-label>
-  <input matInput [matDatepicker]="startPicker"  formControlName="startDate">
-  <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-  <mat-datepicker #startPicker></mat-datepicker>
-</mat-form-field>
+  <div *ngIf="showBetweenFilter">
+    <h2 class="textColor">Filter receipts between two dates:</h2>
+    <form [formGroup]="dateForm" (ngSubmit)="filterReceipts()">
+      <mat-form-field>
+        <mat-label>Choose start date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="startPicker"
+          formControlName="startDate"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="startPicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #startPicker></mat-datepicker>
+      </mat-form-field>
 
-<mat-form-field >
-  <mat-label>Choose end date</mat-label>
-  <input matInput [matDatepicker]="endPicker"  formControlName="endDate">
-  <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-  <mat-datepicker #endPicker></mat-datepicker>
-</mat-form-field>
-<button mat-raised-button [disabled]="!dateForm.valid">Confirm filter</button>
-</form>
-</div>
-<br>
-<br>
+      <mat-form-field>
+        <mat-label>Choose end date</mat-label>
+        <input matInput [matDatepicker]="endPicker" formControlName="endDate" />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="endPicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #endPicker></mat-datepicker>
+      </mat-form-field>
+      <button mat-raised-button [disabled]="!dateForm.valid">
+        Confirm filter
+      </button>
+    </form>
+  </div>
+  <br />
+  <br />
 
-<mat-form-field>
-  <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Search">
-</mat-form-field>
-<br>
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Search" />
+  </mat-form-field>
+  <br />
 
+  <table mat-table [dataSource]="dataSource" matSort>
+    <ng-container>
+      <ng-container matColumnDef="receiptId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Receipt ID</th>
+        <td mat-cell *matCellDef="let element">{{ element.receiptId }}</td>
+        <td mat-footer-cell *matFooterCellDef><strong>TOTAL</strong></td>
+      </ng-container>
 
-<table mat-table [dataSource]="dataSource" matSort  >
+      <ng-container matColumnDef="date_of_issue">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date of issue</th>
+        <td mat-cell *matCellDef="let element">{{ element.date_of_issue }}</td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
 
-<ng-container>
-    <ng-container matColumnDef="receiptId">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header  > Receipt ID </th>
-      <td mat-cell *matCellDef="let element"  > {{element.receiptId}} </td>
-      <td mat-footer-cell *matFooterCellDef><strong>TOTAL</strong></td>
+      <ng-container matColumnDef="time_limit">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Time limit</th>
+        <td mat-cell *matCellDef="let element">{{ element.time_limit }}</td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <ng-container matColumnDef="total_amount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Total amount</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.total_amount | currency }}
+        </td>
+        <td mat-footer-cell *matFooterCellDef>
+          <strong>{{ getTotalCost() | currency }}</strong>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dept">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Debt</th>
+        <td mat-cell *matCellDef="let element">{{ element.dept }}</td>
+        <td mat-footer-cell *matFooterCellDef>
+          <strong>{{ getTotalDebt() | currency }}</strong>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="payment">
+        <th mat-header-cell *matHeaderCellDef>Payment</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-button (click)="viewPayment(element.receiptId)">
+            Payment
+          </button>
+        </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef>Delete</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-button (click)="deleteReceipt(element.receiptId)">
+            Delete
+          </button>
+        </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef>Edit</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-button (click)="editReceipt(element.receiptId)">
+            Edit
+          </button>
+        </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <ng-container matColumnDef="items">
+        <th mat-header-cell *matHeaderCellDef>Items</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-button (click)="showItems(element.receiptId)">
+            Items
+          </button>
+        </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
     </ng-container>
-
-    <ng-container matColumnDef="date_of_issue" >
-      <th mat-header-cell *matHeaderCellDef mat-sort-header > Date of issue </th>
-      <td mat-cell *matCellDef="let element" > {{element.date_of_issue}} </td>
-      <td mat-footer-cell *matFooterCellDef></td>
-    </ng-container>
-
-    <ng-container matColumnDef="time_limit" >
-      <th mat-header-cell *matHeaderCellDef mat-sort-header > Time limit </th>
-      <td mat-cell *matCellDef="let element"> {{element.time_limit}} </td>
-      <td mat-footer-cell *matFooterCellDef></td>
-    </ng-container>
-
-    <ng-container matColumnDef="total_amount">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header > Total amount </th>
-      <td mat-cell *matCellDef="let element" > {{element.total_amount | currency}} </td>
-      <td mat-footer-cell *matFooterCellDef><strong>{{getTotalCost() | currency}}</strong></td>
-    </ng-container>
-
-    <ng-container matColumnDef="dept">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header > Debt </th>
-      <td mat-cell *matCellDef="let element" > {{element.dept}} </td>
-      <td mat-footer-cell *matFooterCellDef><strong>{{getTotalDebt() | currency}}</strong></td>
-    </ng-container>
-
-    <ng-container matColumnDef="payment" >
-      <th mat-header-cell *matHeaderCellDef > Payment </th>
-      <td mat-cell *matCellDef="let element"> <button mat-button (click)="viewPayment(element.receiptId)">Payment</button> </td>
-      <td mat-footer-cell *matFooterCellDef></td>
-    </ng-container>
-
-    <ng-container matColumnDef="delete">
-      <th mat-header-cell *matHeaderCellDef> Delete </th>
-      <td mat-cell *matCellDef="let element"> <button mat-button (click)="deleteReceipt(element.receiptId)">Delete</button> </td>
-      <td mat-footer-cell *matFooterCellDef></td>
-    </ng-container>
-
-    <ng-container matColumnDef="edit">
-      <th mat-header-cell *matHeaderCellDef> Edit </th>
-      <td mat-cell *matCellDef="let element"> <button mat-button (click)="editReceipt(element.receiptId)">Edit</button> </td>
-      <td mat-footer-cell *matFooterCellDef></td>
-    </ng-container>
-
-    <ng-container matColumnDef="items">
-      <th mat-header-cell *matHeaderCellDef>  Items </th>
-      <td mat-cell *matCellDef="let element"> <button mat-button (click)="showItems(element.receiptId)">Items</button> </td>
-      <td mat-footer-cell *matFooterCellDef></td>
-    </ng-container>
-
-
-  </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    <tr mat-footer-row *matFooterRowDef="displayedColumns;"></tr> 
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
   </table>
-  <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+  <mat-paginator
+    [pageSize]="10"
+    [pageSizeOptions]="[5, 10, 20]"
+    [showFirstLastButtons]="true"
+  >
   </mat-paginator>
 </div>
-

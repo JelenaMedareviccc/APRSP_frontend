@@ -1,7 +1,7 @@
 <div class="client-padding">
   <button class="btn btn-add" (click)="addNewPayment()">Add new payment</button>
   <br />
-  
+
   <table mat-table [dataSource]="dataSource" matSort>
     <ng-container matColumnDef="paymentId">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Payment ID</th>
@@ -11,8 +11,12 @@
 
     <ng-container matColumnDef="amount">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
-      <td mat-cell *matCellDef="let element">{{ element.amount  | currency }}</td>
-      <td mat-footer-cell *matFooterCellDef><strong>{{getTotalCost() | currency}}</strong></td>
+      <td mat-cell *matCellDef="let element">
+        {{ element.amount | currency }}
+      </td>
+      <td mat-footer-cell *matFooterCellDef>
+        <strong>{{ getTotalCost() | currency }}</strong>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="date_of_issue">
@@ -27,7 +31,6 @@
         <button mat-button (click)="deletePayment(element.paymentId)">
           Delete
         </button>
-        
       </td>
       <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>
@@ -38,14 +41,13 @@
         <button mat-button (click)="editPayment(element.paymentId)">
           Edit
         </button>
-        
       </td>
       <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    <tr mat-footer-row *matFooterRowDef="displayedColumns;"></tr> 
+    <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
   </table>
   <mat-paginator
     [pageSize]="10"

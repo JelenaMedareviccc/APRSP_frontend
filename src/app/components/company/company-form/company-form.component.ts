@@ -1,17 +1,16 @@
-import { CompanyService } from 'src/app/services/company/company.service';
-import { Component, OnInit, } from '@angular/core';
-import {FormGroup, FormControl, Validators } from '@angular/forms';
+import { CompanyService } from "src/app/services/company/company.service";
+import { Component, OnInit } from "@angular/core";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 
-import { ActivatedRoute, Router, Params } from '@angular/router';
-import { UserService } from 'src/app/services/user/user.service';
+import { ActivatedRoute, Router, Params } from "@angular/router";
+import { UserService } from "src/app/services/user/user.service";
 
 @Component({
-  selector: 'app-company-form',
-  templateUrl: './company-form.component.html',
-  styleUrls: ['./company-form.component.css']
+  selector: "app-company-form",
+  templateUrl: "./company-form.component.html",
+  styleUrls: ["./company-form.component.css"],
 })
 export class CompanyFormComponent implements OnInit {
-  
   companyId: number;
   editMode: boolean = false;
   companyForm: FormGroup;
@@ -26,21 +25,19 @@ export class CompanyFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.createForm(null, null, null,null, null, null);
+    this.createForm(null, null, null, null, null, null);
 
-      let userData = JSON.parse(localStorage.getItem('userData'));
-      this.userId = userData['id'];
-      console.log(this.userId);
-      this.username=userData['username'];
-    if(this.router.url.includes("edit")){
+    let userData = JSON.parse(localStorage.getItem("userData"));
+    this.userId = userData["id"];
+    console.log(this.userId);
+    this.username = userData["username"];
+    if (this.router.url.includes("edit")) {
       console.log("edit imaaa");
       this.route.params.subscribe((params: Params) => {
-
-        this.companyId = +params['companyid'];
+        this.companyId = +params["companyid"];
         this.initEditForm();
-      })
-
-  }
+      });
+    }
   }
 
   initEditForm() {
@@ -61,7 +58,7 @@ export class CompanyFormComponent implements OnInit {
           address: data.address,
           contact: data.contact,
           email: data.email,
-          account_number: data.account_number
+          account_number: data.account_number,
         });
       },
       (error) => {
@@ -75,51 +72,50 @@ export class CompanyFormComponent implements OnInit {
       name: new FormControl(name, [
         Validators.required,
         Validators.maxLength(40),
-        Validators.minLength(3)
+        Validators.minLength(3),
       ]),
-        pib: new FormControl(pib, [
+      pib: new FormControl(pib, [
         Validators.required,
         Validators.maxLength(6),
         Validators.minLength(6),
-        Validators.pattern(/^[1-9]+[0-9]*$/)
+        Validators.pattern(/^[1-9]+[0-9]*$/),
       ]),
       address: new FormControl(address, [
         Validators.required,
-        Validators.maxLength(40)
+        Validators.maxLength(40),
       ]),
-      contact: new FormControl(contact, [Validators.required,  Validators.pattern(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/)]),
+      contact: new FormControl(contact, [
+        Validators.required,
+        Validators.pattern(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/),
+      ]),
       email: new FormControl(email, [Validators.required, Validators.email]),
       account_number: new FormControl(account_number, [
         Validators.required,
         Validators.maxLength(16),
         Validators.minLength(16),
-        Validators.pattern(/^[1-9]+[0-9]*$/)
+        Validators.pattern(/^[1-9]+[0-9]*$/),
       ]),
     });
   }
 
   createOrEditCompany() {
     let newCompany = this.companyForm.value;
-    this.userService.getUser(this.userId).subscribe(userData => {
-
-      const user = {authuser : userData};
-        newCompany ={...newCompany, ...user};
-        console.log(newCompany);
-
+    this.userService.getUser(this.userId).subscribe((userData) => {
+      const user = { authuser: userData };
+      newCompany = { ...newCompany, ...user };
+      console.log(newCompany);
 
       if (this.router.url.includes("edit")) {
-        const companyId = {companyId : this.companyId};
-        newCompany ={...companyId, ...newCompany};
-          this.companyService
-          .updateCompany(newCompany)
-          .subscribe(
-            (data) => {
-              this.redirectTo();
-            },
-            (error) => {
-              console.log(error);
-            }
-          );
+        const companyId = { companyId: this.companyId };
+        newCompany = { ...companyId, ...newCompany };
+        this.companyService.updateCompany(newCompany).subscribe(
+          (data) => {
+            this.redirectTo();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
       } else {
         this.companyService.createCompany(newCompany).subscribe(
           (data) => {
@@ -131,25 +127,14 @@ export class CompanyFormComponent implements OnInit {
           }
         );
       }
-
-
-    })
-
-
-   
+    });
   }
 
-  redirectTo(){
-    if(this.router.url.includes("edit")){
-      this.router.navigate(['../'], {relativeTo: this.route});
+  redirectTo() {
+    if (this.router.url.includes("edit")) {
+      this.router.navigate(["../"], { relativeTo: this.route });
     } else {
-      this.router.navigate(['../company'], {relativeTo: this.route});
-
+      this.router.navigate(["../company"], { relativeTo: this.route });
     }
-    
-
   }
-
-
-
 }

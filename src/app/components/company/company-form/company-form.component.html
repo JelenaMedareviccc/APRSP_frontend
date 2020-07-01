@@ -3,50 +3,72 @@
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Name</mat-label>
       <input matInput id="name" name="name" formControlName="name" />
-      <span *ngIf="!companyForm.get('name').valid && companyForm.get('name').touched">Name must contains between 3 and 40 charachters!</span>
+      <span
+        *ngIf="
+          !companyForm.get('name').valid && companyForm.get('name').touched
+        "
+        >Name must contains between 3 and 40 charachters!</span
+      >
     </mat-form-field>
     <br />
 
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Email</mat-label>
       <input matInput name="email" type="email" formControlName="email" />
-      <span *ngIf="!companyForm.get('email').valid && companyForm.get('email').touched">Please enter a valid email!</span>
-
+      <span
+        *ngIf="
+          !companyForm.get('email').valid && companyForm.get('email').touched
+        "
+        >Please enter a valid email!</span
+      >
     </mat-form-field>
     <br />
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>PIB</mat-label>
-      <input
-        matInput
-        name="pib"
-        formControlName="pib"
-      />
-      <span *ngIf="!companyForm.get('pib').valid && companyForm.get('pib').touched">PIB must contain 6 digits!</span>
+      <input matInput name="pib" formControlName="pib" />
+      <span
+        *ngIf="!companyForm.get('pib').valid && companyForm.get('pib').touched"
+        >PIB must contain 6 digits!</span
+      >
     </mat-form-field>
     <br />
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Address</mat-label>
       <input matInput name="address" formControlName="address" />
-      <span *ngIf="!companyForm.get('address').valid && companyForm.get('address').touched">Address must contain less than 40 charachters!</span>
-
+      <span
+        *ngIf="
+          !companyForm.get('address').valid &&
+          companyForm.get('address').touched
+        "
+        >Address must contain less than 40 charachters!</span
+      >
     </mat-form-field>
     <br />
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Contact</mat-label>
-      <input matInput name="contact" formControlName="contact"  />
-      <span *ngIf="!companyForm.get('contact').valid && companyForm.get('contact').touched">Contact must contain only digits!</span>
-
+      <input matInput name="contact" formControlName="contact" />
+      <span
+        *ngIf="
+          !companyForm.get('contact').valid &&
+          companyForm.get('contact').touched
+        "
+        >Format is invalid!</span
+      >
     </mat-form-field>
     <br />
 
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Account number</mat-label>
       <input matInput name="account_number" formControlName="account_number" />
-      <span *ngIf="!companyForm.get('account_number').valid && companyForm.get('account_number').touched">Account number must contain 16 digits!</span>
-
+      <span
+        *ngIf="
+          !companyForm.get('account_number').valid &&
+          companyForm.get('account_number').touched
+        "
+        >Account number must contain 16 digits!</span
+      >
     </mat-form-field>
     <br />
-    <!--<button mat-raised-button (click)="createcompany()">Add company</button>-->
     <br />
     <br />
     <div class="button-pos">

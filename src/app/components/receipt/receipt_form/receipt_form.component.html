@@ -1,43 +1,61 @@
-<div  class="example-container">
-  <form [formGroup]="receiptForm" (ngSubmit)="createEditReceipt()" >
-  <mat-form-field appearance="outline">
-    <mat-label>Date of issue</mat-label>
+<div class="example-container">
+  <form [formGroup]="receiptForm" (ngSubmit)="createEditReceipt()">
+    <mat-form-field appearance="outline">
+      <mat-label>Date of issue</mat-label>
 
-    <input matInput [matDatepicker]="picker" formControlName="date_of_issue" name="date_of_issue">
-  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-  <br>
-  <mat-form-field appearance="outline" class="input-field">
-    <mat-label>Time limit</mat-label>
-    <input matInput name="time_limit" type= "number" formControlName="time_limit">
-    <div *ngIf="receiptForm.get('time_limit').invalid && (receiptForm.get('time_limit').touched || receiptForm.get('time_limit').dirty)">
-      <div *ngIf="receiptForm.get('time_limit').errors.required"></div>
-      Please enter a valid time limit!
+      <input
+        matInput
+        [matDatepicker]="picker"
+        formControlName="date_of_issue"
+        name="date_of_issue"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Time limit</mat-label>
+      <input
+        matInput
+        name="time_limit"
+        type="number"
+        formControlName="time_limit"
+      />
+      <div
+        *ngIf="
+          receiptForm.get('time_limit').invalid &&
+          (receiptForm.get('time_limit').touched ||
+            receiptForm.get('time_limit').dirty)
+        "
+      >
+        <div *ngIf="receiptForm.get('time_limit').errors.required"></div>
+        Please enter a valid time limit!
+      </div>
+    </mat-form-field>
+    <br />
+    <div *ngIf="!editId" class="items-container">
+      <div class="items-center">
+        <button
+          class="btn btn-default button-pos"
+          type="button"
+          (click)="onAddItem()"
+        >
+          Add item
+        </button>
+        <div *ngIf="showItems">
+          <h4><strong>Items </strong></h4>
+          <ol *ngFor="let item of items">
+            <li>{{ item.name }}</li>
+          </ol>
+        </div>
+      </div>
     </div>
-  </mat-form-field>
-  <br>
-  <div *ngIf="!editId" class="items-container">
-    <div class="items-center">
-    
-    
-    <button
-      class="btn btn-default button-pos"
-      type="button"
-      (click)="onAddItem()">Add item</button>
-      <div *ngIf="showItems">
-        <h4><strong>Items </strong></h4>
-        <ol *ngFor="let item of items">
-          <li>{{item.name}}</li>
-        </ol>
-      </div>
-      </div>
-   
-  </div>
 
-  <div class="button-pos">
-  <button class=" btn submit-button" [disabled]="!receiptForm.valid">Submit</button>
-</div>
-</form>
+    <div class="button-pos">
+      <button class="btn submit-button" [disabled]="!receiptForm.valid">
+        Submit
+      </button>
+    </div>
+  </form>
 </div>
 <router-outlet></router-outlet>
