@@ -32,11 +32,10 @@ const routes: Routes = [
   {path: 'signin', component: UserComponent},
   { path: "company", component: CompanyTableComponent, canActivate: [AuthGuard] },
   { path: "newCompany", component: CompanyFormComponent,canActivate: [AuthGuard] },
-  {path: "company/edit", component: CompanyFormComponent, canActivate: [AuthGuard]},
   { path: "", redirectTo: "signin", pathMatch: "full" },
-  {path: "company/companyid",  canActivate: [AuthGuard], children: [
-  {
-    path: "client",
+  {path: "company/:companyid",  canActivate: [AuthGuard], children: [
+    {path: "edit", component: CompanyFormComponent, canActivate: [AuthGuard]},
+    {path: "client",
     component: ClientComponent,
     children: [
       { path: "", component: ClientTableComponent },

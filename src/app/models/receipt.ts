@@ -1,5 +1,4 @@
-import { Payment } from './payment';
-import { Item } from './item';
+
 import { Client } from './client';
 
 

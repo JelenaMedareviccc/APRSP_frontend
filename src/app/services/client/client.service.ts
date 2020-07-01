@@ -1,9 +1,8 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Client} from '../../models/client';
 import * as config from '../../config/config.json';
-import { catchError, retry } from 'rxjs/operators';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 
 
 
@@ -32,15 +31,15 @@ export class ClientService {
 
 
   public getClient(id: number): Observable<Client> {
-    return this.httpClient.get<Client>(this.API_URL + "/" + id);
+    return this.httpClient.get<Client>(this.API_URL + '/' + id);
   }
 
   public getClientByName(name: string): Observable<Client[]> {
-    return this.httpClient.get<Client[]>(this.API_URL + "/"+ name);
+    return this.httpClient.get<Client[]>(this.API_URL + '/'+ name);
   }
 
   public getClientByCompany(companyId: number): Observable<Client[]> {
-    return this.httpClient.get<Client[]>(this.API_URL + "/company/"+ companyId);
+    return this.httpClient.get<Client[]>(this.API_URL + '/company/'+ companyId);
   }
 
   public createClient(client: Client): Observable<Client> {
@@ -54,6 +53,6 @@ export class ClientService {
   }
 
   public deleteClient(id: number): Observable<{}> {
-    return this.httpClient.delete(this.API_URL + "/"+ id, httpOptions)
+    return this.httpClient.delete(this.API_URL + '/'+ id, httpOptions)
   }
 }

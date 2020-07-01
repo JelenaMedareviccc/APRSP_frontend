@@ -1,5 +1,6 @@
 .sidenav-container {
   height: 100%;
+  position: relative;
 }
 
 
@@ -28,6 +29,17 @@
 
 .mat-drawer{
   background-color: #A8A8A8;
+
+}
+
+
+
+.auth{
+  color: black;
+  position: absolute;
+  left:87% ;
+
+
 
 }
 

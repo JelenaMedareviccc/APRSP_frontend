@@ -1,7 +1,7 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import * as config from '../../config/config.json';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Item } from 'src/app/models/item.js';
 
 
@@ -41,11 +41,11 @@ export class ItemService {
   }
 
   public getItem(id: number): Observable<Item> {
-    return this.httpClient.get<Item>(this.API_URL + "/itemId/" + id)
+    return this.httpClient.get<Item>(this.API_URL + '/itemId/' + id)
   }
 
   public getItemByReceipt(receiptId: number): Observable<Item[]> {
-    return this.httpClient.get<Item[]>(this.API_URL + "/receipt/"+ receiptId)
+    return this.httpClient.get<Item[]>(this.API_URL + '/receipt/'+ receiptId)
   }
 
   public createItem(item: Item): Observable<Item> {
@@ -58,6 +58,6 @@ export class ItemService {
   }
 
   public deleteItem(id: number): Observable<{}> {
-   return this.httpClient.delete(this.API_URL + "/"+ id)
+   return this.httpClient.delete(this.API_URL + '/'+ id)
   }
 }

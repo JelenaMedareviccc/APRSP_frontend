@@ -1,5 +1,4 @@
-import { Client } from './client';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+
 import { User } from './user';
 
 export class Company {

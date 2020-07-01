@@ -1,21 +1,20 @@
 import {
   Component,
   OnInit
-} from "@angular/core";
-import { ClientService } from "./../../../services/client/client.service";
-import { Client } from "src/app/models/client";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { ActivatedRoute, Router, Params } from "@angular/router";
+} from '@angular/core';
+import { ClientService } from './../../../services/client/client.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { CompanyService } from 'src/app/services/company/company.service';
 
 @Component({
-  selector: "app-client-form",
-  templateUrl: "./client_form.component.html",
-  styleUrls: ["./client_form.component.css"],
+  selector: 'app-client-form',
+  templateUrl: './client_form.component.html',
+  styleUrls: ['./client_form.component.css'],
 })
 export class ClientFormComponent implements OnInit {
   editID: number;
-  editMode: boolean = false;
+  editMode = false;
   clientForm: FormGroup;
   companyId: number;
 
@@ -32,8 +31,8 @@ export class ClientFormComponent implements OnInit {
     })
     this.route.params.subscribe((params: Params) => {
 
-      this.editID = +params["clientid"];
-      this.editMode = params["clientid"] != null;
+      this.editID = +params['clientid'];
+      this.editMode = params['clientid'] != null;
       this.createForm(null, null, null, null, null, null);
 
       if (this.editMode) {

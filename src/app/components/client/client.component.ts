@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Client } from 'src/app/models/client';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClientService } from 'src/app/services/client/client.service';
 

@@ -2,7 +2,7 @@ import { CompanyService } from 'src/app/services/company/company.service';
 import { Component, OnInit, } from '@angular/core';
 import {FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -33,10 +33,13 @@ export class CompanyFormComponent implements OnInit {
       console.log(this.userId);
       this.username=userData['username'];
     if(this.router.url.includes("edit")){
-    this.companyService.companyEmitter.subscribe( id => {
-      this.companyId = +id;
+      console.log("edit imaaa");
+      this.route.params.subscribe((params: Params) => {
+
+        this.companyId = +params['companyid'];
         this.initEditForm();
-    })
+      })
+
   }
   }
 

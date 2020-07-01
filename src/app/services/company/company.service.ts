@@ -1,7 +1,7 @@
 import { Injectable} from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Company } from '../../models/company'
-import { Observable, Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import * as config from '../../config/config.json';
 
 
@@ -27,7 +27,7 @@ export class CompanyService{
     }
 
     public getCompany(id: number): Observable<Company> {
-        return this.httpClient.get<Company>(this.API_URL + "/" + id);
+        return this.httpClient.get<Company>(this.API_URL + '/' + id);
       }
 
     public createCompany(company: Company): Observable<Company> {
@@ -41,11 +41,11 @@ export class CompanyService{
     }
 
     public deleteCompany(id: number): Observable<Company> {
-        return this.httpClient.delete<Company>(this.API_URL + id);
+        return this.httpClient.delete<Company>(this.API_URL + '/' + id);
     }
 
     
   public getCompanyByUser(userId: number): Observable<Company[]> {
-    return this.httpClient.get<Company[]>(this.API_URL + "/user/"+ userId)
+    return this.httpClient.get<Company[]>(this.API_URL + '/user/'+ userId)
   }
 }

@@ -1,27 +1,37 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
+
+  <mat-sidenav   #drawer class="sidenav" fixedInViewport
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Menu</mat-toolbar>
-    <mat-nav-list>
+    <mat-nav-list >
       <a mat-list-item (click)="redirectTo('/client')">Client</a>
       <a mat-list-item (click)="redirectTo('/company')">Company</a>
-      <a mat-list-item (click)="redirectTo('/signin')">Authentication</a>
     </mat-nav-list>
   </mat-sidenav>
+
   <mat-sidenav-content>
+    
     <mat-toolbar color="primary">
-      <button
+     
+      <button 
         type="button"
         aria-label="Toggle sidenav"
         mat-icon-button
         (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
+        *ngIf="isHandset$ | async"
+        [disabled]="authText ? true : null"
+        >
         <mat-icon aria-label="Side nav toggle icon" class="icon">menu</mat-icon>
       </button>
+    
       <span class="color-text"><strong>APRSP</strong></span>
-      <button (click)="logout()">LOGOUT</button>
+      <div class="auth">
+      <button mat-button (click)="auth()" color="grey"><strong>{{ authText ? 'LOGIN' : 'LOGOUT' }}</strong></button>
+    </div>
+
+
     </mat-toolbar>
     <div class="container">
 

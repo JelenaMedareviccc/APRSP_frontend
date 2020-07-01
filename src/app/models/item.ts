@@ -1,4 +1,4 @@
-import { Measure } from './measure-enum';
+
 import { Receipt } from './receipt';
 
 export class Item {

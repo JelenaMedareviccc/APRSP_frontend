@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
@@ -10,7 +10,9 @@ import { UserService } from 'src/app/services/user/user.service';
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.css']
 })
-export class NavigationComponent {
+export class NavigationComponent implements OnInit {
+
+ authText: boolean = true;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset) //prati mijenjanje velicine ekrana
     .pipe(
@@ -22,17 +24,34 @@ export class NavigationComponent {
               private router: Router,
               private userService: UserService) {}
 
+
+  ngOnInit(): void {
+ 
+   this.userService.user.subscribe(user => {
+    this.authText=!user;  
+    });
+ 
+  }
+  
+
+
   redirectTo(uri:string){
     this.router.navigate([uri])
  
-   /*  this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
-    this.router.navigate([uri])); */
  } 
 
- logout(){
-  if(this.userService.logout()){
-    this.router.navigate(['/signin']);
-  };
+ auth(){
+    if(JSON.parse(localStorage.getItem('userData'))){
+      if(this.userService.logout()){
+        this.router.navigate(['/signin']);
+      };
+   
+    } else {
+      
+      this.router.navigate(['/signin']);
+    
+      
+    }
 
  }
   }

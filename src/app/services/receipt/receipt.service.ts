@@ -1,9 +1,8 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import * as config from '../../config/config.json';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError, ReplaySubject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, ReplaySubject } from 'rxjs';
 import { Receipt } from 'src/app/models/receipt.js';
-import { catchError } from 'rxjs/operators';
 
 
 const httpOptions = {
@@ -31,12 +30,12 @@ export class ReceiptService {
   }
 
   public getReceipt(id: number): Observable<Receipt> {
-    return this.httpClient.get<Receipt>(this.API_URL + "/receiptId/" + id)
+    return this.httpClient.get<Receipt>(this.API_URL + '/receiptId/' + id)
   }
 
   public getReceiptByClient(clientId: number): Observable<Receipt[]> {
-    console.log(clientId + "KLIJENT ID")
-    return this.httpClient.get<Receipt[]>(this.API_URL + "/client/"+ clientId)
+    console.log(clientId + 'KLIJENT ID')
+    return this.httpClient.get<Receipt[]>(this.API_URL + '/client/'+ clientId)
   }
 
   public createReceipt(receipt: Receipt): Observable<Receipt> {
@@ -48,23 +47,23 @@ export class ReceiptService {
   }
 
   public deleteReceipt(id: number): Observable<{}> {
-    return this.httpClient.delete(this.API_URL + "/"+ id, httpOptions)
+    return this.httpClient.delete(this.API_URL + '/'+ id, httpOptions)
   }
 
   public getLastYearReceipts(id: number): Observable<Receipt[]> {
     console.log(id);
-    return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsLastYear")
+    return this.httpClient.get<Receipt[]>(this.API_URL + '/' + id + '/filteredReceiptsLastYear')
     
   }
 
   public getLast365DaysReceipts(id: number): Observable<Receipt[]> {
     console.log(id);
-    return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsLast365Days")
+    return this.httpClient.get<Receipt[]>(this.API_URL + '/' + id + '/filteredReceiptsLast365Days')
     
   }
 
   public getReceiptsBetweenTwoDates(id:number, startDate: String,  endDate: String): Observable<Receipt[]> {
     console.log(id, startDate, endDate);
-    return this.httpClient.get<Receipt[]>(this.API_URL + "/" + id + "/filteredReceiptsBetweenTwoDates/?startDate="+startDate+"&endDate="+ endDate)
+    return this.httpClient.get<Receipt[]>(this.API_URL + '/' + id + '/filteredReceiptsBetweenTwoDates/?startDate='+startDate+'&endDate='+ endDate)
   }
 }

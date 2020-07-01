@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import * as config from '../../config/config.json';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { User } from 'src/app/models/user.js';
 import { map, catchError, tap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Injectable({
   providedIn: 'root'
@@ -81,7 +82,7 @@ export class UserService {
       return false;
     }  
     this.tokenExpirationTimer = null;
-  
+
     return true;
     
 
