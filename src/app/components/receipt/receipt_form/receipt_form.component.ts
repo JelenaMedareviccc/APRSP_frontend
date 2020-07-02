@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ReceiptService } from "src/app/services/receipt/receipt.service";
 import { Receipt } from "src/app/models/receipt";
@@ -8,6 +8,8 @@ import { ItemService } from "src/app/services/item/item.service";
 import { ClientService } from "src/app/services/client/client.service";
 import * as moment from "moment";
 import { Item } from "src/app/models/item";
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../../dialog/dialog.component';
 
 @Component({
   selector: "app-receipt-form",
@@ -22,7 +24,8 @@ export class ReceiptFormComponent implements OnInit {
     private itemService: ItemService,
     private route: ActivatedRoute,
     private router: Router,
-    private clientService: ClientService
+    private clientService: ClientService,
+    public dialog: MatDialog,
   ) {}
 
   newReceipt: Receipt;
@@ -31,8 +34,15 @@ export class ReceiptFormComponent implements OnInit {
   clientId: number;
   items: Item[] = null;
   showItems = false;
+  date;
+ 
 
   ngOnInit() {
+    this.date =  new Date();
+    const momentDate = new Date(this.date);
+    const formattedDate = moment(momentDate).format("MM/DD/YYYY");
+    this.date = formattedDate;
+    console.log(this.date);
     this.route.parent.params.subscribe((data) => {
       this.clientId = +data["clientid"];
       this.editId = +data["receiptid"];
@@ -42,7 +52,11 @@ export class ReceiptFormComponent implements OnInit {
           this.items = this.itemService.itemsList;
           this.showItems = true;
           console.log(data);
-          this.createForm(data.date_of_issue, data.time_limit);
+          const momentDate = new Date(data.date_of_issue);
+          const formattedDate = moment(momentDate).format("MM/DD/YYYY");
+          this.date = formattedDate;
+          console.log(this.date);
+          this.createForm(this.date, data.time_limit);
         });
       }
 
@@ -73,6 +87,7 @@ export class ReceiptFormComponent implements OnInit {
       date_of_issue: new FormControl(date_of_issue, Validators.required),
       time_limit: new FormControl(time_limit, Validators.required),
     });
+    
   }
 
   createEditReceipt() {
@@ -92,6 +107,7 @@ export class ReceiptFormComponent implements OnInit {
             this.redirectTo();
           },
           (error) => {
+            this.openDialog();
             console.log(error);
           }
         );
@@ -107,6 +123,7 @@ export class ReceiptFormComponent implements OnInit {
             this.redirectTo();
           },
           (error) => {
+            this.openDialog();
             console.log(error);
           }
         );
@@ -143,5 +160,19 @@ export class ReceiptFormComponent implements OnInit {
     } else {
       this.router.navigate(["../"], { relativeTo: this.route });
     }
+  }
+
+  openDialog(){
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: "250px",
+      data: { action: 'error'},
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
+      
+    });
   }
 }

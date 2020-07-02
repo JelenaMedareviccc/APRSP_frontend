@@ -31,8 +31,7 @@ export class ClientTableComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  @Input() clients: Client[];
-  @Input() hasClients = true;
+  clients: Client[];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   companyName: String;
   companyId: number;
@@ -73,9 +72,6 @@ this.route.params.subscribe((params: Params) => {
           this.dataSource.filterPredicate = function(data, filter: string): boolean {
           return data.name.toLowerCase().includes(filter) || data.client_reg_number.toLowerCase().includes(filter);
        };
-       if(!clients){
-         this.openDialog();
-       }
       },
       (error) => {
         console.log(error);
@@ -115,17 +111,6 @@ this.route.params.subscribe((params: Params) => {
     this.router.navigate(["newClient"], { relativeTo: this.route });
   }
 
-  openDialog(){
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: "250px",
-      data: { action: 'client' },
-    });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (!result) {
-        return;
-      }
-      
-    });
-  }
+
 }

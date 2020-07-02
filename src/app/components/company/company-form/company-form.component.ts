@@ -4,6 +4,8 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { ActivatedRoute, Router, Params } from "@angular/router";
 import { UserService } from "src/app/services/user/user.service";
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../../dialog/dialog.component';
 
 @Component({
   selector: "app-company-form",
@@ -22,7 +24,8 @@ export class CompanyFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private companyService: CompanyService,
-    private userService: UserService
+    private userService: UserService,
+    public dialog: MatDialog,
   ) {}
 
   ngOnInit() {
@@ -88,6 +91,7 @@ export class CompanyFormComponent implements OnInit {
       ]),
       contact: new FormControl(contact, [
         Validators.required,
+        Validators.maxLength(15),
         Validators.pattern(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/),
       ]),
       email: new FormControl(email, [Validators.required, Validators.email]),
@@ -115,6 +119,7 @@ export class CompanyFormComponent implements OnInit {
             this.redirectTo();
           },
           (error) => {
+            this.openDialog();
             console.log(error);
           }
         );
@@ -125,6 +130,7 @@ export class CompanyFormComponent implements OnInit {
             this.companyForm.reset();
           },
           (error) => {
+            this.openDialog();
             console.log(error);
           }
         );
@@ -138,5 +144,19 @@ export class CompanyFormComponent implements OnInit {
     } else {
       this.router.navigate(["../"], { relativeTo: this.route });
     }
+  }
+
+  openDialog(){
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: "250px",
+      data: { action: 'error'},
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
+      
+    });
   }
 }

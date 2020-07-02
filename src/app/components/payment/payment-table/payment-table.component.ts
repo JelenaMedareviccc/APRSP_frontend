@@ -52,9 +52,6 @@ export class PaymentTableComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
 
-        if(!payments){
-          this.openDialog();
-        }
       },
       (error) => {}
     );
@@ -96,17 +93,4 @@ export class PaymentTableComponent implements OnInit {
     }
   }
 
-  openDialog(){
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: "250px",
-      data: { action: 'payment' },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (!result) {
-        return;
-      }
-      
-    });
-  }
 }

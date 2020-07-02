@@ -10,6 +10,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 export class DialogComponent implements OnInit {
 
   action: boolean = false;
+  password: boolean = false;
+  title: String;
+  text: String;
 
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
@@ -20,5 +23,14 @@ export class DialogComponent implements OnInit {
     if(this.data.action === 'delete'){
       this.action = true;
     } 
+ 
+    this.title = "Error";
+    if(this.data.action === 'password'){
+ 
+     this.text =  "Invalid login!";
+    } 
+    if(this.data.action = "error"){
+      this.text = "Invalid form, please fill it in again!"
+    }
   }
 }

@@ -1,16 +1,17 @@
 <div class="example-container">
   <form [formGroup]="receiptForm" (ngSubmit)="createEditReceipt()">
     <mat-form-field appearance="outline">
-      <mat-label>Date of issue</mat-label>
+      <mat-label>{{date}}</mat-label>
 
       <input
         matInput
         [matDatepicker]="picker"
         formControlName="date_of_issue"
-        name="date_of_issue"
+        [name]="date"
+        value="date"
       />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
+      <mat-datepicker  #picker></mat-datepicker>
     </mat-form-field>
     <br />
     <mat-form-field appearance="outline" class="input-field">
@@ -20,6 +21,7 @@
         name="time_limit"
         type="number"
         formControlName="time_limit"
+        min="1"
       />
       <div
         *ngIf="

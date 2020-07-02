@@ -84,9 +84,6 @@ export class ReceiptTableComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
 
-        if(!receipts) {
-          this.openDialog();
-        }
       },
       (error) => {}
     );
@@ -172,17 +169,5 @@ export class ReceiptTableComponent implements OnInit {
     this.showBetweenFilter = !this.showBetweenFilter;
   }
 
-  openDialog(){
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: "250px",
-      data: { action: 'receipt' },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (!result) {
-        return;
-      }
-      
-    });
-  }
+ 
 }

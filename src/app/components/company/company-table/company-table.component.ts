@@ -79,9 +79,6 @@ export class CompanyTableComponent implements OnInit {
           data.email.toLowerCase().includes(filter)
         );
       };
-      if(!c.length) {
-        this.openDialog();
-      }
    
       },
       (error) => {
@@ -121,20 +118,5 @@ export class CompanyTableComponent implements OnInit {
   addNewCompany() {
     this.router.navigate(["newCompany"], { relativeTo: this.route });
   }
-
-  openDialog(){
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: "250px",
-      data: { action: 'company' },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (!result) {
-        return;
-      }
-      
-    });
-  }
-
 
 }

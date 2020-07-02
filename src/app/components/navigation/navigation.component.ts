@@ -14,6 +14,7 @@ import {Location} from '@angular/common';
 export class NavigationComponent implements OnInit {
   authText: boolean = true;
 
+
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset) // prati mijenjanje velicine ekrana
     .pipe(
@@ -46,7 +47,13 @@ export class NavigationComponent implements OnInit {
  }
 
  goBack(){
+
   this._location.back();
- }
+  //this.router.navigate(["../"], { relativeTo: this.route });
+ 
+
+}
+
+
   
 }

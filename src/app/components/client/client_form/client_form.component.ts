@@ -3,6 +3,8 @@ import { ClientService } from "./../../../services/client/client.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ActivatedRoute, Router, Params } from "@angular/router";
 import { CompanyService } from "src/app/services/company/company.service";
+import { DialogComponent } from '../../dialog/dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: "app-client-form",
@@ -19,7 +21,8 @@ export class ClientFormComponent implements OnInit {
     private clientService: ClientService,
     private route: ActivatedRoute,
     private router: Router,
-    private companyService: CompanyService
+    private companyService: CompanyService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -112,6 +115,7 @@ console.log("OVDJE");
             this.redirectTo();
           },
           (error) => {
+            this.openDialog();
             console.log(error);
           }
         );
@@ -122,6 +126,7 @@ console.log("OVDJE");
             this.clientForm.reset();
           },
           (error) => {
+            this.openDialog();
             console.log(error);
           }
         );
@@ -136,5 +141,20 @@ console.log("OVDJE");
     } else {
       this.router.navigate(["../"], { relativeTo: this.route });
     }
+  }
+
+
+  openDialog(){
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: "250px",
+      data: { action: 'error'},
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
+      
+    });
   }
 }

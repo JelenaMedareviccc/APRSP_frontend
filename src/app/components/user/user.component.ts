@@ -3,6 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CompanyService } from 'src/app/services/company/company.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
 
 
 @Component({
@@ -22,7 +24,8 @@ export class UserComponent implements OnInit {
     private userService: UserService,
     private route: ActivatedRoute,
     private router: Router,
-    private companyService: CompanyService
+    private companyService: CompanyService,
+    public dialog: MatDialog,
   ) {}
 
   ngOnInit() {
@@ -91,7 +94,7 @@ export class UserComponent implements OnInit {
           console.log(userId);
           this.companyService.getCompanyByUser(userId).subscribe(company => {
          
-            if(!!company){
+            if(!company.length){
               this.router.navigate(["../company/newCompany"], { relativeTo: this.route });
               
             } else {
@@ -101,6 +104,7 @@ export class UserComponent implements OnInit {
         },
         (error) => {
           console.log(error);
+          this.openDialog();
         }
       );
     } else {
@@ -114,6 +118,7 @@ export class UserComponent implements OnInit {
         },
         (error) => {
           console.log(error);
+          this.openDialog();
         }
       );
     }
@@ -124,4 +129,19 @@ export class UserComponent implements OnInit {
     this.userForm.reset();
     this.initForm();
   }
+
+  openDialog(){
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: "250px",
+      data: { action: 'password' },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
+      
+    });
+  }
 }
+

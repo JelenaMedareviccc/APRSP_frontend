@@ -21,7 +21,7 @@
     <br />
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Measure</mat-label>
-      <input matInput name="measure" formControlName="measure" type="number" />
+      <input matInput name="measure" formControlName="measure" type="number" min="1" />
       <span
         *ngIf="
           !itemForm.get('measure').valid && itemForm.get('measure').touched

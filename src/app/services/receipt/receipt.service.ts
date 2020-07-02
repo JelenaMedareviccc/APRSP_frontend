@@ -71,7 +71,7 @@ export class ReceiptService {
       this.API_URL +
         "/" +
         id +
-        "/filteredReceiptsBetweenTwoDates/?startDate=" +
+        "/filterBetweenTwoDates/?startDate=" +
         startDate +
         "&endDate=" +
         endDate

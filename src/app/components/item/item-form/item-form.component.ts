@@ -3,6 +3,8 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ActivatedRoute, Router, Params } from "@angular/router";
 import { ReceiptService } from "src/app/services/receipt/receipt.service";
 import { ItemService } from "src/app/services/item/item.service";
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../../dialog/dialog.component';
 
 @Component({
   selector: "app-item-form",
@@ -18,7 +20,8 @@ export class ItemFormComponent implements OnInit {
     private itemService: ItemService,
     private route: ActivatedRoute,
     private router: Router,
-    private receiptService: ReceiptService
+    private receiptService: ReceiptService,
+    public dialog: MatDialog,
   ) {}
 
   ngOnInit() {
@@ -88,6 +91,7 @@ export class ItemFormComponent implements OnInit {
               },
               (error) => {
                 console.log(error);
+                this.openDialog();
               }
             );
           } else {
@@ -96,6 +100,7 @@ export class ItemFormComponent implements OnInit {
                 this.redirectTo();
               },
               (error) => {
+                this.openDialog();
                 console.log(error);
               }
             );
@@ -112,5 +117,19 @@ export class ItemFormComponent implements OnInit {
     } else {
       this.router.navigate(["../"], { relativeTo: this.route });
     }
+  }
+
+  openDialog(){
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: "250px",
+      data: { action: 'error'},
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
+      
+    });
   }
 }

@@ -10,11 +10,14 @@
 </div> 
 
 <div *ngIf="!action">
-  <h1 mat-dialog-title>Notification</h1>
+  <h1 mat-dialog-title>{{title}}</h1>
   <div mat-dialog-content>
-    <p>Please add new {{data.action}}!</p>
+    <p>{{text}}</p>
   </div>
   <div mat-dialog-actions>
     <button mat-button mat-dialog-close>OK</button>
   </div>
   </div> 
+
+ 
+  

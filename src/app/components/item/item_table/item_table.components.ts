@@ -65,10 +65,6 @@ export class ItemTableComponent implements OnInit {
         ): boolean {
           return data.name.toLowerCase().includes(filter);
         };
-      
-        if(!items){
-          this.openDialog();
-        }
       },
       (error) => {}
     );
@@ -112,19 +108,5 @@ export class ItemTableComponent implements OnInit {
         .map((item) => item.totalPrice)
         .reduce((acc, value) => acc + value, 0);
     }
-  }
-
-  openDialog(){
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: "250px",
-      data: { action: 'item' },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (!result) {
-        return;
-      }
-      
-    });
   }
 }

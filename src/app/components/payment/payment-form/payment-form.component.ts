@@ -5,6 +5,8 @@ import { PaymentService } from "src/app/services/payment/payment.service";
 import { Payment } from "src/app/models/payment";
 import { ReceiptService } from "src/app/services/receipt/receipt.service";
 import * as moment from "moment";
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../../dialog/dialog.component';
 
 @Component({
   selector: "app-payment-form",
@@ -18,12 +20,14 @@ export class PaymentFormComponent implements OnInit {
     private paymentService: PaymentService,
     private route: ActivatedRoute,
     private router: Router,
-    private receiptService: ReceiptService
+    private receiptService: ReceiptService,
+    public dialog: MatDialog
   ) {}
 
   newPayment: Payment;
   editPaymentId: number;
   receiptId: number;
+  date;
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
@@ -40,12 +44,11 @@ export class PaymentFormComponent implements OnInit {
 
   initForm() {
     let amount = null;
-    let date = null;
     this.paymentService.getPayment(this.editPaymentId).subscribe(
       (data) => {
-        date = data.date_of_issue;
+        this.date = data.date_of_issue;
         amount = data.amount;
-        this.createForm(date, amount);
+        this.createForm(this.date, amount);
       },
       (error) => {
         console.log(error);
@@ -77,6 +80,7 @@ export class PaymentFormComponent implements OnInit {
             this.redirectTo();
           },
           (error) => {
+            this.openDialog();
             console.log(error);
           }
         );
@@ -86,6 +90,7 @@ export class PaymentFormComponent implements OnInit {
             this.redirectTo();
           },
           (error) => {
+            this.openDialog();
             console.log(error);
           }
         );
@@ -100,5 +105,19 @@ export class PaymentFormComponent implements OnInit {
     } else {
       this.router.navigate(["../"], { relativeTo: this.route });
     }
+  }
+
+  openDialog(){
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: "250px",
+      data: { action: 'error'},
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
+      
+    });
   }
 }
