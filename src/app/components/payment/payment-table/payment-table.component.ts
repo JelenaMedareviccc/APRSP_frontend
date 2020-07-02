@@ -46,6 +46,9 @@ export class PaymentTableComponent implements OnInit {
           this.dataSource = new MatTableDataSource<Payment>(this.payments);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
+        } else if (payments == null) {
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
         }
       },
       (error) => {}

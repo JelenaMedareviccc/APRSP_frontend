@@ -51,6 +51,7 @@ import { ClientService } from "./services/client/client.service";
 import { HttpErrorInterceptor } from "./services/httperrorinterceptopr.service";
 import { ReceiptService } from "./services/receipt/receipt.service";
 import { InterceptorService } from "./services/user/interceptor.service";
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -114,6 +115,7 @@ import { InterceptorService } from "./services/user/interceptor.service";
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatNativeDateModule
   ],
   providers: [
     ClientService,

@@ -87,7 +87,9 @@ export class UserComponent implements OnInit {
     if (this.signin) {
       this.userService.login(newUser).subscribe(
         (data) => {
-          userId = data.userId;
+          let userData = JSON.parse(localStorage.getItem("userData"));
+          userId = userData["id"];
+          console.log(userId);
           this.companyService.getCompanyByUser(userId).subscribe(company => {
             if(company){
               this.router.navigate(["../company"], { relativeTo: this.route });

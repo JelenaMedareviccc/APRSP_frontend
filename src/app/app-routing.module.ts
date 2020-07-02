@@ -41,10 +41,10 @@ const routes: Routes = [
     {path: "edit", component: CompanyFormComponent},
     {path: "client",
     component: ClientComponent,
-   
+
         children: [
           { path: "", component: ClientTableComponent },
-          { path: "new", component: ClientFormComponent },
+          { path: "newClient", component: ClientFormComponent },
           { path: ":clientid/edit", component: ClientFormComponent },
 
           {
