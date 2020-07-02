@@ -41,7 +41,14 @@
 .auth{
   color: black;
   position: absolute;
-  left: 87%;
+  left: 80%;
+}
+
+.menu{
+  color: black;
+  position: absolute;
+  left: 90%;
+
 }
 
 .container {

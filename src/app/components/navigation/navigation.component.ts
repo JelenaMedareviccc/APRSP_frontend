@@ -33,11 +33,7 @@ export class NavigationComponent implements OnInit {
       this.authText = !user;
     });
   }
-
-  redirectTo(uri: string) {
-    this.router.navigate([uri]);
-  }
-
+  
   auth() {
     if (JSON.parse(localStorage.getItem("userData"))) {
       if (this.userService.logout()) {

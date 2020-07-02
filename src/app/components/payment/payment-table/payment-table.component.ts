@@ -43,9 +43,17 @@ export class PaymentTableComponent implements OnInit {
       (payments) => {
         if (payments) {
           this.payments = payments;
-          this.dataSource = new MatTableDataSource<Payment>(this.payments);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+         
+        } else {
+          this.payments = [];
+        }
+
+        this.dataSource = new MatTableDataSource<Payment>(this.payments);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+
+        if(!payments){
+          this.openDialog();
         }
       },
       (error) => {}
@@ -55,6 +63,7 @@ export class PaymentTableComponent implements OnInit {
   deletePayment(id: number) {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
+      data: { action: 'delete' },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -85,5 +94,19 @@ export class PaymentTableComponent implements OnInit {
         .map((p) => p.amount)
         .reduce((acc, value) => acc + value, 0);
     }
+  }
+
+  openDialog(){
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: "250px",
+      data: { action: 'payment' },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
+      
+    });
   }
 }

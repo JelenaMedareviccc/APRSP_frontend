@@ -36,8 +36,9 @@ export class ReceiptTableComponent implements OnInit {
   clientName: String;
   dateForm: FormGroup;
   showBetweenFilter: boolean;
+  showFilter: boolean = false;
 
-  private receipts: Receipt[];
+  private receipts: Receipt[] = null;
 
   constructor(
     private receiptService: ReceiptService,
@@ -70,11 +71,20 @@ export class ReceiptTableComponent implements OnInit {
     });
     this.receiptService.getReceiptByClient(this.clientId).subscribe(
       (receipts) => {
+        console.log(receipts);
         if(receipts){
         this.receipts = receipts;
+        this.showFilter = true;
+        } else {
+          this.receipts =  [];
+          this.showFilter=false;
+        }
         this.dataSource = new MatTableDataSource<Receipt>(this.receipts);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+
+        if(!receipts) {
+          this.openDialog();
         }
       },
       (error) => {}
@@ -84,6 +94,7 @@ export class ReceiptTableComponent implements OnInit {
   deleteReceipt(id: number) {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
+      data: { action: 'delete' },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -158,5 +169,19 @@ export class ReceiptTableComponent implements OnInit {
 
   onShowBetweenTwoDates() {
     this.showBetweenFilter = !this.showBetweenFilter;
+  }
+
+  openDialog(){
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: "250px",
+      data: { action: 'receipt' },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
+      
+    });
   }
 }

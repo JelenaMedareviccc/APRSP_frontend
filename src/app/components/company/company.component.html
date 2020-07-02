@@ -1,4 +1,7 @@
-     <mat-card class="dashboard-card" *ngIf="showCompany" >
+
+<mat-card class="dashboard-card" *ngIf="showCompany" >
+  <button class="btn btn-add" (click)="addNewClient()">Add new client</button>
+<br/>
       <mat-card-header>
         <mat-card-title>
         <strong> {{company.name}}</strong>
@@ -26,5 +29,6 @@
       </mat-card-content>
     </mat-card>
     <div class="loader spinner" *ngIf="!showCompany">Loading...</div>
+ 
 
 

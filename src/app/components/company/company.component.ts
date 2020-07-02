@@ -41,4 +41,8 @@ export class CompanyComponent implements OnInit {
 
     }
 
+    addNewClient() {
+      this.router.navigate(["client/newClient"], { relativeTo: this.route });
+    }
+
 }

@@ -51,15 +51,23 @@ export class ItemTableComponent implements OnInit {
       (items) => {
         if (items) {
           this.items = items;
-          this.dataSource = new MatTableDataSource<Item>(this.items);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-          this.dataSource.filterPredicate = function (
-            data,
-            filter: string
-          ): boolean {
-            return data.name.toLowerCase().includes(filter);
-          };
+         
+        } else {
+          this.items = [];
+        }
+
+        this.dataSource = new MatTableDataSource<Item>(this.items);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.dataSource.filterPredicate = function (
+          data,
+          filter: string
+        ): boolean {
+          return data.name.toLowerCase().includes(filter);
+        };
+      
+        if(!items){
+          this.openDialog();
         }
       },
       (error) => {}
@@ -77,6 +85,7 @@ export class ItemTableComponent implements OnInit {
   deleteItem(id: number) {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
+      data: { action: 'delete' },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -103,5 +112,19 @@ export class ItemTableComponent implements OnInit {
         .map((item) => item.totalPrice)
         .reduce((acc, value) => acc + value, 0);
     }
+  }
+
+  openDialog(){
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: "250px",
+      data: { action: 'item' },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
+      
+    });
   }
 }

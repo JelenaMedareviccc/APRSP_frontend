@@ -5,14 +5,20 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
   selector: "app-dialog",
   templateUrl: "./dialog.component.html",
   styleUrls: ["./dialog.component.css"],
+  template: 'passed in {{ data.action }}',
 })
 export class DialogComponent implements OnInit {
+
+  action: boolean = false;
+
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit(): void {
-    console.log("DATA" + this.data);
+    if(this.data.action === 'delete'){
+      this.action = true;
+    } 
   }
 }

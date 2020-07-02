@@ -1,29 +1,15 @@
 <mat-sidenav-container class="sidenav-container">
 
-  <mat-sidenav   #drawer class="sidenav" fixedInViewport
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="(isHandset$ | async) === false">
-    <mat-toolbar >Menu</mat-toolbar>
-    <mat-nav-list >
-      <a mat-list-item (click)="redirectTo('/company')">Company</a>
-    </mat-nav-list>
-  </mat-sidenav>
-
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async"
-        [disabled]="authText ? true : null"
-        >
-        <span aria-label="Side nav toggle icon" class="material-icons icon">menu</span>
-      </button>
       <span class="color-text"><strong>APRSP</strong></span>
-      <div class="auth">
+     
+     
+      
+      <div [ngClass]="(authText)?'menu':'auth'"      >
+        <button mat-button  [routerLink]="['company']"color="grey"  *ngIf="!authText">
+          <strong> COMPANY </strong>
+        </button>
         <button mat-button (click)="auth()" color="grey">
           <strong>{{ authText ? "LOGIN" : "LOGOUT" }}</strong>
         </button>

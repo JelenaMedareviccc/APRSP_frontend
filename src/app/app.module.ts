@@ -51,6 +51,7 @@ import { ClientService } from "./services/client/client.service";
 import { HttpErrorInterceptor } from "./services/httperrorinterceptopr.service";
 import { ReceiptService } from "./services/receipt/receipt.service";
 import { InterceptorService } from "./services/user/interceptor.service";
+import { CompanyroComponent} from "./components/company/companyro.component";
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { InterceptorService } from "./services/user/interceptor.service";
     ReceiptLastYearComponent,
     UserComponent,
     CompanyTableComponent,
+    CompanyroComponent
   ],
   imports: [
     BrowserModule,

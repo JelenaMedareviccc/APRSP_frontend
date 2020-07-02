@@ -87,12 +87,15 @@ export class UserComponent implements OnInit {
     if (this.signin) {
       this.userService.login(newUser).subscribe(
         (data) => {
-          userId = data.userId;
+          userId = data.id;
+          console.log(userId);
           this.companyService.getCompanyByUser(userId).subscribe(company => {
-            if(company){
-              this.router.navigate(["../company"], { relativeTo: this.route });
+         
+            if(!!company){
+              this.router.navigate(["../company/newCompany"], { relativeTo: this.route });
+              
             } else {
-              this.router.navigate(["../newCompany"], { relativeTo: this.route });
+              this.router.navigate(["../company"], { relativeTo: this.route });
             }
           })
         },
@@ -105,8 +108,8 @@ export class UserComponent implements OnInit {
       console.log(newUser);
       this.userService.signUp(newUser).subscribe(
         (data) => {
-          userId = data.userId;
-          this.router.navigate(["../newCompany"], { relativeTo: this.route });
+          userId = data.id;
+          this.router.navigate(["../company/newCompany"], { relativeTo: this.route });
           this.userForm.reset();
         },
         (error) => {

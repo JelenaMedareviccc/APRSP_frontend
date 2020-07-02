@@ -45,7 +45,6 @@ export class CompanyTableComponent implements OnInit {
   userId: number;
   companies: Company[];
   showCompany: boolean;
-  showText: boolean;
 
   constructor(
     public dialog: MatDialog,
@@ -56,7 +55,6 @@ export class CompanyTableComponent implements OnInit {
 
   ngOnInit() {
     this.showCompany = false;
-    this.showText = false;
     let userData = JSON.parse(localStorage.getItem("userData"));
     this.userId = userData["id"];
     this.userName = userData["username"];
@@ -67,25 +65,24 @@ export class CompanyTableComponent implements OnInit {
   initializeDataSource() {
     this.companyService.getCompanyByUser(this.userId).subscribe(
       (c) => {
-        
-      if(c){
-        this.companies = c;
-        this.dataSource = new MatTableDataSource<Company>(this.companies);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.dataSource.filterPredicate = function (
-          data,
-          filter: string
-        ): boolean {
-          return (
-            data.name.toLowerCase().includes(filter) ||
-            data.email.toLowerCase().includes(filter)
-          );
-        };
-      } else {
-        this.showText = true;
+        this.showCompany = true;
+       this.companies = c;
+      this.dataSource = new MatTableDataSource<Company>(this.companies);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.dataSource.filterPredicate = function (
+        data,
+        filter: string
+      ): boolean {
+        return (
+          data.name.toLowerCase().includes(filter) ||
+          data.email.toLowerCase().includes(filter)
+        );
+      };
+      if(!c.length) {
+        this.openDialog();
       }
-      this.showCompany = true;
+   
       },
       (error) => {
         console.log(error);
@@ -104,6 +101,7 @@ export class CompanyTableComponent implements OnInit {
   deleteCompany(id: number) {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
+        data: { action: 'delete' },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -124,7 +122,19 @@ export class CompanyTableComponent implements OnInit {
     this.router.navigate(["newCompany"], { relativeTo: this.route });
   }
 
-  addNewClient() {
-    this.router.navigate(["client/newClient"], { relativeTo: this.route });
+  openDialog(){
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: "250px",
+      data: { action: 'company' },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
+      
+    });
   }
+
+
 }

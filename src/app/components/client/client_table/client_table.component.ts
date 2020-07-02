@@ -58,17 +58,24 @@ this.route.params.subscribe((params: Params) => {
   }
 
   initializeDataSource() {
+    console.log(this.companyId);
     this.clientService.getClientByCompany(this.companyId).subscribe(
       (clients) => {
         if (clients) {
           this.clients = clients;
-          this.dataSource = new MatTableDataSource<Client>(this.clients);
+          
+        } else {
+          this.clients = [];
+        }
+        this.dataSource = new MatTableDataSource<Client>(this.clients);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
           this.dataSource.filterPredicate = function(data, filter: string): boolean {
           return data.name.toLowerCase().includes(filter) || data.client_reg_number.toLowerCase().includes(filter);
        };
-        }  
+       if(!clients){
+         this.openDialog();
+       }
       },
       (error) => {
         console.log(error);
@@ -87,6 +94,7 @@ this.route.params.subscribe((params: Params) => {
   deleteClient(id: number) {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
+      data: { action: 'delete' },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -105,5 +113,19 @@ this.route.params.subscribe((params: Params) => {
 
   addNewClient() {
     this.router.navigate(["newClient"], { relativeTo: this.route });
+  }
+
+  openDialog(){
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: "250px",
+      data: { action: 'client' },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
+      
+    });
   }
 }

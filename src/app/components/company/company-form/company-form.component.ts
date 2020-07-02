@@ -30,12 +30,14 @@ export class CompanyFormComponent implements OnInit {
       let userData = JSON.parse(localStorage.getItem('userData'));
       this.userId = userData['id'];
       this.username=userData['username'];
+      console.log(this.userId);
     if(this.router.url.includes("edit")){
       this.route.params.subscribe((params: Params) => {
         this.companyId = +params["companyid"];
+        console.log(this.companyId);
         this.initEditForm();
       });
-    }
+    } 
   }
 
   initEditForm() {
@@ -132,7 +134,7 @@ export class CompanyFormComponent implements OnInit {
     if (this.router.url.includes("edit")) {
       this.router.navigate(["../"], { relativeTo: this.route });
     } else {
-      this.router.navigate(["../company"], { relativeTo: this.route });
+      this.router.navigate(["../"], { relativeTo: this.route });
     }
   }
 }
