@@ -15,6 +15,7 @@ export class ItemFormComponent implements OnInit {
   editID: number;
   itemForm: FormGroup;
   receiptId: number;
+  formText: string;
 
   constructor(
     private itemService: ItemService,
@@ -27,10 +28,12 @@ export class ItemFormComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((p) => {
       this.editID = +p["itemid"];
+      this.formText = "Add new item";
       this.route.parent.params.subscribe((params: Params) => {
         this.receiptId = +params["receiptid"];
         if (this.editID) {
           this.initEditForm();
+          this.formText = "Edit item";
         }
         this.createForm(null, null, null);
       });

@@ -16,6 +16,7 @@ export class ClientFormComponent implements OnInit {
   editMode = false;
   clientForm: FormGroup;
   companyId: number;
+  formText: string;
 
   constructor(
     private clientService: ClientService,
@@ -28,14 +29,16 @@ export class ClientFormComponent implements OnInit {
   ngOnInit() {
     this.createForm(null, null, null, null, null, null);
     this.route.params.subscribe((params: Params) => {
-      this.editID = +params['clientid'];
-      this.editMode = params['clientid'] != null;
+      this.editID = +params["clientid"];
+      this.editMode = params["clientid"] != null;
       this.route.parent.params.subscribe((params: Params) => {
         this.companyId = +params["companyid"];
+        this.formText = "Add new client";
         if (this.editID) {
-         this.initEditForm();
-       } 
-      })
+          this.initEditForm();
+          this.formText = "Edit client";
+        }
+      });
     });
   }
 
@@ -51,14 +54,6 @@ export class ClientFormComponent implements OnInit {
           data.email,
           data.account_number
         );
-       /*  this.clientForm.setValue({
-          name: data.name,
-          client_reg_number: data.client_reg_number,
-          address: data.address,
-          contact: data.contact,
-          email: data.email,
-          account_number: data.account_number,
-        }); */
       },
       (error) => {
         console.log(error);
@@ -99,14 +94,12 @@ export class ClientFormComponent implements OnInit {
 
   createOrEditClient() {
     let newClient = this.clientForm.value;
-console.log("OVDJE");
+    console.log("OVDJE");
     this.companyService.getCompany(this.companyId).subscribe((companyInfo) => {
-     console.log("USLO");
+      console.log("USLO");
       const company = { company: companyInfo };
       newClient = { ...newClient, ...company };
-
       console.log(newClient);
-
       if (this.editMode) {
         let clientId = { clientId: this.editID };
         newClient = { ...clientId, ...newClient };
