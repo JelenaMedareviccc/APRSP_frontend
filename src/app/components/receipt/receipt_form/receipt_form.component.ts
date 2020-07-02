@@ -31,11 +31,14 @@ export class ReceiptFormComponent implements OnInit {
   clientId: number;
   items: Item[] = null;
   showItems = false;
+  formText: string;
 
   ngOnInit() {
     this.route.parent.params.subscribe((data) => {
       this.clientId = +data["clientid"];
       this.editId = +data["receiptid"];
+      this.formText = "Add new receipt";
+
       this.createForm(null, null);
       if (this.itemService.itemsList.length !== 0) {
         this.receiptService.saveReceiptDataEmitter.subscribe((data) => {
@@ -49,6 +52,7 @@ export class ReceiptFormComponent implements OnInit {
       if (this.editId) {
         console.log(this.editId);
         this.initForm();
+        this.formText = "Edit receipt"
       }
     });
   }

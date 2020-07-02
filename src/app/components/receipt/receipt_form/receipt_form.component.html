@@ -1,5 +1,6 @@
 <div class="example-container">
   <form [formGroup]="receiptForm" (ngSubmit)="createEditReceipt()">
+    <h1 color="gray">{{ formText }}</h1>
     <mat-form-field appearance="outline">
       <mat-label>Date of issue</mat-label>
 
@@ -25,7 +26,7 @@
         *ngIf="
           receiptForm.get('time_limit').invalid &&
           (receiptForm.get('time_limit').touched ||
-            receiptForm.get('time_limit').dirty)
+          receiptForm.get('time_limit').dirty)
         "
       >
         <div *ngIf="receiptForm.get('time_limit').errors.required"></div>

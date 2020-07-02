@@ -182,7 +182,6 @@ export class ReceiptTableComponent implements OnInit {
       if (!result) {
         return;
       }
-      
     });
   }
 }

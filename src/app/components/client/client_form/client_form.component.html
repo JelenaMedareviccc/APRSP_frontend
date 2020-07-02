@@ -1,5 +1,6 @@
 <div class="example-container">
   <form [formGroup]="clientForm" (ngSubmit)="createOrEditClient()">
+    <h1 color="gray">{{ formText }}</h1>
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Name</mat-label>
       <input matInput id="name" name="name" formControlName="name" />

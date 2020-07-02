@@ -24,16 +24,19 @@ export class PaymentFormComponent implements OnInit {
   newPayment: Payment;
   editPaymentId: number;
   receiptId: number;
+  formText: string;
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.editPaymentId = +params["paymentid"];
+      this.formText = "Add new payment";
       this.route.parent.params.subscribe((p: Params) => {
         this.receiptId = +p["receiptid"];
       });
       this.createForm(null, null);
       if (this.editPaymentId) {
         this.initForm();
+        this.formText = "Edit payment";
       }
     });
   }
