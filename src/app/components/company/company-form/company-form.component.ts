@@ -16,6 +16,7 @@ export class CompanyFormComponent implements OnInit {
   companyForm: FormGroup;
   userId: number;
   username: String;
+  formText: String;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,17 +28,18 @@ export class CompanyFormComponent implements OnInit {
   ngOnInit() {
     this.createForm(null, null, null, null, null, null);
 
-      let userData = JSON.parse(localStorage.getItem('userData'));
-      this.userId = userData['id'];
-      this.username=userData['username'];
-      console.log(this.userId);
-    if(this.router.url.includes("edit")){
+    let userData = JSON.parse(localStorage.getItem("userData"));
+    this.userId = userData["id"];
+    this.username = userData["username"];
+    if (this.router.url.includes("edit")) {
       this.route.params.subscribe((params: Params) => {
         this.companyId = +params["companyid"];
-        console.log(this.companyId);
+        this.formText = "Edit company";
         this.initEditForm();
       });
-    } 
+    } else {
+      this.formText = "Add new company";
+    }
   }
 
   initEditForm() {

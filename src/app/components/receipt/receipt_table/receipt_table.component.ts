@@ -69,6 +69,7 @@ export class ReceiptTableComponent implements OnInit {
       startDate: new FormControl(null, Validators.required),
       endDate: new FormControl(null, Validators.required),
     });
+    console.log(this.clientId);
     this.receiptService.getReceiptByClient(this.clientId).subscribe(
       (receipts) => {
         console.log(receipts);
@@ -159,7 +160,7 @@ export class ReceiptTableComponent implements OnInit {
     console.log(this.dateForm.value);
     const start = new Date(this.dateForm.value.startDate);
     const startDate = moment(start).format("MM/DD/YYYY");
-    const end = new Date(this.dateForm.value.startDate);
+    const end = new Date(this.dateForm.value.endDate);
     const endDate = moment(end).format("MM/DD/YYYY");
     this.router.navigate(["filteredReceiptsBetweenTwoDates"], {
       relativeTo: this.route,

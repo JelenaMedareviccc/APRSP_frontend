@@ -52,6 +52,7 @@ import { HttpErrorInterceptor } from "./services/httperrorinterceptopr.service";
 import { ReceiptService } from "./services/receipt/receipt.service";
 import { InterceptorService } from "./services/user/interceptor.service";
 import { CompanyroComponent} from "./components/company/companyro.component";
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -116,6 +117,7 @@ import { CompanyroComponent} from "./components/company/companyro.component";
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatNativeDateModule
   ],
   providers: [
     ClientService,

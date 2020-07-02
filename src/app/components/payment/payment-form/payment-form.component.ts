@@ -21,7 +21,7 @@ export class PaymentFormComponent implements OnInit {
     private receiptService: ReceiptService
   ) {}
 
-  payment: Payment;
+  newPayment: Payment;
   editPaymentId: number;
   receiptId: number;
 
@@ -55,23 +55,24 @@ export class PaymentFormComponent implements OnInit {
 
   createForm(date, amount) {
     this.paymentForm = new FormGroup({
-      date: new FormControl(date, Validators.required),
+      date_of_issue: new FormControl(date, Validators.required),
       amount: new FormControl(amount, [Validators.required]),
     });
   }
 
   createEditPayment() {
-    let newPayment = this.paymentForm.value;
+    this.newPayment = this.paymentForm.value;
     this.receiptService.getReceipt(this.receiptId).subscribe((r) => {
       const receipt = { receipt: r };
-      newPayment = { ...newPayment, ...receipt };
-      const momentDate = new Date(newPayment.date_of_issue);
+      this.newPayment = { ...this.newPayment, ...receipt };
+      console.log("Datum: " + this.newPayment.date_of_issue);
+      const momentDate = new Date(this.newPayment.date_of_issue);
       const formattedDate = moment(momentDate).format("MM/DD/YYYY");
-      newPayment.date_of_issue = formattedDate;
+      this.newPayment.date_of_issue = formattedDate;
       if (this.editPaymentId) {
         const id = { paymentId: this.editPaymentId };
-        newPayment = { ...id, ...newPayment };
-        this.paymentService.updatePayment(newPayment).subscribe(
+        this.newPayment = { ...id, ...this.newPayment };
+        this.paymentService.updatePayment(this.newPayment).subscribe(
           (data) => {
             this.redirectTo();
           },
@@ -80,7 +81,7 @@ export class PaymentFormComponent implements OnInit {
           }
         );
       } else {
-        this.paymentService.createPayment(newPayment).subscribe(
+        this.paymentService.createPayment(this.newPayment).subscribe(
           (data) => {
             this.redirectTo();
           },
