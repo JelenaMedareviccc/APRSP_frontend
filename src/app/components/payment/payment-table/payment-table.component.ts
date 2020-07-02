@@ -20,6 +20,8 @@ export class PaymentTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   receiptId: number;
+  companyId: number;
+  clientId: number;
 
   private payments: Payment[];
 
@@ -33,6 +35,8 @@ export class PaymentTableComponent implements OnInit {
   ngOnInit(): void {
     this.route.parent.params.subscribe((params: Params) => {
       this.receiptId = +params["receiptid"];
+      this.companyId = +params["companyid"];
+      this.clientId = +params["clientid"];
       this.initializeDataSource();
     });
   }
@@ -43,7 +47,7 @@ export class PaymentTableComponent implements OnInit {
       (payments) => {
         if (payments) {
           this.payments = payments;
-         
+
         } else {
           this.payments = [];
         }
@@ -91,6 +95,10 @@ export class PaymentTableComponent implements OnInit {
         .map((p) => p.amount)
         .reduce((acc, value) => acc + value, 0);
     }
+  }
+
+  backToReceipts() {
+    this.router.navigate(["company/" + this.companyId + "/client/" + this.clientId + "/receipts"]);
   }
 
 }

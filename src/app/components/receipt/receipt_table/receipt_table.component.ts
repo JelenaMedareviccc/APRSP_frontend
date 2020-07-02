@@ -37,6 +37,7 @@ export class ReceiptTableComponent implements OnInit {
   dateForm: FormGroup;
   showBetweenFilter: boolean;
   showFilter: boolean = false;
+  companyId: number;
 
   private receipts: Receipt[] = null;
 
@@ -51,6 +52,7 @@ export class ReceiptTableComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.clientId = +params["clientid"];
+      this.companyId = +params["companyid"];
       this.initializeDataSource();
       this.showBetweenFilter = false;
       this.clientService.getClient(this.clientId).subscribe((data) => {
@@ -169,5 +171,8 @@ export class ReceiptTableComponent implements OnInit {
     this.showBetweenFilter = !this.showBetweenFilter;
   }
 
- 
+  backToClients() {
+    this.router.navigate(["company/" + this.companyId + "/client"]);
+  }
+
 }

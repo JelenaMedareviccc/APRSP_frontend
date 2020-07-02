@@ -31,6 +31,8 @@ export class ItemTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   receiptId: number;
+  companyId: number;
+  clientId: number;
 
   constructor(
     private itemService: ItemService,
@@ -42,6 +44,8 @@ export class ItemTableComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.receiptId = +params["receiptid"];
+      this.companyId = +params["companyid"];
+      this.clientId = +params["clientid"];
       this.initializeDataSource();
     });
   }
@@ -51,7 +55,7 @@ export class ItemTableComponent implements OnInit {
       (items) => {
         if (items) {
           this.items = items;
-         
+
         } else {
           this.items = [];
         }
@@ -109,4 +113,9 @@ export class ItemTableComponent implements OnInit {
         .reduce((acc, value) => acc + value, 0);
     }
   }
+
+  backToReceipts() {
+    this.router.navigate(["company/" + this.companyId + "/client/" + this.clientId + "/receipts"]);
+  }
+
 }
