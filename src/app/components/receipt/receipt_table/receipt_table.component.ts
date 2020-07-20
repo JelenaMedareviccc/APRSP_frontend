@@ -38,6 +38,7 @@ export class ReceiptTableComponent implements OnInit {
   showBetweenFilter: boolean;
   showFilter: boolean = false;
   showAddButton: boolean = true;
+  companyId: number;
 
   private receipts: Receipt[] = [];
 
@@ -194,5 +195,8 @@ export class ReceiptTableComponent implements OnInit {
     this.showBetweenFilter = !this.showBetweenFilter;
   }
 
- 
+  backToClients() {
+    this.router.navigate(["company/" + this.companyId + "/client"]);
+  }
+
 }

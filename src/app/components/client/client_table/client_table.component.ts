@@ -1,6 +1,6 @@
 import { CompanyService } from "./../../../services/company/company.service";
 import { ClientService } from "./../../../services/client/client.service";
-import { Component, OnInit, Input, ViewChild } from "@angular/core";
+import { Component, OnInit, Input, ViewChild, Output } from "@angular/core";
 import { Client } from "src/app/models/client";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
@@ -130,6 +130,8 @@ export class ClientTableComponent implements OnInit {
     this.router.navigate(["newClient"], { relativeTo: this.route });
   }
 
-
+  backToCompany() {
+    this.router.navigate(["../../../"], { relativeTo: this.route });
+  }
 
 }

@@ -1,6 +1,7 @@
 <div class="client-padding">
   <h1 class="textColor">{{ title }}'s items</h1>
   <button class="btn btn-add" (click)="addNewItem()" *ngIf="showAddButton">Add item</button>
+  <button class="btn btn-add" (click)="backToReceipts()">Back to receipts</button>
   <br />
   <mat-form-field>
     <mat-label>Filter</mat-label>

@@ -136,7 +136,6 @@ export class ClientFormComponent implements OnInit {
     }
   }
 
-
   openDialog(){
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
@@ -147,7 +146,7 @@ export class ClientFormComponent implements OnInit {
       if (!result) {
         return;
       }
-      
     });
   }
-}
+
+ }

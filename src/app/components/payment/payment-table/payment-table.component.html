@@ -2,6 +2,7 @@
   <button class="btn btn-add" (click)="addNewPayment()" *ngIf="showAddButton">Add new payment</button>
   <h1 class="textColor">{{ title }}'s payments:</h1>
 
+  <button class="btn btn-add" (click)="backToReceipts()">Back to receipts</button>
   <br />
 
   <table mat-table [dataSource]="dataSource" matSort>

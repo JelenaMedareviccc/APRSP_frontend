@@ -24,6 +24,8 @@ export class PaymentTableComponent implements OnInit {
   showAddButton: boolean = true;
   private payments: Payment[] = [];
   title: String;
+  companyId: number;
+  clientId: number;
 
   constructor(
     private paymentService: PaymentService,
@@ -54,6 +56,8 @@ export class PaymentTableComponent implements OnInit {
     } else {
       this.route.parent.params.subscribe((params: Params) => {
         this.receiptId = +params["receiptid"];
+        this.companyId = +params["companyid"];
+        this.clientId = +params["clientid"];
       });
   
     this.paymentService.getPaymentByReceipt(this.receiptId).subscribe(
@@ -111,6 +115,10 @@ export class PaymentTableComponent implements OnInit {
         .map((p) => p.amount)
         .reduce((acc, value) => acc + value, 0);
     }
+  }
+
+  backToReceipts() {
+    this.router.navigate(["company/" + this.companyId + "/client/" + this.clientId + "/receipts"]);
   }
 
 }

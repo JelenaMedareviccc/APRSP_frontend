@@ -33,6 +33,8 @@ export class ItemTableComponent implements OnInit {
   receiptId: number;
   showAddButton: boolean = true;
   title: String;
+  companyId: number;
+  clientId: number;
 
   constructor(
     private itemService: ItemService,
@@ -64,6 +66,8 @@ export class ItemTableComponent implements OnInit {
     }else {
       this.route.params.subscribe((params: Params) => {
         this.receiptId = +params["receiptid"];
+        this.companyId = +params["companyid"];
+        this.clientId = +params["clientid"];
      
       });
     this.itemService.getItemByReceipt(this.receiptId).subscribe(
@@ -107,7 +111,6 @@ export class ItemTableComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log("result: " + result);
       if (!result) {
         return;
       }
@@ -131,4 +134,9 @@ export class ItemTableComponent implements OnInit {
         .reduce((acc, value) => acc + value, 0);
     }
   }
+
+  backToReceipts() {
+    this.router.navigate(["company/" + this.companyId + "/client/" + this.clientId + "/receipts"]);
+  }
+
 }
