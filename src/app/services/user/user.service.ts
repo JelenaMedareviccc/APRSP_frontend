@@ -52,17 +52,18 @@ export class UserService {
     let values = Object.keys(res).map((r) => {
       return res[r];
     });
-    const expiration = values[2];
+    const expiration = values[3];
     const expirationData = new Date(new Date().getTime() + expiration * 2);
     console.log(expirationData);
-    const logUser = new User(values[3], values[0], values[1], expirationData);
-
+    const logUser = new User(values[1], values[0], values[2], expirationData);
+console.log(logUser);
     this.user.next(logUser);
     console.log("EXPIRATIOn");
     console.log(expiration * 2);
     this.autoLogOut(expiration * 2);
-    res.expiration = new Date(new Date().getTime() + values[2] * 2);
-
+    console.log("expiration" + expiration);
+    res.expiration = new Date(new Date().getTime() + values[3] * 2);
+    console.log(JSON.stringify(res));
     localStorage.setItem("userData", JSON.stringify(res));
   }
 
@@ -82,7 +83,6 @@ export class UserService {
 
   autoLogin() {
     const userData = JSON.parse(localStorage.getItem("userData"));
-
     if (!userData) {
       return;
     }
@@ -93,6 +93,7 @@ export class UserService {
       userData["token"],
       userData["expiration"]
     );
+ 
 
     if (loadedUser._token) {
       this.user.next(loadedUser);
@@ -104,6 +105,7 @@ export class UserService {
 
   autoLogOut(expirationDuration: number) {
     this.tokenExpirationTimer = setTimeout(() => {
+      console.log("TAJMER"+ expirationDuration);
       this.logout();
     }, expirationDuration);
   }

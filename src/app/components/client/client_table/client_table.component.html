@@ -1,9 +1,9 @@
 <div class="client-padding">
 
-  <button class="btn btn-add" (click)="addNewClient()">Add new client</button>
+  <button class="btn btn-add" (click)="addNewClient()" *ngIf="showAddButton">Add new client</button>
   <br />
 
-  <h1 class="textColor">{{ companyName }}'s clients:</h1>
+  <h1 class="textColor">{{ title }}'s clients:</h1>
 
   <mat-form-field>
     <mat-label>Filter</mat-label>

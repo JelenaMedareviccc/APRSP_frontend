@@ -1,5 +1,10 @@
-<div class="client-padding">
+<div class="col-md-4 text-right">
+  <button class="btn btn-success btn-block" (click)="openPDF()">Open PDF</button>
+  <button class="btn btn-danger btn-block" (click)="downloadPDF()">Download PDF</button>
+</div>
+<div class="client-padding" #htmlData>
   <h1 class="textColor">{{ clientName }}'s receipts {{ reportType }}</h1>
+
   <table mat-table [dataSource]="dataSource" matSort>
     <ng-container>
       <ng-container matColumnDef="receiptId">

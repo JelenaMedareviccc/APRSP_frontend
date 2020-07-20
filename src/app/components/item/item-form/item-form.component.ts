@@ -5,6 +5,7 @@ import { ReceiptService } from "src/app/services/receipt/receipt.service";
 import { ItemService } from "src/app/services/item/item.service";
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../../dialog/dialog.component';
+import * as moment from 'moment';
 
 @Component({
   selector: "app-item-form",
@@ -82,6 +83,9 @@ export class ItemFormComponent implements OnInit {
       this.receiptService
         .getReceipt(this.receiptId)
         .subscribe((receiptInfo) => {
+          const momentDate = new Date(receiptInfo.date_of_issue);
+          const formattedDate = moment(momentDate).format("MM/DD/YYYY");
+          receiptInfo.date_of_issue = formattedDate;
           const receipt = { receipt: receiptInfo };
           newItem = { ...newItem, ...receipt };
           console.log(newItem);

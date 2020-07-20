@@ -27,9 +27,14 @@ const routes: Routes = [
   { path: "signup", component: UserComponent },
   { path: "signin", component: UserComponent },
   { path: "", redirectTo: "signin", pathMatch: "full" },
+  { path: "client/all", component: ClientTableComponent, canActivate: [AuthGuard]},
+  {path: "receipt/all", component: ReceiptTableComponent, canActivate: [AuthGuard]},
+  {path: "item/all", component: ItemTableComponent, canActivate: [AuthGuard]},
+  {path: "payment/all", component: PaymentTableComponent, canActivate: [AuthGuard]},
   {path: "company", component: CompanyroComponent,canActivate: [AuthGuard],
     children: [
       {path: "", component: CompanyTableComponent},
+      {path: "all", component: CompanyTableComponent},
       { path: "newCompany", component: CompanyFormComponent},
       {path: ":companyid",
        children: [

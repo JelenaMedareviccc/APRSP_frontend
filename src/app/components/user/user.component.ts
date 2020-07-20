@@ -90,8 +90,9 @@ export class UserComponent implements OnInit {
     if (this.signin) {
       this.userService.login(newUser).subscribe(
         (data) => {
-          userId = data.id;
-          console.log(userId);
+          console.log(data);
+          userId = data.userId;
+          console.log("USERID" + userId);
           this.companyService.getCompanyByUser(userId).subscribe(company => {
          
             if(!company.length){
@@ -112,7 +113,7 @@ export class UserComponent implements OnInit {
       console.log(newUser);
       this.userService.signUp(newUser).subscribe(
         (data) => {
-          userId = data.id;
+          userId = data.userId;
           this.router.navigate(["../company/newCompany"], { relativeTo: this.route });
           this.userForm.reset();
         },

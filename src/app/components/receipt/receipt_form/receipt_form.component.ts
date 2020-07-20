@@ -121,6 +121,11 @@ export class ReceiptFormComponent implements OnInit {
             console.log(data.date_of_issue);
             if (this.itemService.itemsList) {
               let receiptForItem = data;
+              const momentDate = new Date(receiptForItem.date_of_issue);
+              const formattedDate = moment(momentDate).format("MM/DD/YYYY");
+              receiptForItem.date_of_issue = formattedDate;
+
+              console.log(receiptForItem);
               this.createItem(receiptForItem);
             }
             console.log(data);
@@ -138,8 +143,11 @@ export class ReceiptFormComponent implements OnInit {
   createItem(receipt: Receipt) {
     this.items = this.itemService.itemsList;
     for (let item of this.items) {
+      console.log(item);
       const itemReceipt = { receipt: receipt };
       item = { ...item, ...itemReceipt };
+      console.log("FUNKCIJA:" +item);
+      console.log(item);
       this.itemService.createItem(item).subscribe((data) => {
         console.log(data);
       });

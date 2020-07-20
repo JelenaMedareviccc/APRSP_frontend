@@ -7,6 +7,7 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 import { DialogComponent } from "../../dialog/dialog.component";
 import { Payment } from "src/app/models/payment";
 import { PaymentService } from "src/app/services/payment/payment.service";
+import { ReceiptService } from 'src/app/services/receipt/receipt.service';
 
 @Component({
   selector: "app-payment-table",
@@ -20,8 +21,9 @@ export class PaymentTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   receiptId: number;
-
-  private payments: Payment[];
+  showAddButton: boolean = true;
+  private payments: Payment[] = [];
+  title: String;
 
   constructor(
     private paymentService: PaymentService,
@@ -31,30 +33,48 @@ export class PaymentTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.parent.params.subscribe((params: Params) => {
-      this.receiptId = +params["receiptid"];
-      this.initializeDataSource();
-    });
+   this.fetchData();
+   this.initializeDataSource();
   }
 
-  initializeDataSource() {
-    console.log(this.receiptId);
+  fetchData() {
+    if(this.router.url.includes('/payment/all')){
+      let userData = JSON.parse(localStorage.getItem("userData"));
+      const userId = userData["userId"];
+      const username = userData["username"];
+      this.title=username;
+      this.paymentService.getPaymentByUser(userId).subscribe(payments => {
+        this.payments = payments;
+        this.initializeDataSource();
+        this.showAddButton = false;
+      }, error => {
+        console.log(error);
+      })
+
+    } else {
+      this.route.parent.params.subscribe((params: Params) => {
+        this.receiptId = +params["receiptid"];
+      });
+  
     this.paymentService.getPaymentByReceipt(this.receiptId).subscribe(
       (payments) => {
-        if (payments) {
-          this.payments = payments;
-         
-        } else {
-          this.payments = [];
-        }
-
-        this.dataSource = new MatTableDataSource<Payment>(this.payments);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-
+        this.payments = payments;
+        this.initializeDataSource();
+        this.showAddButton = true;
+        
       },
-      (error) => {}
+      (error) => {
+        console.log(error);
+      }
     );
+    }
+  }
+
+  initializeDataSource(){
+    this.dataSource = new MatTableDataSource<Payment>(this.payments);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
   }
 
   deletePayment(id: number) {
@@ -70,7 +90,7 @@ export class PaymentTableComponent implements OnInit {
       }
       this.paymentService.deletePayment(id).subscribe(
         (res) => {
-          this.initializeDataSource();
+          this.fetchData();
         },
         (error) => {}
       );

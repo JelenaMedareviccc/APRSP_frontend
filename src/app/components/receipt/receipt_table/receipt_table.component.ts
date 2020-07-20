@@ -22,7 +22,7 @@ export class ReceiptTableComponent implements OnInit {
     "date_of_issue",
     "time_limit",
     "total_amount",
-    "dept",
+    "debt",
     "payment",
     "delete",
     "edit",
@@ -33,12 +33,13 @@ export class ReceiptTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   clientId: number;
-  clientName: String;
+  title: String;
   dateForm: FormGroup;
   showBetweenFilter: boolean;
   showFilter: boolean = false;
+  showAddButton: boolean = true;
 
-  private receipts: Receipt[] = null;
+  private receipts: Receipt[] = [];
 
   constructor(
     private receiptService: ReceiptService,
@@ -49,14 +50,8 @@ export class ReceiptTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.clientId = +params["clientid"];
-      this.initializeDataSource();
-      this.showBetweenFilter = false;
-      this.clientService.getClient(this.clientId).subscribe((data) => {
-        this.clientName = data.name;
-      });
-    });
+    this.initializeDataSource();
+    this.fetchData();
   }
 
   applyFilter(event: Event) {
@@ -64,29 +59,58 @@ export class ReceiptTableComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  initializeDataSource() {
+  fetchData() {
     this.dateForm = new FormGroup({
       startDate: new FormControl(null, Validators.required),
       endDate: new FormControl(null, Validators.required),
     });
-    console.log(this.clientId);
-    this.receiptService.getReceiptByClient(this.clientId).subscribe(
-      (receipts) => {
-        console.log(receipts);
-        if(receipts){
+    if(this.router.url.includes('receipt/all')){
+      let userData = JSON.parse(localStorage.getItem("userData"));
+      const userId = userData["userId"];
+      const username = userData["username"];
+      this.title=username;
+      this.receiptService.getReceiptByUser(userId).subscribe(receipts => {
         this.receipts = receipts;
-        this.showFilter = true;
-        } else {
-          this.receipts =  [];
-          this.showFilter=false;
-        }
-        this.dataSource = new MatTableDataSource<Receipt>(this.receipts);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.initializeDataSource();
+        this.showAddButton = false;
+      }, error => {
+        console.log(error);
+      })
 
-      },
-      (error) => {}
-    );
+    } else{
+      this.route.params.subscribe((params: Params) => {
+        this.clientId = +params["clientid"];
+        this.clientService.getClient(this.clientId).subscribe((client) => {
+          this.title = client.name;
+        });
+
+        this.receiptService.getReceiptByClient(this.clientId).subscribe(
+          (receipts) => {
+            this.receipts = receipts;
+            this.initializeDataSource();
+            this.showAddButton = true;
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      });
+   
+    }
+  }
+
+  initializeDataSource(){
+    this.dataSource = new MatTableDataSource<Receipt>(this.receipts);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    if(!this.receipts){
+      this.showFilter = true;
+      this.showBetweenFilter=true;
+      } else {
+        this.showFilter=false;
+        this.showBetweenFilter=false;
+      }
+    
   }
 
   deleteReceipt(id: number) {
@@ -96,13 +120,12 @@ export class ReceiptTableComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log("result: " + result);
       if (!result) {
         return;
       }
       this.receiptService.deleteReceipt(id).subscribe(
         (res) => {
-          this.initializeDataSource();
+          this.fetchData();
         },
         (error) => {}
       );
@@ -136,7 +159,7 @@ export class ReceiptTableComponent implements OnInit {
   getTotalDebt() {
     if (this.receipts) {
       return this.receipts
-        .map((r) => r.dept)
+        .map((r) => r.debt)
         .reduce((acc, value) => acc + value, 0);
     }
   }

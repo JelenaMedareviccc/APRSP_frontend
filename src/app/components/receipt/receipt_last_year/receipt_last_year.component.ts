@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { Receipt } from "src/app/models/receipt";
 import { MatPaginator } from "@angular/material/paginator";
@@ -7,6 +7,8 @@ import { ReceiptService } from "src/app/services/receipt/receipt.service";
 import { MatDialog } from "@angular/material/dialog";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { ClientService } from "src/app/services/client/client.service";
+import * as jsPDF from 'jspdf';
+
 
 @Component({
   selector: "app-receipt-last-year",
@@ -28,6 +30,7 @@ export class ReceiptLastYearComponent implements OnInit {
   clientId: number;
   clientName: String;
   reportType: String;
+  @ViewChild('htmlData') htmlData:ElementRef;
 
   private receipts: Receipt[];
 
@@ -112,5 +115,30 @@ export class ReceiptLastYearComponent implements OnInit {
         .map((t) => t.total_amount)
         .reduce((acc, value) => acc + value, 0);
     }
+  }
+
+  public openPDF():void {
+    let DATA = this.htmlData.nativeElement;
+    let doc = new jsPDF('p','pt', 'a4');
+    doc.fromHTML(DATA.innerHTML,15,15);
+    doc.output('dataurlnewwindow');
+  }
+
+
+  public downloadPDF():void {
+    let DATA = this.htmlData.nativeElement;
+    let doc = new jsPDF('p','pt', 'a4');
+
+    let handleElement = {
+      '#editor':function(element,renderer){
+        return true;
+      }
+    };
+    doc.fromHTML(DATA.innerHTML,15,15,{
+      'width': 200,
+      'elementHandlers': handleElement
+    });
+
+    doc.save('angular-demo.pdf');
   }
 }

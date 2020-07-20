@@ -26,11 +26,13 @@ export class ItemTableComponent implements OnInit {
 
   dataSource: MatTableDataSource<Item>;
 
-  items: Item[];
+  items: Item[] =  [];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   receiptId: number;
+  showAddButton: boolean = true;
+  title: String;
 
   constructor(
     private itemService: ItemService,
@@ -40,34 +42,54 @@ export class ItemTableComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.params.subscribe((params: Params) => {
-      this.receiptId = +params["receiptid"];
-      this.initializeDataSource();
-    });
+    this.fetchData();
+    this.initializeDataSource();
   }
 
-  initializeDataSource() {
+  fetchData() {
+
+    if(this.router.url.includes('/item/all')){
+      let userData = JSON.parse(localStorage.getItem("userData"));
+      const userId = userData["userId"];
+      const username = userData["username"];
+      this.title=username;
+      this.itemService.getItemByUser(userId).subscribe(items => {
+        this.items = items;
+        this.initializeDataSource();
+        this.showAddButton = false;
+      }, error => {
+        console.log(error);
+      })
+
+    }else {
+      this.route.params.subscribe((params: Params) => {
+        this.receiptId = +params["receiptid"];
+     
+      });
     this.itemService.getItemByReceipt(this.receiptId).subscribe(
       (items) => {
-        if (items) {
-          this.items = items;
-         
-        } else {
-          this.items = [];
-        }
-
-        this.dataSource = new MatTableDataSource<Item>(this.items);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.dataSource.filterPredicate = function (
-          data,
-          filter: string
-        ): boolean {
-          return data.name.toLowerCase().includes(filter);
-        };
+        this.items = items;
+        this.initializeDataSource();
+        this.showAddButton= true;
       },
-      (error) => {}
+      (error) => {
+        console.log(error);
+      }
     );
+    }
+  }
+
+  initializeDataSource(){
+    this.dataSource = new MatTableDataSource<Item>(this.items);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSource.filterPredicate = function (
+      data,
+      filter: string
+    ): boolean {
+      return data.name.toLowerCase().includes(filter);
+    };
+
   }
 
   applyFilter(filterValue: string) {

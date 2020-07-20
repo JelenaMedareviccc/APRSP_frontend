@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Payment } from "src/app/models/payment.js";
 
+
 @Injectable({
   providedIn: "root",
 })
@@ -37,5 +38,11 @@ export class PaymentService {
 
   public deletePayment(id: number): Observable<{}> {
     return this.httpClient.delete(this.API_URL + "/" + id);
+  }
+
+  public getPaymentByUser(userId: number): Observable<Payment[]> {
+    return this.httpClient.get<Payment[]>(
+      this.API_URL + "/user/" + userId
+    );
   }
 }

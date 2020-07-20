@@ -32,7 +32,7 @@ export class CompanyFormComponent implements OnInit {
     this.createForm(null, null, null, null, null, null);
 
     let userData = JSON.parse(localStorage.getItem("userData"));
-    this.userId = userData["id"];
+    this.userId = userData["userId"];
     this.username = userData["username"];
     if (this.router.url.includes("edit")) {
       this.route.params.subscribe((params: Params) => {

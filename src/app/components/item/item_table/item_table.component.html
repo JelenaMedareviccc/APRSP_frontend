@@ -1,5 +1,6 @@
 <div class="client-padding">
-  <button class="btn btn-add" (click)="addNewItem()">Add item</button>
+  <h1 class="textColor">{{ title }}'s items</h1>
+  <button class="btn btn-add" (click)="addNewItem()" *ngIf="showAddButton">Add item</button>
   <br />
   <mat-form-field>
     <mat-label>Filter</mat-label>

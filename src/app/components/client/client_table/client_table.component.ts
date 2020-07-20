@@ -9,6 +9,7 @@ import { DialogComponent } from "../../dialog/dialog.component";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { MatSort } from "@angular/material/sort";
 
+
 @Component({
   selector: "app-client-table",
   templateUrl: "./client_table.component.html",
@@ -31,10 +32,11 @@ export class ClientTableComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  clients: Client[];
+  clients: Client[]= [];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  companyName: String;
+  title: String;
   companyId: number;
+  showAddButton: boolean = true;
 
   constructor(
     private clientService: ClientService,
@@ -45,38 +47,55 @@ export class ClientTableComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-
-this.route.params.subscribe((params: Params) => {
-  this.companyId = +params["companyid"];
-  this.companyService.getCompany(this.companyId).subscribe(c => {
-    this.companyName = c.name;
-  });
-  this.initializeDataSource();
-
-})
+     this.fetchData();
+    this.initializeDataSource();
   }
 
-  initializeDataSource() {
-    console.log(this.companyId);
-    this.clientService.getClientByCompany(this.companyId).subscribe(
-      (clients) => {
-        if (clients) {
-          this.clients = clients;
-          
-        } else {
-          this.clients = [];
-        }
-        this.dataSource = new MatTableDataSource<Client>(this.clients);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-          this.dataSource.filterPredicate = function(data, filter: string): boolean {
-          return data.name.toLowerCase().includes(filter) || data.client_reg_number.toLowerCase().includes(filter);
-       };
-      },
-      (error) => {
+ fetchData() {
+    
+    if(this.router.url.includes('/client/all')){
+      let userData = JSON.parse(localStorage.getItem("userData"));
+      const userId = userData["userId"];
+      const username = userData["username"];
+      this.title=username;
+      this.clientService.getClientByUser(userId).subscribe(clients => {
+        this.clients = clients;
+        this.initializeDataSource();
+        this.showAddButton=false;
+     
+      }, error => {
         console.log(error);
-      }
-    );
+      })
+      
+    } else {
+      this.route.params.subscribe((params: Params) => {
+        this.companyId = +params["companyid"];
+        this.companyService.getCompany(this.companyId).subscribe(c => {
+          this.title = c.name;
+        });
+        this.clientService.getClientByCompany(this.companyId).subscribe(
+          (clients) => {
+              this.clients = clients;
+              this.initializeDataSource();
+              this.showAddButton = true;
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      })
+     
+    }
+
+  }
+
+  initializeDataSource(){
+    this.dataSource = new MatTableDataSource<Client>(this.clients);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSource.filterPredicate = function(data, filter: string): boolean {
+    return data.name.toLowerCase().includes(filter) || data.client_reg_number.toLowerCase().includes(filter);
+ };
   }
 
   applyFilter(filterValue: string) {

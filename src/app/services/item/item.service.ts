@@ -43,7 +43,6 @@ export class ItemService {
   }
 
   public createItem(item: Item): Observable<Item> {
-    console.log(item);
     return this.httpClient.post<Item>(this.API_URL, item);
   }
 
@@ -53,5 +52,11 @@ export class ItemService {
 
   public deleteItem(id: number): Observable<{}> {
     return this.httpClient.delete(this.API_URL + "/" + id);
+  }
+
+  public getItemByUser(userId: number): Observable<Item[]> {
+    return this.httpClient.get<Item[]>(
+      this.API_URL + "/user/" + userId
+    );
   }
 }

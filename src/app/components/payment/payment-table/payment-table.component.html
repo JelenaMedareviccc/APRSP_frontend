@@ -1,5 +1,7 @@
 <div class="client-padding">
-  <button class="btn btn-add" (click)="addNewPayment()">Add new payment</button>
+  <button class="btn btn-add" (click)="addNewPayment()" *ngIf="showAddButton">Add new payment</button>
+  <h1 class="textColor">{{ title }}'s payments:</h1>
+
   <br />
 
   <table mat-table [dataSource]="dataSource" matSort>

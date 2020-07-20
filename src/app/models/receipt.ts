@@ -5,7 +5,7 @@ export class Receipt {
   date_of_issue: string;
   time_limit: number;
   total_amount: number;
-  dept: number;
+  debt: number;
   client: Client;
 
   constructor(date_of_issue: string, time_limit: number, client: Client) {

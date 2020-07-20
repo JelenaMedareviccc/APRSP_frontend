@@ -1,5 +1,5 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, OnInit, OnChanges, SimpleChanges, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { BreakpointObserver, Breakpoints, MediaMatcher } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -11,8 +11,11 @@ import {Location} from '@angular/common';
   templateUrl: "./navigation.component.html",
   styleUrls: ["./navigation.component.css"],
 })
-export class NavigationComponent implements OnInit {
+export class NavigationComponent implements OnInit, OnDestroy {
   authText: boolean = true;
+  mobileQuery: MediaQueryList;
+  private _mobileQueryListener: () => void;
+
 
 
   isHandset$: Observable<boolean> = this.breakpointObserver
@@ -26,8 +29,15 @@ export class NavigationComponent implements OnInit {
               private router: Router,
               private userService: UserService,
               private route: ActivatedRoute,
-              private _location: Location) {}
-
+              private _location: Location,
+              changeDetectorRef: ChangeDetectorRef, 
+              media: MediaMatcher) {
+                this.mobileQuery = media.matchMedia('(max-width: 600px)');
+                this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+                this.mobileQuery.addListener(this._mobileQueryListener);
+              }
+              
+            
 
   ngOnInit(): void {
     this.userService.user.subscribe((user) => {
@@ -50,9 +60,13 @@ export class NavigationComponent implements OnInit {
 
   this._location.back();
   //this.router.navigate(["../"], { relativeTo: this.route });
- 
 
 }
+
+ngOnDestroy(): void {
+  this.mobileQuery.removeListener(this._mobileQueryListener);
+}
+
 
 
   

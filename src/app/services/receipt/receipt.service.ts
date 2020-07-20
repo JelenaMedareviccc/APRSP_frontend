@@ -77,4 +77,10 @@ export class ReceiptService {
         endDate
     );
   }
+
+  public getReceiptByUser(userId: number): Observable<Receipt[]> {
+    return this.httpClient.get<Receipt[]>(
+      this.API_URL + "/user/" + userId
+    );
+  }
 }
