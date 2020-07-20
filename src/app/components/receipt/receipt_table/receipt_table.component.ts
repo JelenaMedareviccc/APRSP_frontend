@@ -104,11 +104,13 @@ export class ReceiptTableComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     if(!this.receipts){
-      this.showFilter = true;
-      this.showBetweenFilter=true;
-      } else {
-        this.showFilter=false;
+      this.showFilter=false;
         this.showBetweenFilter=false;
+     
+      } else {
+        this.showFilter = true;
+        this.showBetweenFilter=true;
+        
       }
     
   }

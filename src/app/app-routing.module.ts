@@ -34,7 +34,6 @@ const routes: Routes = [
   {path: "company", component: CompanyroComponent,canActivate: [AuthGuard],
     children: [
       {path: "", component: CompanyTableComponent},
-      {path: "all", component: CompanyTableComponent},
       { path: "newCompany", component: CompanyFormComponent},
       {path: ":companyid",
        children: [
