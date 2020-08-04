@@ -1,4 +1,4 @@
-<div class="client-padding">
+<div class="client-padding"  #htmlData id="htmlData">
   <button class="btn btn-add" (click)="addNewReceipt()" *ngIf="showAddButton">Add new receipt</button>
   <div *ngIf="showFilter">
   <button class="btn btn-add" (click)="onShowLastYearReceipts()">
@@ -16,6 +16,7 @@
   <br />
   <br />
   <h1 class="textColor">{{ title }}'s receipts</h1>
+
 
   <div *ngIf="showBetweenFilter">
     <h2 class="textColor">Filter receipts between two dates:</h2>
@@ -57,7 +58,7 @@
   </mat-form-field>
   <br />
 
-  <table mat-table [dataSource]="dataSource" matSort>
+  <table mat-table [dataSource]="dataSource" matSort >
     <ng-container>
       <ng-container matColumnDef="receiptId">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Receipt ID</th>

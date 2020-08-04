@@ -16,19 +16,19 @@ export class UserService {
   router: any;
   private tokenExpirationTimer: any;
 
-  private api = config.apiUrl + "/user/";
+  private API_URL = config.apiUrl + "/user/";
 
   user: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   users: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
-  constructor(private http: HttpClient, private route: ActivatedRoute) {}
+  constructor(private httpClient: HttpClient, private route: ActivatedRoute) {}
 
   signUp(userRegistration: User): Observable<User> {
     let headers = new HttpHeaders();
     headers.append("Content-Type", "application/json");
     let options = { headers: headers };
-
-    return this.http
-      .post<User>(this.api + "signup", userRegistration, options)
+    console.log(userRegistration);
+    return this.httpClient
+      .post<User>(this.API_URL + "signup", userRegistration, options)
       .pipe(
         tap((res) => {
           this.handleAuthentication(res);
@@ -41,7 +41,7 @@ export class UserService {
 
     let options = { headers: headers };
 
-    return this.http.post<User>(this.api + "signin", user, options).pipe(
+    return this.httpClient.post<User>(this.API_URL + "signin", user, options).pipe(
       tap((res) => {
         this.handleAuthentication(res);
       })
@@ -49,20 +49,22 @@ export class UserService {
   }
 
   private handleAuthentication(res) {
+    console.log("RES");
+    console.log(res);
     let values = Object.keys(res).map((r) => {
       return res[r];
     });
-    const expiration = values[3];
+    const expiration = res.expiration;
     const expirationData = new Date(new Date().getTime() + expiration * 2);
     console.log(expirationData);
     const logUser = new User(values[1], values[0], values[2], expirationData);
 console.log(logUser);
-    this.user.next(logUser);
+    this.user.next(res);
     console.log("EXPIRATIOn");
     console.log(expiration * 2);
     this.autoLogOut(expiration * 2);
     console.log("expiration" + expiration);
-    res.expiration = new Date(new Date().getTime() + values[3] * 2);
+    res.expiration = new Date(new Date().getTime() + res.expiration * 2);
     console.log(JSON.stringify(res));
     localStorage.setItem("userData", JSON.stringify(res));
   }
@@ -111,8 +113,22 @@ console.log(logUser);
   }
 
   public getUser(id: number): Observable<User> {
-    return this.http.get<User>(this.api + "userId/" + id);
+    return this.httpClient.get<User>(this.API_URL + "userId/" + id);
   }
+
+  public getUsers(): Observable<User[]> {
+    return this.httpClient.get<User[]>(this.API_URL+'admin');
+  }
+
+  public updateUser(user: User): Observable<User> {
+    return this.httpClient.put<User>(this.API_URL, user);
+  }
+
+  public deleteUser(id: number): Observable<{}> {
+    return this.httpClient.delete(this.API_URL  + id);
+  }
+
+
 
 
   

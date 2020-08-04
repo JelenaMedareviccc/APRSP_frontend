@@ -1,6 +1,6 @@
 import { ClientService } from "./../../../services/client/client.service";
 import { Receipt } from "./../../../models/receipt";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { ReceiptService } from "src/app/services/receipt/receipt.service";
@@ -10,6 +10,8 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 import { MatSort } from "@angular/material/sort";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import * as moment from "moment";
+
+
 
 @Component({
   selector: "app-receipt-table",
@@ -40,6 +42,8 @@ export class ReceiptTableComponent implements OnInit {
   showAddButton: boolean = true;
   companyId: number;
 
+
+
   private receipts: Receipt[] = [];
 
   constructor(
@@ -67,7 +71,7 @@ export class ReceiptTableComponent implements OnInit {
     });
     if(this.router.url.includes('receipt/all')){
       let userData = JSON.parse(localStorage.getItem("userData"));
-      const userId = userData["userId"];
+      const userId = userData["id"];
       const username = userData["username"];
       this.title=username;
       this.receiptService.getReceiptByUser(userId).subscribe(receipts => {
@@ -198,5 +202,6 @@ export class ReceiptTableComponent implements OnInit {
   backToClients() {
     this.router.navigate(["company/" + this.companyId + "/client"]);
   }
+
 
 }

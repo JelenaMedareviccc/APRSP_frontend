@@ -53,6 +53,8 @@ import { ReceiptService } from "./services/receipt/receipt.service";
 import { InterceptorService } from "./services/user/interceptor.service";
 import { CompanyroComponent} from "./components/company/companyro.component";
 import { MatNativeDateModule } from '@angular/material/core';
+import { UserTableComponent } from './components/user/user-table/user-table.component';
+import { UserFormComponent } from './components/user/user-form/user-form.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +79,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     ReceiptLastYearComponent,
     UserComponent,
     CompanyTableComponent,
-    CompanyroComponent
+    CompanyroComponent,
+    UserTableComponent,
+    UserFormComponent
   ],
   imports: [
     BrowserModule,

@@ -42,7 +42,7 @@ export class PaymentTableComponent implements OnInit {
   fetchData() {
     if(this.router.url.includes('/payment/all')){
       let userData = JSON.parse(localStorage.getItem("userData"));
-      const userId = userData["userId"];
+      const userId = userData["id"];
       const username = userData["username"];
       this.title=username;
       this.paymentService.getPaymentByUser(userId).subscribe(payments => {

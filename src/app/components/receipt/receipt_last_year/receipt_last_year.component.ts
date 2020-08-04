@@ -21,7 +21,7 @@ export class ReceiptLastYearComponent implements OnInit {
     "date_of_issue",
     "time_limit",
     "total_amount",
-    "dept",
+    "debt",
   ];
   dataSource: MatTableDataSource<Receipt>;
 

@@ -56,7 +56,7 @@ export class CompanyTableComponent implements OnInit {
   ngOnInit() {
     this.showCompany = false;
     let userData = JSON.parse(localStorage.getItem("userData"));
-    this.userId = userData["userId"];
+    this.userId = userData["id"];
     this.userName = userData["username"];
 
     this.initializeDataSource();

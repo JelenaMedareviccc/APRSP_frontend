@@ -14,24 +14,28 @@ import { PaymentComponent } from "./components/payment/payment.component";
 import { PaymentFormComponent } from "./components/payment/payment-form/payment-form.component";
 import { PaymentTableComponent } from "./components/payment/payment-table/payment-table.component";
 import { CompanyFormComponent } from "./components/company/company-form/company-form.component";
-import { UserComponent } from "./components/user/user.component";
+
 import { CompanyTableComponent } from "./components/company/company-table/company-table.component";
 import { AuthGuard } from "./services/user/auth.guard";
 import { CompanyroComponent } from './components/company/companyro.component';
+import { UserFormComponent } from './components/user/user-form/user-form.component';
+import { UserTableComponent } from './components/user/user-table/user-table.component';
 
 export const routingConfiguration: ExtraOptions = {
   paramsInheritanceStrategy: "always",
 };
 
 const routes: Routes = [
-  { path: "signup", component: UserComponent },
-  { path: "signin", component: UserComponent },
-  { path: "", redirectTo: "signin", pathMatch: "full" },
-  { path: "client/all", component: ClientTableComponent, canActivate: [AuthGuard]},
-  {path: "receipt/all", component: ReceiptTableComponent, canActivate: [AuthGuard]},
-  {path: "item/all", component: ItemTableComponent, canActivate: [AuthGuard]},
-  {path: "payment/all", component: PaymentTableComponent, canActivate: [AuthGuard]},
-  {path: "company", component: CompanyroComponent,canActivate: [AuthGuard],
+  { path: "signup", component: UserFormComponent },
+  { path: "signin", component: UserFormComponent },
+  { path: "", canActivate: [AuthGuard], children: [
+  { path: "user", component: UserTableComponent},
+  {path: "user/:userid/edit", component: UserFormComponent},
+  { path: "client/all", component: ClientTableComponent},
+  {path: "receipt/all", component: ReceiptTableComponent},
+  {path: "item/all", component: ItemTableComponent},
+  {path: "payment/all", component: PaymentTableComponent},
+  {path: "company", component: CompanyroComponent,
     children: [
       {path: "", component: CompanyTableComponent},
       { path: "newCompany", component: CompanyFormComponent},
@@ -79,6 +83,8 @@ const routes: Routes = [
 },   
 ],
   },
+]},
+{ path: "", redirectTo: "signin", pathMatch: "full" }
 ];
 
 @NgModule({

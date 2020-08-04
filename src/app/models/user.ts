@@ -1,12 +1,13 @@
 import { Role } from "./role";
 
 export class User {
-  userId: number;
+  id: number;
   first_name: string;
   last_name: string;
   username: string;
   email: string;
   password: string;
+  contact: string;
   role: Role;
   token: string;
   tokenExpirationDate: Date;
@@ -15,7 +16,7 @@ export class User {
   constructor(userId, username, token, expiration) {
     this.username = username;
     this.token = token;
-    this.userId = userId;
+    this.id = userId;
     this.expiration = expiration;
   }
 
