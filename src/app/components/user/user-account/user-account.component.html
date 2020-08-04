@@ -1,0 +1,35 @@
+
+<mat-card class="dashboard-card" *ngIf="showUser" >
+  <button class="btn btn-add" (click)="editUser()">Edit</button>
+<br/>
+      <mat-card-header>
+        <mat-card-title>
+        <strong> {{username}}</strong>
+          
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="dashboard-card-content">
+
+        <div class="col-1-of-2">
+          <mat-list-item role="listitem"><strong>FIRST NAME</strong></mat-list-item>
+          <mat-list-item role="listitem"><strong>LAST NAME</strong></mat-list-item>
+          <mat-list-item role="listitem"><strong>USERNAME</strong></mat-list-item>
+          <mat-list-item role="listitem"><strong>EMAIL</strong></mat-list-item>
+          <mat-list-item role="listitem"><strong>CONTACT</strong></mat-list-item>
+          <mat-list-item role="listitem"><strong>ROLE</strong></mat-list-item>
+        </div>
+      <div class="col-1-of-2">
+          <mat-list-item role="listitem">{{user.first_name}}</mat-list-item>
+          <mat-list-item role="listitem">{{user.last_name}}</mat-list-item>
+          <mat-list-item role="listitem">{{user.username}}</mat-list-item>
+          <mat-list-item role="listitem">{{user.email}}</mat-list-item>
+          <mat-list-item role="listitem">{{user.contact}}</mat-list-item>
+          <mat-list-item role="listitem">{{user.role.name}}</mat-list-item>
+        
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <div class="loader spinner" *ngIf="!showUser">Loading...</div>
+ 
+
+
