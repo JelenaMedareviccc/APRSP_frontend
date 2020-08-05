@@ -20,6 +20,7 @@ import { AuthGuard } from "./services/user/auth.guard";
 import { CompanyroComponent } from './components/company/companyro.component';
 import { UserFormComponent } from './components/user/user-form/user-form.component';
 import { UserTableComponent } from './components/user/user-table/user-table.component';
+import { UserAccountComponent } from './components/user/user-account/user-account.component';
 
 export const routingConfiguration: ExtraOptions = {
   paramsInheritanceStrategy: "always",
@@ -30,6 +31,7 @@ const routes: Routes = [
   { path: "signin", component: UserFormComponent },
   { path: "", canActivate: [AuthGuard], children: [
   { path: "user", component: UserTableComponent},
+  { path: "user/:userid", component: UserAccountComponent},
   {path: "user/:userid/edit", component: UserFormComponent},
   { path: "client/all", component: ClientTableComponent},
   {path: "receipt/all", component: ReceiptTableComponent},

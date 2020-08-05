@@ -2,10 +2,12 @@
   <button class="btn btn-success btn-block" (click)="openPDF()">Open PDF</button>
   <button class="btn btn-danger btn-block" (click)="downloadPDF()">Download PDF</button>
 </div>
-<div class="client-padding" #htmlData>
-  <h1 class="textColor">{{ clientName }}'s receipts {{ reportType }}</h1>
+<div class="client-padding" >
 
-  <table mat-table [dataSource]="dataSource" matSort>
+
+  <div #htmlData>
+    <h1 class="textColor">{{ clientName }}'s receipts {{ reportType }}</h1>
+  <table mat-table [dataSource]="dataSource" matSort id="myTable">
     <ng-container>
       <ng-container matColumnDef="receiptId">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Receipt ID</th>
@@ -45,6 +47,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
   </table>
+</div>
   <mat-paginator
     [pageSize]="10"
     [pageSizeOptions]="[5, 10, 20]"

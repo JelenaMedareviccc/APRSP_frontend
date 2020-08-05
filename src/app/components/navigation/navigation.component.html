@@ -5,7 +5,9 @@
       <span class="color-text"><strong>APRSP</strong></span>
       
       <div class="auth">
-      
+        <button mat-button (click)="myAccount()" *ngIf="!authText" color="grey">
+          <strong>MY ACCOUNT</strong>
+        </button>
         <button mat-button (click)="auth()" color="grey">
           <strong>{{ authText ? "LOGIN" : "LOGOUT" }}</strong>
         </button>

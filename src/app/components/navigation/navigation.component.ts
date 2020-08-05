@@ -63,9 +63,17 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
 }
 
+myAccount(){
+  let userData = JSON.parse(localStorage.getItem("userData")); 
+  const id = userData["id"];
+  this.router.navigate([`user/${id}`]);
+}
+
 ngOnDestroy(): void {
   this.mobileQuery.removeListener(this._mobileQueryListener);
 }
+
+
 
 
 

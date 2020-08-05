@@ -55,6 +55,7 @@ import { CompanyroComponent} from "./components/company/companyro.component";
 import { MatNativeDateModule } from '@angular/material/core';
 import { UserTableComponent } from './components/user/user-table/user-table.component';
 import { UserFormComponent } from './components/user/user-form/user-form.component';
+import { UserAccountComponent } from './components/user/user-account/user-account.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { UserFormComponent } from './components/user/user-form/user-form.compone
     CompanyTableComponent,
     CompanyroComponent,
     UserTableComponent,
-    UserFormComponent
+    UserFormComponent,
+    UserAccountComponent
   ],
   imports: [
     BrowserModule,
