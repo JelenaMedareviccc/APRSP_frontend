@@ -9,10 +9,8 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 import { ClientService } from "src/app/services/client/client.service";
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { getAttrsForDirectiveMatching } from '@angular/compiler/src/render3/view/util';
-import { AutofillMonitor } from '@angular/cdk/text-field';
-import { getLocaleDateTimeFormat } from '@angular/common';
-import { debugOutputAstAsTypeScript } from '@angular/compiler';
+import { CompanyService } from 'src/app/services/company/company.service';
+import { timestamp } from 'rxjs/operators';
 
 
 @Component({
@@ -34,6 +32,7 @@ export class ReceiptLastYearComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   clientId: number;
   clientName: String;
+  companyName: String;
   reportType: String;
   @ViewChild('htmlData') htmlData:ElementRef;
 
@@ -41,6 +40,7 @@ export class ReceiptLastYearComponent implements OnInit {
 
   constructor(
     private receiptService: ReceiptService,
+    private companyService: CompanyService,
     public dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
@@ -57,6 +57,15 @@ export class ReceiptLastYearComponent implements OnInit {
 
       });
     });
+
+    this.route.parent.params.subscribe((params: Params) => {
+      const companyid = +params["companyid"];
+      this.companyService.getCompany(companyid).subscribe(company => {
+        this.companyName = company.name;
+        
+      })
+      
+     });
   }
 
   applyFilter(event: Event) {
@@ -125,9 +134,25 @@ export class ReceiptLastYearComponent implements OnInit {
   }
 
   public openPDF():void {
-   // let DATA = this.htmlData.nativeElement;
+   
    let doc = new jsPDF();
-    //let doc = new jsPDF('p','pt', 'a4');
+  this.pdfMaker(doc);
+    
+
+    doc.output('dataurlnewwindow', "Report");
+  }
+
+
+  public downloadPDF():void {
+    let doc = new jsPDF();
+    this.pdfMaker(doc);
+      
+  
+   
+    doc.save('report.pdf');
+  }
+
+  private pdfMaker(doc: jsPDF){
     doc.setProperties({
       title: 'Report',
       subject: 'Receipt report' + this.reportType,		
@@ -147,66 +172,52 @@ export class ReceiptLastYearComponent implements OnInit {
 
 const client = this.clientName;
 const report = this.reportType;
+let companyName= this.companyName;
+
   
-let headerr = function header(){ 
-  doc.text('Report',30,30); 
-  doc.text( client,30,30);
-  let date = new Date();
-  const day = date.getDate();
-  const time = date.getHours();
-  doc.text(day.toString(), 30, 30);
-  doc.text(time.toString(), 30, 30);
-
-
-};
 
 const header = function(headerData: any) {
   doc.setFontSize(20);
-  doc.setTextColor(0, 190, 208);
+  
   doc.setFontStyle('normal');
- // if (this.base64Img) {
-   // doc.addImage(this.base64Img, 'JPEG', headerData.settings.margin.left, 15, 60, 10);
-   // doc.setFontSize(20);
- // }
-  doc.text('Header Title', headerData.settings.margin.left, 60);
-  const currentdate = new Date();
-  const datetime = currentdate.getDate() + '/' + (currentdate.getMonth() + 1) + '/' + currentdate.getFullYear();
-  doc.text('Date: ' + datetime.toString(), headerData.settings.margin.left + 400, 60);
-  doc.setFontSize(5);
+
+ doc.text("REPORT ",headerData.settings.margin.left+ 70, 15 )
+
+doc.setFontSize(15);
+ doc.text("Receipts " + report,headerData.settings.margin.left+ 55, 25  )
+ doc.setFontSize(10);
+  doc.text("Client: " + client, headerData.settings.margin.left, 40);
+  doc.text("Company: " + companyName, headerData.settings.margin.left,50)
+  let datetime = new Date();
+  
+ const date =datetime.getDay() + '/' + (datetime.getMonth() + 1) + '/' + datetime.getFullYear();
+  doc.text('Date: ' + date.toString(), headerData.settings.margin.left, 60);
+  const time = datetime.getHours() + ':'+datetime.getMinutes()+':'+ datetime.getSeconds();
+  doc.text('Time ' + time.toString(), headerData.settings.margin.left, 70)
+
 };
 
   doc.autoTable({html:"#myTable",
   pageBreak: 'auto',
 
             margin: {
-              top: 100
+              top: 80
             },
-  didDrawPage: footer
+            fontName: "times",
+  didDrawPage: header,
+  
+    paperSize: {
+        format: 'A4',
+        orientation: 'portrait',
+        border: '1.8cm'
+    },
+   
 
 
 
 });
-
-
-  //  doc.fromHTML(DATA.innerHTML, 30, 30);
-    doc.output('dataurlnewwindow');
-  }
-
-
-  public downloadPDF():void {
-    let DATA = this.htmlData.nativeElement;
-    let doc = new jsPDF('p','pt', 'a4');
-
-    let handleElement = {
-      '#editor':function(element,renderer){
-        return true;
-      }
-    };
-    doc.fromHTML(DATA.innerHTML,15,15,{
-      'width': 200,
-      'elementHandlers': handleElement
-    });
-
-    doc.save('angular-demo.pdf');
+doc.autoTable({
+  didDrawPage: footer
+})
   }
 }
