@@ -7,6 +7,9 @@
   <button class="btn btn-add" (click)="onShowLast365DaysReceipts()">
     Show last 365 days receipts
   </button>
+  <button class="btn btn-add" (click)="onShowSelectedYear()">
+    Show receipt for selected year
+  </button>
   <button class="btn btn-add" (click)="onShowBetweenTwoDates()">
     Show receipts between dates
   </button>
@@ -17,9 +20,42 @@
   <br />
   <h1 class="textColor">{{ title }}'s receipts</h1>
 
+ <!-- <div *ngIf="showBetweenFilter">
+    <mat-form-field appearance="fill" >
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [rangePicker]="picker" [formGroup]="dateForm" (ngSubmit)="filterReceipts()">
+        <input matStartDate placeholder="Start date"  [matDatepicker]="startPicker"
+        formControlName="startDate">
+        <input matEndDate placeholder="End date" [matDatepicker]="endPicker" formControlName="endDate">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+      <button mat-raised-button [disabled]="!dateForm.valid">
+        Confirm filter
+      </button>
+    </mat-form-field>
+</div>
 
-  <div *ngIf="showBetweenFilter">
-    <h2 class="textColor">Filter receipts between two dates:</h2>
+-->
+<div *ngIf="!showYearPicker">
+  <form  (ngSubmit)="filterReceiptsForSelectedYear()">
+<mat-form-field appearance="fill" >
+  <mat-label>Year</mat-label>
+  <input matInput [matDatepicker]="dp" [formControl]="year">
+  <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+  <mat-datepicker #dp
+                  startView="multi-year"
+                  (yearSelected)="chosenYearHandler($event,dp)"
+                  panelClass="example-month-picker">
+  </mat-datepicker>
+</mat-form-field>
+<button mat-raised-button [disabled]="!year.valid">
+  Confirm filter
+</button>
+</form>
+</div>
+
+  <div *ngIf="!showBetweenFilter">
     <form [formGroup]="dateForm" (ngSubmit)="filterReceipts()">
       <mat-form-field>
         <mat-label>Choose start date</mat-label>
@@ -49,6 +85,9 @@
       </button>
     </form>
   </div>
+
+
+
   <br />
   <br />
 

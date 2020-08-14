@@ -78,6 +78,21 @@ export class ReceiptService {
     );
   }
 
+  public getReceiptsForSelectedYear(
+    id: number,
+    year: String
+  ): Observable<Receipt[]> {
+    
+    return this.httpClient.get<Receipt[]>(
+      this.API_URL +
+        "/" +
+        id +
+        "/filteredReceiptForSelectedYear/?year=" +
+        year 
+        
+    );
+  }
+
   public getReceiptByUser(userId: number): Observable<Receipt[]> {
     return this.httpClient.get<Receipt[]>(
       this.API_URL + "/user/" + userId

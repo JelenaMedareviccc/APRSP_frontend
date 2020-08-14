@@ -11,12 +11,34 @@ import { MatSort } from "@angular/material/sort";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import * as moment from "moment";
 
+import { MatDatepicker } from '@angular/material/datepicker';
+import { Moment } from 'moment';
+import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'YYYY',
+  },
+  display: {
+    dateInput: 'YYYY'
+  },
+};
 
 @Component({
   selector: "app-receipt-table",
   templateUrl: "./receipt_table.component.html",
   styleUrls: ["./receipt_table.component.css"],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+    
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ],
 })
 export class ReceiptTableComponent implements OnInit {
   displayedColumns = [
@@ -37,7 +59,9 @@ export class ReceiptTableComponent implements OnInit {
   clientId: number;
   title: String;
   dateForm: FormGroup;
+  year: FormControl;
   showBetweenFilter: boolean;
+  showYearPicker: boolean;
   showFilter: boolean = false;
   showAddButton: boolean = true;
   companyId: number;
@@ -69,6 +93,7 @@ export class ReceiptTableComponent implements OnInit {
       startDate: new FormControl(null, Validators.required),
       endDate: new FormControl(null, Validators.required),
     });
+    this.year = new FormControl(moment(), Validators.required);
     if(this.router.url.includes('receipt/all')){
       let userData = JSON.parse(localStorage.getItem("userData"));
       const userId = userData["id"];
@@ -111,10 +136,12 @@ export class ReceiptTableComponent implements OnInit {
     if(!this.receipts){
       this.showFilter=false;
         this.showBetweenFilter=false;
+        this.showYearPicker=false;
      
       } else {
         this.showFilter = true;
         this.showBetweenFilter=true;
+        this.showYearPicker=true;
         
       }
     
@@ -193,6 +220,28 @@ export class ReceiptTableComponent implements OnInit {
       relativeTo: this.route,
       queryParams: { startDate: startDate, endDate: endDate },
     });
+  }
+
+  chosenYearHandler(normalizedYear: Moment,  datepicker: MatDatepicker<Moment>) {
+    if(this.year.value !== null){
+      const ctrlValue = this.year.value;
+      ctrlValue.year(normalizedYear.year());
+     
+     this.year.setValue(ctrlValue);
+     datepicker.close();
+     
+    }   
+  }
+
+  filterReceiptsForSelectedYear(){
+    this.router.navigate(["filteredReceiptsForSelectedYear"], {
+      relativeTo: this.route,
+      queryParams: { year: this.year.value.format("YYYY") },
+    });
+  }
+
+  onShowSelectedYear(){
+    this.showYearPicker = !this.showYearPicker;
   }
 
   onShowBetweenTwoDates() {

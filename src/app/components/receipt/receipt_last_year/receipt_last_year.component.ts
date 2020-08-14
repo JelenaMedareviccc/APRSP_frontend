@@ -34,7 +34,6 @@ export class ReceiptLastYearComponent implements OnInit {
   clientName: String;
   companyName: String;
   reportType: String;
-  @ViewChild('htmlData') htmlData:ElementRef;
 
   private receipts: Receipt[];
 
@@ -85,7 +84,9 @@ export class ReceiptLastYearComponent implements OnInit {
             this.reportType = "for last year!";
           }
         },
-        (error) => {}
+        (error) => {
+          console.log(error);
+        }
       );
     } else if (this.router.url.includes("filteredReceiptsLast365Days")) {
       this.receiptService.getLast365DaysReceipts(this.clientId).subscribe(
@@ -98,7 +99,9 @@ export class ReceiptLastYearComponent implements OnInit {
             this.reportType = "for last 365 days!";
           }
         },
-        (error) => {}
+        (error) => {
+          console.log(error);
+        }
       );
     } else if (this.router.url.includes("filteredReceiptsBetweenTwoDates")) {
       this.route.queryParams.subscribe((params: Params) => {
@@ -119,7 +122,34 @@ export class ReceiptLastYearComponent implements OnInit {
                   "between " + startDate + " and " + endDate + "!";
               }
             },
-            (error) => {}
+            (error) => {
+              console.log(error);
+            }
+          );
+      });
+    } else if (this.router.url.includes("filteredReceiptsForSelectedYear")){
+      this.route.queryParams.subscribe((params: Params) => {
+        const year = params["year"]
+        this.receiptService
+          .getReceiptsForSelectedYear(this.clientId, year)
+          .subscribe(
+            (receipts) => {
+              console.log(receipts);
+              if (receipts) {
+              
+                this.receipts = receipts;
+                this.dataSource = new MatTableDataSource<Receipt>(
+                  this.receipts
+                );
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+                this.reportType =
+                  "for" + year + " year!";
+              }
+            },
+            (error) => {
+              console.log(error);
+            }
           );
       });
     }
