@@ -18,9 +18,10 @@ export class UserFormComponent implements OnInit {
   userForm: FormGroup;
   companyId: number;
   signin: boolean = false;
-  auth: string = "Sign Up";
   updateUser: boolean = false;
   userId: number;
+  changePass: boolean = false;
+
 
   constructor(
     private userService: UserService,
@@ -31,6 +32,10 @@ export class UserFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    if(this.router.url.includes('changePassword')){
+      this.changePass=!this.changePass;
+    }
+
     this.initForm();
   }
 
@@ -45,12 +50,14 @@ export class UserFormComponent implements OnInit {
       })
       this.updateUser=true;
       }
-    else if (this.router.url.includes("signin")) {
+    else if (this.router.url.includes("changePassword")) {
       this.signin = true;
-      this.auth = "Sign In";
       this.createFormSignIn(null, null);
-    } else {
+    } else if (this.router.url.includes("signup")) {
       this.createForm(null, null, null, null, null, null);
+    } else {
+      this.signin = true;
+      this.createFormSignIn(null, null);
     }
   }
 
@@ -124,7 +131,7 @@ export class UserFormComponent implements OnInit {
     });
   }
 
-  signInOrSignUpOrUpdate() {
+  signInOrSignUpOrUpdateOrChangePassword() {
     let newUser = this.userForm.value;
     let userId;
 
@@ -134,18 +141,26 @@ export class UserFormComponent implements OnInit {
         const role = {role: user.role}
         newUser = {...id, ...newUser, ...role};
         console.log(newUser);
-        this.userService.updateUser(newUser).subscribe(user => {
+        this.userService.updateUser(newUser).subscribe(() => {
           this.router.navigate(["../../../company"], { relativeTo: this.route });
 
         }, error => {
-          console.log(error);
+          this.openDialog("edit");
         })
       })
-      
-     
+    
+    } else if(this.router.url.includes('changePassword')){
+      this.userService.changePassword(newUser).subscribe(() => {
+        this.router.navigate(["../signin"], { relativeTo: this.route });
+       
+        
+      }, error  =>{
+        this.openDialog("changePassword");
+
+      })
 
 
-    } else if (this.signin) {
+    } else if (this.router.url.includes('signin')) {
       this.userService.login(newUser).subscribe(
         (data) => {
           userId = data.id;
@@ -162,11 +177,10 @@ export class UserFormComponent implements OnInit {
         },
         (error) => {
           console.log(error);
-          this.openDialog();
+          this.openDialog("login");
         }
       );
-    } else {
-      let userId;
+    } else if(this.router.url.includes('signup')){
       console.log(newUser);
       this.userService.signUp(newUser).subscribe(
         (data) => {
@@ -175,8 +189,7 @@ export class UserFormComponent implements OnInit {
           this.userForm.reset();
         },
         (error) => {
-          console.log(error);
-          this.openDialog();
+          this.openDialog("error");
         }
       );
     }
@@ -193,10 +206,10 @@ export class UserFormComponent implements OnInit {
     this.initForm();
   }
 
-  openDialog(){
+  openDialog(actionType){
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
-      data: { action: 'password' },
+      data: { action: actionType },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -208,7 +221,7 @@ export class UserFormComponent implements OnInit {
   }
 
   changePassword(){
-    
+    this.router.navigate(["../changePassword"], { relativeTo: this.route });
   }
 }
 

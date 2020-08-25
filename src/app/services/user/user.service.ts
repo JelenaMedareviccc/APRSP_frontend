@@ -128,6 +128,10 @@ console.log(logUser);
     return this.httpClient.delete(this.API_URL  + id);
   }
 
+  public changePassword(user: User): Observable<User> {
+    return this.httpClient.put<User>(this.API_URL + "changePassword", user);
+  }
+
 
 
 

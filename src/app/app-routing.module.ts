@@ -29,6 +29,7 @@ export const routingConfiguration: ExtraOptions = {
 const routes: Routes = [
   { path: "signup", component: UserFormComponent },
   { path: "signin", component: UserFormComponent },
+  {path: "changePassword", component: UserFormComponent},
   { path: "", canActivate: [AuthGuard], children: [
   { path: "user", component: UserTableComponent},
   { path: "user/:userid", component: UserAccountComponent},

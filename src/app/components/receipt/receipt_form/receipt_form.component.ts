@@ -76,8 +76,11 @@ export class ReceiptFormComponent implements OnInit {
     let time_limit = null;
     this.receiptService.getReceipt(this.editId).subscribe(
       (data) => {
-        date_of_issue = data.date_of_issue;
+        const momentDate = new Date(data.date_of_issue);
+        const formattedDate = moment(momentDate).format("MM/DD/YYYY");
+        date_of_issue = formattedDate;
         time_limit = data.time_limit;
+        console.log(date_of_issue);
         this.createForm(date_of_issue, time_limit);
       },
       (error) => {
@@ -85,12 +88,16 @@ export class ReceiptFormComponent implements OnInit {
       }
     );
   }
-
+ 
   createForm(date_of_issue, time_limit: number) {
     this.receiptForm = new FormGroup({
       date_of_issue: new FormControl(date_of_issue, Validators.required),
       time_limit: new FormControl(time_limit, Validators.required),
     });
+
+    this.receiptForm.controls['date_of_issue'].patchValue(date_of_issue);
+
+  
     
   }
 

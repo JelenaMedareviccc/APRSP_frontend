@@ -1,5 +1,5 @@
 <div class="example-container">
-  <form [formGroup]="userForm" (ngSubmit)="signInOrSignUpOrUpdate()">
+  <form [formGroup]="userForm" (ngSubmit)="signInOrSignUpOrUpdateOrChangePassword()">
     <div *ngIf="!signin">
       <mat-form-field appearance="outline" class="input-field">
         <mat-label>First name</mat-label>
@@ -80,18 +80,19 @@
         >Password must contains 6 or more charachters!</span
       >
     </mat-form-field>
-    <div (click)="changePassword()" *ngIf="signin && !updateUser">
+    <div (click)="changePassword()" *ngIf="!changePass">
       <strong>Forgot password?</strong>
     </div>
   </div>
     <br />
+    
     <div class="button-pos">
       <button class="btn submit-button" [disabled]="!userForm.valid">
-        {{ updateUser ? "Update User" : signin ? "Login" : "Sign Up" }}
+        {{ changePass ? "Change Password" : updateUser ? "Update User" : signin ? "Login" : "Sign Up" }}
       </button>
       <br />
       <br />
-      <div (click)="switch()" *ngIf="!updateUser">
+      <div (click)="switch()" *ngIf="!updateUser && !changePass">
         <strong>{{ signin ? "Sign Up" : "Login" }}</strong>
       </div>
     </div>

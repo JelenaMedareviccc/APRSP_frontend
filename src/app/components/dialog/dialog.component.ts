@@ -25,12 +25,18 @@ export class DialogComponent implements OnInit {
     } 
  
     this.title = "Error";
-    if(this.data.action === 'password'){
+    if(this.data.action === 'login'){
  
      this.text =  "Invalid login!";
     } 
+    if(this.data.action === 'changePassword'){
+      this.text = "Unable to change the password, please try again!";
+    }
+    if(this.data.action ==='edit'){
+      this.text="Unable to edit the account, please try again!";
+    }
     if(this.data.action = "error"){
-      this.text = "Invalid form, please fill it in again!"
+      this.text = "Invalid form, please fill it in again!";
     }
   }
 }
