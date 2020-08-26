@@ -93,22 +93,20 @@ export class ItemFormComponent implements OnInit {
             const itemId = { itemId: this.editID };
             newItem = { ...itemId, ...newItem };
             this.itemService.updateItem(newItem).subscribe(
-              (data) => {
+              () => {
                 this.redirectTo();
               },
-              (error) => {
-                console.log(error);
-                this.openDialog();
+              () => {
+                this.openDialog("error");
               }
             );
           } else {
             this.itemService.createItem(newItem).subscribe(
-              (createdItem) => {
+              () => {
                 this.redirectTo();
               },
-              (error) => {
-                this.openDialog();
-                console.log(error);
+              () => {
+                this.openDialog("error");
               }
             );
           }
@@ -126,10 +124,10 @@ export class ItemFormComponent implements OnInit {
     }
   }
 
-  openDialog(){
+  openDialog(actionType: String){
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
-      data: { action: 'error'},
+      data: { action: actionType},
     });
 
     dialogRef.afterClosed().subscribe((result) => {

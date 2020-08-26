@@ -29,7 +29,7 @@ export class AuthGuard implements CanActivate {
       
         if (isAuth) {
         console.log("usao u isauth");
-          if (state.url.includes('users') ) {
+          if (state.url.includes('users') || state.url.includes('changeToAdmin') ) {
 console.log(state.url);
             this.userService.getUser(user.id).subscribe(user => {
               if(user.role.name !== 'ROLE_ADMIN'){

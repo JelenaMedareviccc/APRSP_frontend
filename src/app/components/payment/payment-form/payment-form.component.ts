@@ -79,22 +79,20 @@ export class PaymentFormComponent implements OnInit {
         const id = { paymentId: this.editPaymentId };
         this.newPayment = { ...id, ...this.newPayment };
         this.paymentService.updatePayment(this.newPayment).subscribe(
-          (data) => {
+          () => {
             this.redirectTo();
           },
-          (error) => {
-            this.openDialog();
-            console.log(error);
+          () => {
+            this.openDialog("error");
           }
         );
       } else {
         this.paymentService.createPayment(this.newPayment).subscribe(
-          (data) => {
+          () => {
             this.redirectTo();
           },
-          (error) => {
-            this.openDialog();
-            console.log(error);
+          () => {
+            this.openDialog("error");
           }
         );
       }
@@ -110,10 +108,10 @@ export class PaymentFormComponent implements OnInit {
     }
   }
 
-  openDialog(){
+  openDialog(actionType){
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
-      data: { action: 'error'},
+      data: { action: actionType},
     });
 
     dialogRef.afterClosed().subscribe((result) => {

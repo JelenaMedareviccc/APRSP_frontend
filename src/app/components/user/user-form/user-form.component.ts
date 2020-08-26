@@ -144,7 +144,7 @@ export class UserFormComponent implements OnInit {
         this.userService.updateUser(newUser).subscribe(() => {
           this.router.navigate(["../../../company"], { relativeTo: this.route });
 
-        }, error => {
+        }, () => {
           this.openDialog("edit");
         })
       })
@@ -154,7 +154,7 @@ export class UserFormComponent implements OnInit {
         this.router.navigate(["../signin"], { relativeTo: this.route });
        
         
-      }, error  =>{
+      }, ()  =>{
         this.openDialog("changePassword");
 
       })
@@ -175,8 +175,7 @@ export class UserFormComponent implements OnInit {
             }
           })
         },
-        (error) => {
-          console.log(error);
+        () => {
           this.openDialog("login");
         }
       );
@@ -188,7 +187,7 @@ export class UserFormComponent implements OnInit {
           this.router.navigate(["../company/newCompany"], { relativeTo: this.route });
           this.userForm.reset();
         },
-        (error) => {
+        () => {
           this.openDialog("error");
         }
       );

@@ -94,9 +94,7 @@ export class ClientFormComponent implements OnInit {
 
   createOrEditClient() {
     let newClient = this.clientForm.value;
-    console.log("OVDJE");
     this.companyService.getCompany(this.companyId).subscribe((companyInfo) => {
-      console.log("USLO");
       const company = { company: companyInfo };
       newClient = { ...newClient, ...company };
       console.log(newClient);
@@ -104,23 +102,21 @@ export class ClientFormComponent implements OnInit {
         let clientId = { clientId: this.editID };
         newClient = { ...clientId, ...newClient };
         this.clientService.updateClient(newClient).subscribe(
-          (data) => {
+          () => {
             this.redirectTo();
           },
-          (error) => {
-            this.openDialog();
-            console.log(error);
+          () => {
+            this.openDialog('error');
           }
         );
       } else {
         this.clientService.createClient(newClient).subscribe(
-          (data) => {
+          () => {
             this.redirectTo();
             this.clientForm.reset();
           },
-          (error) => {
-            this.openDialog();
-            console.log(error);
+          () => {
+            this.openDialog('error');
           }
         );
       }
@@ -136,10 +132,10 @@ export class ClientFormComponent implements OnInit {
     }
   }
 
-  openDialog(){
+  openDialog(actionType: String){
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
-      data: { action: 'error'},
+      data: { action: actionType},
     });
 
     dialogRef.afterClosed().subscribe((result) => {

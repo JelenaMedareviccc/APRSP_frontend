@@ -115,23 +115,21 @@ export class CompanyFormComponent implements OnInit {
         const companyId = { companyId: this.companyId };
         newCompany = { ...companyId, ...newCompany };
         this.companyService.updateCompany(newCompany).subscribe(
-          (data) => {
+          () => {
             this.redirectTo();
           },
-          (error) => {
-            this.openDialog();
-            console.log(error);
+          () => {
+            this.openDialog("error");
           }
         );
       } else {
         this.companyService.createCompany(newCompany).subscribe(
-          (data) => {
+          () => {
             this.redirectTo();
             this.companyForm.reset();
           },
-          (error) => {
-            this.openDialog();
-            console.log(error);
+          () => {
+            this.openDialog("error");
           }
         );
       }
@@ -146,10 +144,10 @@ export class CompanyFormComponent implements OnInit {
     }
   }
 
-  openDialog(){
+  openDialog(actionType){
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
-      data: { action: 'error'},
+      data: { action: actionType},
     });
 
     dialogRef.afterClosed().subscribe((result) => {

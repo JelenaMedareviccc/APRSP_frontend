@@ -114,12 +114,11 @@ export class ReceiptFormComponent implements OnInit {
         this.newReceipt = { ...this.newReceipt, ...receiptId };
         console.log(this.newReceipt);
         this.receiptService.updateReceipt(this.newReceipt).subscribe(
-          (data) => {
+          () => {
             this.redirectTo();
           },
-          (error) => {
-            this.openDialog();
-            console.log(error);
+          () => {
+            this.openDialog("error");
           }
         );
       } else {
@@ -139,8 +138,8 @@ export class ReceiptFormComponent implements OnInit {
             this.redirectTo();
           },
           (error) => {
-            this.openDialog();
-            console.log(error);
+            this.openDialog("error");
+            console.log("error");
           }
         );
       }
@@ -181,10 +180,10 @@ export class ReceiptFormComponent implements OnInit {
     }
   }
 
-  openDialog(){
+  openDialog(actionType){
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
-      data: { action: 'error'},
+      data: { action: actionType},
     });
 
     dialogRef.afterClosed().subscribe((result) => {

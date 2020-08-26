@@ -26,6 +26,7 @@ export class UserTableComponent implements OnInit {
     "email",
     "contact",
     "role",
+    "change_to_admin",
     "edit",
     "delete"
   ];
@@ -35,6 +36,7 @@ export class UserTableComponent implements OnInit {
 
   users: User[]= [];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  checked: boolean = false;
 
   constructor(
     private userService: UserService,

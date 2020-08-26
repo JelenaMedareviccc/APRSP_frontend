@@ -31,7 +31,7 @@ const routes: Routes = [
   { path: "signin", component: UserFormComponent },
   {path: "changePassword", component: UserFormComponent},
   { path: "", canActivate: [AuthGuard], children: [
-  { path: "user", component: UserTableComponent},
+  { path: "users", component: UserTableComponent},
   { path: "user/:userid", component: UserAccountComponent},
   {path: "user/:userid/edit", component: UserFormComponent},
   { path: "client/all", component: ClientTableComponent},

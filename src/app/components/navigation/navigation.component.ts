@@ -12,9 +12,11 @@ import {Location} from '@angular/common';
   styleUrls: ["./navigation.component.css"],
 })
 export class NavigationComponent implements OnInit, OnDestroy {
-  authText: boolean = true;
+  isAuth: boolean = true;
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
+  userId;
+  admin: boolean = false;
 
 
 
@@ -41,8 +43,19 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userService.user.subscribe((user) => {
-      this.authText = !user;
+      this.isAuth = !user;
     });
+
+    let userData = JSON.parse(localStorage.getItem("userData"));
+    if(userData!=null){
+    this.userId = userData["id"];  
+    this.userService.getUser(this.userId).subscribe((user)=> {
+      if(user.role.name === "ROLE_ADMIN"){
+          this.admin=true;
+      }
+
+    })
+  }
   }
   
   auth() {
@@ -64,18 +77,16 @@ export class NavigationComponent implements OnInit, OnDestroy {
 }
 
 myAccount(){
-  let userData = JSON.parse(localStorage.getItem("userData")); 
-  const id = userData["id"];
-  this.router.navigate([`user/${id}`]);
+
+  this.router.navigate([`user/${this.userId}`]);
 }
 
 ngOnDestroy(): void {
   this.mobileQuery.removeListener(this._mobileQueryListener);
 }
 
-
-
-
-
+showUsers(){
+  this.router.navigate([`users`]);
+}
   
 }

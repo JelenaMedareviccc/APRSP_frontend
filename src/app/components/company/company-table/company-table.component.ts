@@ -107,10 +107,12 @@ export class CompanyTableComponent implements OnInit {
         return;
       }
       this.companyService.deleteCompany(id).subscribe(
-        (res) => {
+        () => {
           this.initializeDataSource();
         },
-        (error) => {}
+        () => {
+          //open dialog za delete
+        }
       );
     });
   }

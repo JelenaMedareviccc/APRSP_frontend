@@ -17,6 +17,7 @@ export class UserService {
   private tokenExpirationTimer: any;
 
   private API_URL = config.apiUrl + "/user/";
+  private API_URL_ADMIN = config.apiUrl+"/admin/"
 
   user: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   users: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
@@ -117,7 +118,7 @@ console.log(logUser);
   }
 
   public getUsers(): Observable<User[]> {
-    return this.httpClient.get<User[]>(this.API_URL+'admin');
+    return this.httpClient.get<User[]>(this.API_URL_ADMIN);
   }
 
   public updateUser(user: User): Observable<User> {
