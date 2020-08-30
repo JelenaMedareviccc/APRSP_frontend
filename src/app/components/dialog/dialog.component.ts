@@ -12,6 +12,8 @@ export class DialogComponent implements OnInit {
   action: boolean = false;
   password: boolean = false;
   title: String;
+  titleYesNo: String;
+  textYesNo: String;
   text: String;
 
   constructor(
@@ -21,22 +23,32 @@ export class DialogComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.data.action === 'delete'){
+      this.titleYesNo="Delete";
+      this.textYesNo="Do you want to delete this?";
       this.action = true;
     } 
+    if(this.data.action ==="changeRole"){
+      this.action=true;
+      this.titleYesNo="Chage to admin"
+      this.textYesNo="Are you sure you want this user to be admin?"
+    }
+
+
  
     this.title = "Error";
     if(this.data.action === 'login'){
  
      this.text =  "Invalid login!";
-    } 
-    if(this.data.action === 'changePassword'){
+    } else if(this.data.action === 'changePassword'){
       this.text = "Unable to change the password, please try again!";
-    }
-    if(this.data.action ==='edit'){
+    } else if(this.data.action ==='edit'){
       this.text="Unable to edit the account, please try again!";
-    }
-    if(this.data.action = "error"){
+    }  else if(this.data.action = "deleteError"){
+      this.text = "Unable to delete, please try again!";
+    } else if(this.data.action = "error"){
       this.text = "Invalid form, please fill it in again!";
-    }
+    } else if(this.data.action = "roleError"){
+      this.text = "Unable to change the role, please try again!";
+    } 
   }
 }

@@ -105,22 +105,28 @@ export class ItemTableComponent implements OnInit {
   }
 
   deleteItem(id: number) {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: "250px",
-      data: { action: 'delete' },
-    });
-
+  
+    const dialogRef = this.openDialog("delete");
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) {
         return;
       }
       this.itemService.deleteItem(id).subscribe(
-        (res) => {
+        () => {
           this.initializeDataSource();
-        },
-        (error) => {}
+        },() => {
+          this.openDialog("deleteError");
+        }
       );
     });
+  }
+
+  openDialog(actionType: String): any{
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: "250px",
+      data: { action: actionType },
+    });
+    return dialogRef;
   }
 
   addNewItem() {

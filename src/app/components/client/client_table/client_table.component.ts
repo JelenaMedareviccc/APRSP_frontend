@@ -107,23 +107,33 @@ export class ClientTableComponent implements OnInit {
   }
 
   deleteClient(id: number) {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: "250px",
-      data: { action: 'delete' },
-    });
-
+    const dialogRef = this.openDialog("delete");
     dialogRef.afterClosed().subscribe((result) => {
-      console.log("result: " + result);
       if (!result) {
         return;
       }
       this.clientService.deleteClient(id).subscribe(
-        (res) => {
+        () => {
           this.initializeDataSource();
         },
-        (error) => {}
+        () => {
+          this.openDialog("deleteError");
+        }
       );
     });
+   
+
+   
+  }
+
+  openDialog(actionType: String){
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: "250px",
+      data: { action: actionType },
+    });
+
+    return dialogRef;
+
   }
 
   addNewClient() {

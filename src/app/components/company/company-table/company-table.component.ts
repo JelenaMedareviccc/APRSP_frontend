@@ -96,13 +96,9 @@ export class CompanyTableComponent implements OnInit {
   }
 
   deleteCompany(id: number) {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: "250px",
-        data: { action: 'delete' },
-    });
-
+    const dialogRef = this.openDialog("delete");
+  
     dialogRef.afterClosed().subscribe((result) => {
-      console.log("result: " + result);
       if (!result) {
         return;
       }
@@ -111,10 +107,18 @@ export class CompanyTableComponent implements OnInit {
           this.initializeDataSource();
         },
         () => {
-          //open dialog za delete
+          this.openDialog("deleteError");
         }
       );
     });
+  }
+
+  openDialog(actionType: String): any{
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: "250px",
+        data: { action: actionType },
+    });
+    return dialogRef;
   }
 
   addNewCompany() {

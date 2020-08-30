@@ -82,10 +82,7 @@ export class PaymentTableComponent implements OnInit {
   }
 
   deletePayment(id: number) {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: "250px",
-      data: { action: 'delete' },
-    });
+    const dialogRef = this.openDialog("delete");
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log("result: " + result);
@@ -93,10 +90,12 @@ export class PaymentTableComponent implements OnInit {
         return;
       }
       this.paymentService.deletePayment(id).subscribe(
-        (res) => {
+        () => {
           this.fetchData();
         },
-        (error) => {}
+        () => {
+          this.openDialog("deleteError")
+        }
       );
     });
   }
@@ -120,5 +119,14 @@ export class PaymentTableComponent implements OnInit {
   backToReceipts() {
     this.router.navigate(["company/" + this.companyId + "/client/" + this.clientId + "/receipts"]);
   }
+
+  openDialog(actionType: String): any{
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: "250px",
+      data: { action: actionType },
+    });
+    return dialogRef;
+  }
+
 
 }

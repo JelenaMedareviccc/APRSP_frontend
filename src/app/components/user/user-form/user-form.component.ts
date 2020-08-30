@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user/user.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { CompanyService } from 'src/app/services/company/company.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../../dialog/dialog.component';
@@ -42,13 +42,18 @@ export class UserFormComponent implements OnInit {
   initForm() {
     if(this.router.url.includes('edit')){
       this.createUpdateForm(null, null, null, null, null);
-      let userData = JSON.parse(localStorage.getItem("userData"));
-       this.userId = userData["id"];
-      this.userService.getUser(this.userId).subscribe(user => {
-        this.createUpdateForm(user.first_name, user.last_name, user.username, user.email, user.contact);
 
-      })
-      this.updateUser=true;
+      this.route.params.subscribe((params: Params) => {
+        this.userId = +params["userid"];
+        this.userService.getUser(this.userId).subscribe(user => {
+          this.createUpdateForm(user.first_name, user.last_name, user.username, user.email, user.contact);
+  
+        })
+        this.updateUser=true;
+      
+      });
+
+    
       }
     else if (this.router.url.includes("changePassword")) {
       this.signin = true;

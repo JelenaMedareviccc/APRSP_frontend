@@ -133,6 +133,11 @@ console.log(logUser);
     return this.httpClient.put<User>(this.API_URL + "changePassword", user);
   }
 
+  public changeUserToAdmin(id:number): Observable<User> {
+    return this.httpClient.put<User>(this.API_URL_ADMIN + "changeUserToAdmin/"+  id, null );
+  }
+  
+
 
 
 

@@ -47,6 +47,7 @@ export class ReceiptTableComponent implements OnInit {
     "time_limit",
     "total_amount",
     "debt",
+    "interest",
     "payment",
     "delete",
     "edit",
@@ -79,7 +80,6 @@ export class ReceiptTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.initializeDataSource();
     this.fetchData();
   }
 
@@ -148,23 +148,31 @@ export class ReceiptTableComponent implements OnInit {
   }
 
   deleteReceipt(id: number) {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: "250px",
-      data: { action: 'delete' },
-    });
+    const dialogRef = this.openDialog('delete');
 
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) {
         return;
       }
       this.receiptService.deleteReceipt(id).subscribe(
-        (res) => {
+        () => {
           this.fetchData();
         },
-        (error) => {}
+        () => {
+          this.openDialog("deleteError");
+        }
       );
     });
   }
+
+  openDialog(actionType: String): any{
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: "250px",
+      data: { action: actionType },
+    });
+    return dialogRef;
+  }
+
 
   addNewReceipt() {
     this.router.navigate(["newReceipt"], { relativeTo: this.route });

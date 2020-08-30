@@ -6,6 +6,7 @@ export class Receipt {
   time_limit: number;
   total_amount: number;
   debt: number;
+  interest: number;
   client: Client;
 
   constructor(date_of_issue: string, time_limit: number, client: Client) {

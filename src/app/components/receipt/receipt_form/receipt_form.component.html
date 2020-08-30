@@ -2,14 +2,14 @@
   <form [formGroup]="receiptForm" (ngSubmit)="createEditReceipt()">
     <h1 color="gray">{{ formText }}</h1>
     <mat-form-field appearance="outline">
-      <mat-label>{{date}}</mat-label>
+      <mat-label>Date of issue</mat-label>
 
       <input
         matInput
         [matDatepicker]="picker"
         formControlName="date_of_issue"
-        [name]="date"
-        value="date_of_issue"
+        value="{{  date_of_issue}}"
+      
       />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker  #picker></mat-datepicker>

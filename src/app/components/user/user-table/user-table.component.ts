@@ -11,7 +11,6 @@ import { MatSort } from "@angular/material/sort";
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user/user.service';
 
-
 @Component({
   selector: "app-user-table",
   templateUrl: "./user-table.component.html",
@@ -26,17 +25,17 @@ export class UserTableComponent implements OnInit {
     "email",
     "contact",
     "role",
-    "change_to_admin",
+    "changeRole",
     "edit",
     "delete"
   ];
   dataSource: MatTableDataSource<User>;
+  jeste=true;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   users: User[]= [];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  checked: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -49,7 +48,7 @@ export class UserTableComponent implements OnInit {
      this.fetchData();
     this.initializeDataSource();
   }
-
+ 
  fetchData() {
   
      
@@ -81,28 +80,72 @@ export class UserTableComponent implements OnInit {
     this.router.navigate([`../user/${userid}/edit`], { relativeTo: this.route });
   }
 
-  deleteUser(id: number) {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: "250px",
-      data: { action: 'delete' },
-    });
+  deleteUser(userId: number) {
 
+    
+  const dialogRef= this.openDialog('delete');
+    if(dialogRef){
+      
     dialogRef.afterClosed().subscribe((result) => {
-      console.log("result: " + result);
       if (!result) {
-        return;
+        return false;
       }
-      this.userService.deleteUser(id).subscribe(
-        (res) => {
+      this.userService.deleteUser(userId).subscribe(
+        () => {
           this.fetchData();
         },
-        (error) => {}
+        () => {
+          this.openDialog("deleteError");
+        }
       );
+      
     });
+    
+    }
+  
   }
+
+
+
 
   backToCompany() {
     this.router.navigate(["../../../"], { relativeTo: this.route });
   }
+
+  changeRole(userId: number){
+    
+      
+  const dialogRef= this.openDialog('changeRole');
+  if(dialogRef){
+    
+  dialogRef.afterClosed().subscribe((result) => {
+    if (!result) {
+      return false;
+    }
+    this.userService.changeUserToAdmin(userId).subscribe(() => {
+      this.fetchData();
+    }, () =>{
+      this.openDialog("roleError");
+    }
+    );
+    
+  });
+  
+  }
+
+}
+
+   openDialog(actionType): any{
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: "250px",
+      data: { action: actionType },
+    });
+
+    return dialogRef;
+
+
+  }
+
+
 
 }

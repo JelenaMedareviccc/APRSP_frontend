@@ -55,18 +55,14 @@
         <td mat-cell *matCellDef="let element">{{ element.role.name }}</td>
       </ng-container>
       
-      <ng-container matColumnDef="change_to_admin">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-         Change to Admin
-        </th>
-        <td mat-cell *matCellDef="let row">
-          <mat-checkbox
-                        >
-          </mat-checkbox>
+      <ng-container matColumnDef="changeRole">
+        <th mat-header-cell *matHeaderCellDef>Change Role</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-button (click)="changeRole(element.id)">
+            Change
+          </button>
         </td>
       </ng-container>
-
-      
 
       <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef>Delete</th>
