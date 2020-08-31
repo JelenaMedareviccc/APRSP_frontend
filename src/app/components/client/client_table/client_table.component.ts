@@ -36,7 +36,7 @@ export class ClientTableComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   title: String;
   companyId: number;
-  showAddButton: boolean = true;
+  showButtons: boolean = true;
 
   constructor(
     private clientService: ClientService,
@@ -61,7 +61,7 @@ export class ClientTableComponent implements OnInit {
       this.clientService.getClientByUser(userId).subscribe(clients => {
         this.clients = clients;
         this.initializeDataSource();
-        this.showAddButton=false;
+        this.showButtons=false;
      
       }, error => {
         console.log(error);
@@ -77,7 +77,7 @@ export class ClientTableComponent implements OnInit {
           (clients) => {
               this.clients = clients;
               this.initializeDataSource();
-              this.showAddButton = true;
+              this.showButtons = true;
           },
           (error) => {
             console.log(error);
@@ -103,8 +103,18 @@ export class ClientTableComponent implements OnInit {
   }
 
   editClient(clientid: number) {
-    this.router.navigate([`${clientid}/edit`], { relativeTo: this.route });
+    if(this.router.url.includes('/client/all')){
+      this.clientService.getClient(clientid).subscribe(client => {
+        this.companyId = client.company.companyId;
+        this.router.navigate([`../../company/${this.companyId}/client/${clientid}/edit`], { relativeTo: this.route });
+      } )
+     
+    } else {
+      this.router.navigate([`${clientid}/edit`], { relativeTo: this.route });
+    }
+   
   }
+
 
   deleteClient(id: number) {
     const dialogRef = this.openDialog("delete");
@@ -114,7 +124,7 @@ export class ClientTableComponent implements OnInit {
       }
       this.clientService.deleteClient(id).subscribe(
         () => {
-          this.initializeDataSource();
+         this.fetchData();
         },
         () => {
           this.openDialog("deleteError");
@@ -142,6 +152,20 @@ export class ClientTableComponent implements OnInit {
 
   backToCompany() {
     this.router.navigate(["../../../"], { relativeTo: this.route });
+  }
+
+  displayReceipts(clientId: number) {
+    if(this.router.url.includes('/client/all')){
+      this.clientService.getClient(clientId).subscribe(client => {
+        this.companyId = client.company.companyId;
+        this.router.navigate([`../../company/${this.companyId}/client/${clientId}/receipts`], { relativeTo: this.route });
+      } )
+     
+    } else {
+      this.router.navigate([`../../${clientId}/receipts`], { relativeTo: this.route });
+    }
+
+
   }
 
 }

@@ -8,7 +8,7 @@
         matInput
         [matDatepicker]="picker"
         formControlName="date_of_issue"
-        value="{{  date_of_issue}}"
+        value="{{date_of_issue | date:'yyyy-MM-dd' }}"
       
       />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>

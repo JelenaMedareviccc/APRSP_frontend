@@ -21,7 +21,7 @@ export class PaymentTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   receiptId: number;
-  showAddButton: boolean = true;
+  showButtons: boolean = true;
   private payments: Payment[] = [];
   title: String;
   companyId: number;
@@ -38,7 +38,7 @@ export class PaymentTableComponent implements OnInit {
    this.fetchData();
    this.initializeDataSource();
   }
-
+  
   fetchData() {
     if(this.router.url.includes('/payment/all')){
       let userData = JSON.parse(localStorage.getItem("userData"));
@@ -48,7 +48,7 @@ export class PaymentTableComponent implements OnInit {
       this.paymentService.getPaymentByUser(userId).subscribe(payments => {
         this.payments = payments;
         this.initializeDataSource();
-        this.showAddButton = false;
+        this.showButtons = false;
       }, error => {
         console.log(error);
       })
@@ -64,7 +64,7 @@ export class PaymentTableComponent implements OnInit {
       (payments) => {
         this.payments = payments;
         this.initializeDataSource();
-        this.showAddButton = true;
+        this.showButtons = true;
         
       },
       (error) => {
@@ -105,7 +105,19 @@ export class PaymentTableComponent implements OnInit {
   }
 
   editPayment(paymentid: number) {
-    this.router.navigate([`${paymentid}/edit`], { relativeTo: this.route });
+    if(this.router.url.includes('/payment/all')){
+      this.paymentService.getPayment(paymentid).subscribe(payment => {
+        this.receiptId= payment.receipt.receiptId;
+        this.clientId=payment.receipt.client.clientId;
+        this.companyId =payment.receipt.client.company.companyId;
+        this.router.navigate([`../../company/${this.companyId}/client/${this.clientId}/receipts/${this.receiptId}/payments/${paymentid}/edit`], { relativeTo: this.route });
+
+      })
+    } else {
+      this.router.navigate([`${paymentid}/edit`], { relativeTo: this.route });
+    }
+
+    
   }
 
   getTotalCost() {

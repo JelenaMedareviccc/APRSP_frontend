@@ -50,8 +50,6 @@ export class UserService {
   }
 
   private handleAuthentication(res) {
-    console.log("RES");
-    console.log(res);
     let values = Object.keys(res).map((r) => {
       return res[r];
     });
@@ -61,11 +59,11 @@ export class UserService {
     const logUser = new User(values[1], values[0], values[2], expirationData);
 console.log(logUser);
     this.user.next(res);
-    console.log("EXPIRATIOn");
-    console.log(expiration * 2);
-    this.autoLogOut(expiration * 2);
+ 
+    this.autoLogOut(expiration);
     console.log("expiration" + expiration);
-    res.expiration = new Date(new Date().getTime() + res.expiration * 2);
+    res.expiration = new Date(new Date().getTime() + res.expiration);
+    console.log(res);
     console.log(JSON.stringify(res));
     localStorage.setItem("userData", JSON.stringify(res));
   }
@@ -96,21 +94,19 @@ console.log(logUser);
       userData["token"],
       userData["expiration"]
     );
- 
 
     if (loadedUser._token) {
       this.user.next(loadedUser);
-      const expirationDuration =
-        new Date(userData.expiration).getTime() - new Date().getTime();
+      const expirationDuration = new Date(userData.expiration).getTime() - new Date().getTime();
       this.autoLogOut(expirationDuration);
     }
   }
 
   autoLogOut(expirationDuration: number) {
     this.tokenExpirationTimer = setTimeout(() => {
-      console.log("TAJMER"+ expirationDuration);
       this.logout();
     }, expirationDuration);
+
   }
 
   public getUser(id: number): Observable<User> {

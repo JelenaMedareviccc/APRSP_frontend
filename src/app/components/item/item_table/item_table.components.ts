@@ -31,7 +31,7 @@ export class ItemTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   receiptId: number;
-  showAddButton: boolean = true;
+  showButtons: boolean = true;
   title: String;
   companyId: number;
   clientId: number;
@@ -58,7 +58,7 @@ export class ItemTableComponent implements OnInit {
       this.itemService.getItemByUser(userId).subscribe(items => {
         this.items = items;
         this.initializeDataSource();
-        this.showAddButton = false;
+        this.showButtons = false;
       }, error => {
         console.log(error);
       })
@@ -74,7 +74,7 @@ export class ItemTableComponent implements OnInit {
       (items) => {
         this.items = items;
         this.initializeDataSource();
-        this.showAddButton= true;
+        this.showButtons= true;
       },
       (error) => {
         console.log(error);
@@ -101,7 +101,17 @@ export class ItemTableComponent implements OnInit {
   }
 
   editItem(itemid: number) {
+    if(this.router.url.includes('/item/all')){
+      this.itemService.getItem(itemid).subscribe(item => {
+        this.receiptId= item.receipt.receiptId;
+        this.clientId=item.receipt.client.clientId;
+        this.companyId =item.receipt.client.company.companyId;
+        this.router.navigate([`../../company/${this.companyId}/client/${this.clientId}/receipts/${this.receiptId}/items/${itemid}/edit`], { relativeTo: this.route });
+
+      })
+    } else {
     this.router.navigate([`${itemid}/edit`], { relativeTo: this.route });
+    }
   }
 
   deleteItem(id: number) {
@@ -113,7 +123,7 @@ export class ItemTableComponent implements OnInit {
       }
       this.itemService.deleteItem(id).subscribe(
         () => {
-          this.initializeDataSource();
+         this.fetchData();
         },() => {
           this.openDialog("deleteError");
         }

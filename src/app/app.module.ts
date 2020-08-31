@@ -52,10 +52,12 @@ import { HttpErrorInterceptor } from "./services/httperrorinterceptopr.service";
 import { ReceiptService } from "./services/receipt/receipt.service";
 import { InterceptorService } from "./services/user/interceptor.service";
 import { CompanyroComponent} from "./components/company/companyro.component";
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule} from '@angular/material/core';
 import { UserTableComponent } from './components/user/user-table/user-table.component';
 import { UserFormComponent } from './components/user/user-form/user-form.component';
 import { UserAccountComponent } from './components/user/user-account/user-account.component';
+
+
 
 @NgModule({
   declarations: [
@@ -98,10 +100,9 @@ import { UserAccountComponent } from './components/user/user-account/user-accoun
     MatButtonToggleModule,
     MatCardModule,
     MatCheckboxModule,
-
+    MatRippleModule,
     MatDatepickerModule,
     MatDialogModule,
-
     MatIconModule,
     MatInputModule,
     MatListModule,

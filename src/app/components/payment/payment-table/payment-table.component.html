@@ -1,9 +1,12 @@
 <div class="client-padding">
-  <button class="btn btn-add" (click)="addNewPayment()" *ngIf="showAddButton">Add new payment</button>
   <h1 class="textColor">{{ title }}'s payments:</h1>
+
+  <div *ngIf="showButtons">
+  <button class="btn btn-add" (click)="addNewPayment()" >Add new payment</button>
 
   <button class="btn btn-add" (click)="backToReceipts()">Back to receipts</button>
   <br />
+</div>
 
   <table mat-table [dataSource]="dataSource" matSort>
     <ng-container matColumnDef="paymentId">

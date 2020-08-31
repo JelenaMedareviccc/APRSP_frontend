@@ -1,11 +1,14 @@
-<div class="button-pos">
-  <button class="btn" (click)="backToCompany()">
-    Back to company
-  </button>
-</div>
-<div class="client-padding">
 
-  <button class="btn btn-add" (click)="addNewClient()" *ngIf="showAddButton">Add new client</button>
+<div class="client-padding">
+  <div *ngIf="showButtons">
+  <div class="button-pos" >
+    <button class="btn" (click)="backToCompany()">
+      Back to company
+    </button>
+  </div>
+
+  <button class="btn btn-add" (click)="addNewClient()" >Add new client</button>
+</div>
   <br />
 
   <h1 class="textColor">{{ title }}'s clients:</h1>
@@ -84,7 +87,7 @@
       <ng-container matColumnDef="receipts">
         <th mat-header-cell *matHeaderCellDef>Receipts</th>
         <td mat-cell *matCellDef="let element">
-          <button mat-button [routerLink]="[element.clientId, 'receipts']">
+          <button mat-button  (click) ="displayReceipts(element.clientId)">
             Display receipts
           </button>
         </td>
