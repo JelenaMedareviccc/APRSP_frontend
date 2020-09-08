@@ -22,40 +22,42 @@
   <br />
   <h1 class="textColor">{{ title }}'s receipts</h1>
 
- <!-- <div *ngIf="showBetweenFilter">
-    <mat-form-field appearance="fill" >
+  <!--
+  <div *ngIf="!showBetweenFilter">
+    <mat-form-field appearance="fill" [formGroup]="dateForm" (ngSubmit)="filterReceipts()">
       <mat-label>Enter a date range</mat-label>
-      <mat-date-range-input [rangePicker]="picker" [formGroup]="dateForm" (ngSubmit)="filterReceipts()">
-        <input matStartDate placeholder="Start date"  [matDatepicker]="startPicker"
-        formControlName="startDate">
-        <input matEndDate placeholder="End date" [matDatepicker]="endPicker" formControlName="endDate">
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate placeholder="Start date" formControlName="startDate">
+        <input matEndDate placeholder="End date"  formControlName="endDate">
       </mat-date-range-input>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-date-range-picker #picker></mat-date-range-picker>
-      <button mat-raised-button [disabled]="!dateForm.valid">
-        Confirm filter
-      </button>
     </mat-form-field>
+    <button mat-raised-button [disabled]="!dateForm.valid">
+      Confirm filter
+    </button>
 </div>
 
 
 
-<div *ngIf="showBetweenFilter">
+<div *ngIf="!showBetweenFilter">
+  <form (ngSubmit)="filterReceipts()">
   <mat-form-field appearance="fill">
     <mat-label>Enter a date range</mat-label>
-    <mat-date-range-input [formGroup]="dateForm" [rangePicker]="picker" (ngSubmit)="filterReceipts()">
+    <mat-date-range-input [formGroup]="dateForm" [rangePicker]="picker" >
       <input matStartDate formControlName="startDate" placeholder="Start date">
       <input matEndDate formControlName="endDate" placeholder="End date">
     </mat-date-range-input>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-date-range-picker #picker></mat-date-range-picker>
   
-    <mat-error *ngIf="dateForm.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
-    <mat-error *ngIf="dateForm.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+    <mat-error *ngIf="dateForm.controls.startDate.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+    <mat-error *ngIf="dateForm.controls.endDate.hasError('matEndDateInvalid')">Invalid end date</mat-error>
   </mat-form-field>
 <button mat-raised-button [disabled]="!dateForm.valid">
   Confirm filter
 </button>
+</form>
 </div>
 -->
 
@@ -76,6 +78,7 @@
 </button>
 </form>
 </div>
+
 
   <div *ngIf="!showBetweenFilter">
     <form [formGroup]="dateForm" (ngSubmit)="filterReceipts()">
@@ -107,8 +110,6 @@
       </button>
     </form>
   </div>
-
-
 
 
   <br />

@@ -8,21 +8,26 @@ import { MatDialog } from "@angular/material/dialog";
 import { DialogComponent } from "../../dialog/dialog.component";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { MatSort } from "@angular/material/sort";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { FormGroup, FormControl, Validators, FormBuilder } from "@angular/forms";
 import * as moment from "moment";
 
 import { MatDatepicker } from '@angular/material/datepicker';
 import { Moment } from 'moment';
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import { formatDate } from '@angular/common';
+
 
 
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'YYYY',
+    dateInput: 'LL',
   },
   display: {
-    dateInput: 'YYYY'
+    dateInput: 'YYYY-MM-DD',
+    monthYearLabel: 'YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'YYYY',
   },
 };
 
@@ -39,6 +44,8 @@ export const MY_FORMATS = {
     },
     
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+
+    
   ],
 })
 export class ReceiptTableComponent implements OnInit {
@@ -77,7 +84,8 @@ export class ReceiptTableComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -91,9 +99,10 @@ export class ReceiptTableComponent implements OnInit {
 
   fetchData() {
     this.dateForm = new FormGroup({
-      startDate: new FormControl(null, Validators.required),
-      endDate: new FormControl(null, Validators.required),
+      startDate: new FormControl(moment(), Validators.required),
+      endDate: new FormControl(moment(), Validators.required),
     });
+   
     this.year = new FormControl(moment(), Validators.required);
     if(this.router.url.includes('receipt/all')){
       let userData = JSON.parse(localStorage.getItem("userData"));
