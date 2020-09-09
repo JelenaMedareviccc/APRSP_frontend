@@ -3,30 +3,30 @@ import { Company } from "./company";
 export class Client {
   clientId: number;
   name: string;
-  client_reg_number: string;
+  clientRegNumber: string;
   address: string;
   contact: string;
   email: string;
-  account_number: string;
+  accountNumber: string;
   company: Company;
 
   constructor(
-    clientId,
-    name,
-    client_reg_number,
-    address,
-    contact,
-    email,
-    account_number,
-    company
+    clientId: number,
+    name: string,
+    clientRegNumber: string,
+    address: string,
+    contact: string,
+    email: string,
+    accountNumber: string,
+    company: Company
   ) {
     this.clientId = clientId;
     this.name = name;
-    this.client_reg_number = client_reg_number;
+    this.clientRegNumber = clientRegNumber;
     this.address = address;
     this.contact = contact;
     this.email = email;
-    this.account_number = account_number;
+    this.accountNumber = accountNumber;
     this.company = company;
   }
 }

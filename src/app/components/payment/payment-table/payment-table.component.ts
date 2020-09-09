@@ -15,7 +15,7 @@ import { ReceiptService } from 'src/app/services/receipt/receipt.service';
   styleUrls: ["./payment-table.component.css"],
 })
 export class PaymentTableComponent implements OnInit {
-  displayedColumns = ["paymentId", "amount", "date_of_issue", "delete", "edit"];
+  displayedColumns = ["paymentId", "amount", "dateOfIssue", "delete", "edit"];
   dataSource: MatTableDataSource<Payment>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -23,7 +23,7 @@ export class PaymentTableComponent implements OnInit {
   receiptId: number;
   showButtons: boolean = true;
   private payments: Payment[] = [];
-  title: String;
+  title: string;
   companyId: number;
   clientId: number;
 
@@ -38,7 +38,7 @@ export class PaymentTableComponent implements OnInit {
    this.fetchData();
    this.initializeDataSource();
   }
-  
+
   fetchData() {
     if(this.router.url.includes('/payment/all')){
       let userData = JSON.parse(localStorage.getItem("userData"));
@@ -59,13 +59,13 @@ export class PaymentTableComponent implements OnInit {
         this.companyId = +params["companyid"];
         this.clientId = +params["clientid"];
       });
-  
+
     this.paymentService.getPaymentByReceipt(this.receiptId).subscribe(
       (payments) => {
         this.payments = payments;
         this.initializeDataSource();
         this.showButtons = true;
-        
+
       },
       (error) => {
         console.log(error);
@@ -117,7 +117,7 @@ export class PaymentTableComponent implements OnInit {
       this.router.navigate([`${paymentid}/edit`], { relativeTo: this.route });
     }
 
-    
+
   }
 
   getTotalCost() {
@@ -132,7 +132,7 @@ export class PaymentTableComponent implements OnInit {
     this.router.navigate(["company/" + this.companyId + "/client/" + this.clientId + "/receipts"]);
   }
 
-  openDialog(actionType: String): any{
+  openDialog(actionType: string): any{
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
       data: { action: actionType },

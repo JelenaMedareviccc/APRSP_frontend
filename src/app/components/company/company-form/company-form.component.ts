@@ -17,8 +17,8 @@ export class CompanyFormComponent implements OnInit {
   editMode: boolean = false;
   companyForm: FormGroup;
   userId: number;
-  username: String;
-  formText: String;
+  username: string;
+  formText: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -47,23 +47,22 @@ export class CompanyFormComponent implements OnInit {
 
   initEditForm() {
     this.companyService.getCompany(this.companyId).subscribe(
-      (data) => {
-        console.log(data);
+      (company) => {
         this.createForm(
-          data.name,
-          data.pib,
-          data.address,
-          data.contact,
-          data.email,
-          data.account_number
+          company.name,
+          company.pib,
+          company.address,
+          company.contact,
+          company.email,
+          company.accountNumber
         );
         this.companyForm.setValue({
-          name: data.name,
-          pib: data.pib,
-          address: data.address,
-          contact: data.contact,
-          email: data.email,
-          account_number: data.account_number,
+          name: company.name,
+          pib: company.pib,
+          address: company.address,
+          contact:company.contact,
+          email: company.email,
+          accountNumber: company.accountNumber,
         });
       },
       (error) => {
@@ -72,7 +71,7 @@ export class CompanyFormComponent implements OnInit {
     );
   }
 
-  createForm(name, pib, address, contact, email, account_number) {
+  createForm(name: string, pib: string, address: string, contact: string, email: string, accountNumber: string) {
     this.companyForm = new FormGroup({
       name: new FormControl(name, [
         Validators.required,
@@ -95,7 +94,7 @@ export class CompanyFormComponent implements OnInit {
         Validators.pattern(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/),
       ]),
       email: new FormControl(email, [Validators.required, Validators.email]),
-      account_number: new FormControl(account_number, [
+      accountNumber: new FormControl(accountNumber, [
         Validators.required,
         Validators.maxLength(16),
         Validators.minLength(16),
@@ -144,7 +143,7 @@ export class CompanyFormComponent implements OnInit {
     }
   }
 
-  openDialog(actionType){
+  openDialog(actionType: string){
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
       data: { action: actionType},
@@ -154,7 +153,7 @@ export class CompanyFormComponent implements OnInit {
       if (!result) {
         return;
       }
-      
+
     });
   }
 }

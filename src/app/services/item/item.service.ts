@@ -34,8 +34,8 @@ export class ItemService {
     return this.httpClient.get<Item[]>(this.API_URL);
   }
 
-  public getItem(id: number): Observable<Item> {
-    return this.httpClient.get<Item>(this.API_URL + "/itemId/" + id);
+  public getItem(itemId: number): Observable<Item> {
+    return this.httpClient.get<Item>(this.API_URL + "/itemId/" + itemId);
   }
 
   public getItemByReceipt(receiptId: number): Observable<Item[]> {
@@ -50,8 +50,8 @@ export class ItemService {
     return this.httpClient.put<Item>(this.API_URL, item);
   }
 
-  public deleteItem(id: number): Observable<{}> {
-    return this.httpClient.delete(this.API_URL + "/" + id);
+  public deleteItem(itemId: number): Observable<{}> {
+    return this.httpClient.delete(this.API_URL + "/" + itemId);
   }
 
   public getItemByUser(userId: number): Observable<Item[]> {

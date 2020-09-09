@@ -27,12 +27,11 @@ export class ItemTableComponent implements OnInit {
   dataSource: MatTableDataSource<Item>;
 
   items: Item[] =  [];
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   receiptId: number;
   showButtons: boolean = true;
-  title: String;
+  title: string;
   companyId: number;
   clientId: number;
 
@@ -68,7 +67,7 @@ export class ItemTableComponent implements OnInit {
         this.receiptId = +params["receiptid"];
         this.companyId = +params["companyid"];
         this.clientId = +params["clientid"];
-     
+
       });
     this.itemService.getItemByReceipt(this.receiptId).subscribe(
       (items) => {
@@ -114,14 +113,14 @@ export class ItemTableComponent implements OnInit {
     }
   }
 
-  deleteItem(id: number) {
-  
+  deleteItem(itemId: number) {
+
     const dialogRef = this.openDialog("delete");
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) {
         return;
       }
-      this.itemService.deleteItem(id).subscribe(
+      this.itemService.deleteItem(itemId).subscribe(
         () => {
          this.fetchData();
         },() => {
@@ -131,7 +130,7 @@ export class ItemTableComponent implements OnInit {
     });
   }
 
-  openDialog(actionType: String): any{
+  openDialog(actionType: string): any{
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
       data: { action: actionType },

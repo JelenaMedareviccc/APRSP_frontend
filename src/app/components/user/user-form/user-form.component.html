@@ -5,14 +5,14 @@
         <mat-label>First name</mat-label>
         <input
           matInput
-          id="first_name"
-          name="first_name"
-          formControlName="first_name"
+          id="firstName"
+          name="firstName"
+          formControlName="firstName"
         />
         <span
           *ngIf="
-            !userForm.get('first_name').valid &&
-            userForm.get('first_name').touched
+            !userForm.get('firstName').valid &&
+            userForm.get('firstName').touched
           "
           >First name must contains between 2 and 20 charachters!</span
         >
@@ -20,11 +20,11 @@
       <br />
       <mat-form-field appearance="outline" class="input-field">
         <mat-label>Last name</mat-label>
-        <input matInput name="last_name" formControlName="last_name" />
+        <input matInput name="lastName" formControlName="lastName" />
         <span
           *ngIf="
-            !userForm.get('last_name').valid &&
-            userForm.get('last_name').touched
+            !userForm.get('lastName').valid &&
+            userForm.get('lastName').touched
           "
           >Last name must contains between 2 and 30 charachters!</span
         >
@@ -38,7 +38,7 @@
           >Please enter a valid email!</span
         >
       </mat-form-field>
-   
+
     <br />
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Contact</mat-label>
@@ -85,7 +85,7 @@
     </div>
   </div>
     <br />
-    
+
     <div class="button-pos">
       <button class="btn submit-button" [disabled]="!userForm.valid">
         {{ changePass ? "Change Password" : updateUser ? "Update User" : signin ? "Login" : "Sign Up" }}

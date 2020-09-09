@@ -18,8 +18,8 @@ export class PaymentService {
     return this.httpClient.get<Payment[]>(this.API_URL);
   }
 
-  public getPayment(id: number): Observable<Payment> {
-    return this.httpClient.get<Payment>(this.API_URL + "/paymentId/" + id);
+  public getPayment(paymentId: number): Observable<Payment> {
+    return this.httpClient.get<Payment>(this.API_URL + "/paymentId/" + paymentId);
   }
 
   public getPaymentByReceipt(receiptId: number): Observable<Payment[]> {
@@ -36,8 +36,8 @@ export class PaymentService {
     return this.httpClient.put<Payment>(this.API_URL, payment);
   }
 
-  public deletePayment(id: number): Observable<{}> {
-    return this.httpClient.delete(this.API_URL + "/" + id);
+  public deletePayment(paymentId: number): Observable<{}> {
+    return this.httpClient.delete(this.API_URL + "/" + paymentId);
   }
 
   public getPaymentByUser(userId: number): Observable<Payment[]> {

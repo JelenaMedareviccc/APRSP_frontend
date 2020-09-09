@@ -15,7 +15,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   isAuth: boolean = true;
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
-  userId;
+  userId: number;
   admin: boolean = false;
 
 
@@ -32,14 +32,14 @@ export class NavigationComponent implements OnInit, OnDestroy {
               private userService: UserService,
               private route: ActivatedRoute,
               private _location: Location,
-              changeDetectorRef: ChangeDetectorRef, 
+              changeDetectorRef: ChangeDetectorRef,
               media: MediaMatcher) {
                 this.mobileQuery = media.matchMedia('(max-width: 600px)');
                 this._mobileQueryListener = () => changeDetectorRef.detectChanges();
                 this.mobileQuery.addListener(this._mobileQueryListener);
               }
-              
-            
+
+
 
   ngOnInit(): void {
     this.userService.user.subscribe((user) => {
@@ -50,15 +50,15 @@ export class NavigationComponent implements OnInit, OnDestroy {
         if(user.role.name === "ROLE_ADMIN"){
             this.admin=!this.admin;
         }
-  
+
       })
     }
-     
+
     });
 
-  
+
   }
-  
+
   auth() {
     if (JSON.parse(localStorage.getItem("userData"))) {
       if (this.userService.logout()) {
@@ -89,5 +89,5 @@ ngOnDestroy(): void {
 showUsers(){
   this.router.navigate([`users`]);
 }
-  
+
 }

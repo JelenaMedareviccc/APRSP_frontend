@@ -14,8 +14,8 @@ export class PaymentComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.paymentService.paymentEmitter.subscribe((res) => {
-      if (res) {
+    this.paymentService.paymentEmitter.subscribe((payment) => {
+      if (payment) {
         let snackBarRef = this._snackBar.open(
           "Payment succesfully updated!",
           "OK"

@@ -60,11 +60,11 @@
 
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Account number</mat-label>
-      <input matInput name="account_number" formControlName="account_number" />
+      <input matInput name="accountNumber" formControlName="accountNumber" />
       <span
         *ngIf="
-          !companyForm.get('account_number').valid &&
-          companyForm.get('account_number').touched
+          !companyForm.get('accountNumber').valid &&
+          companyForm.get('accountNumber').touched
         "
         >Account number must contain 16 digits!</span
       >

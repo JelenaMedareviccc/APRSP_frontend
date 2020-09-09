@@ -2,8 +2,8 @@ import { Role } from "./role";
 
 export class User {
   id: number;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   username: string;
   email: string;
   password: string;
@@ -13,7 +13,7 @@ export class User {
   tokenExpirationDate: Date;
   expiration: Date;
 
-  constructor(userId, username, token, expiration) {
+  constructor(userId: number, username: string, token: string, expiration: Date) {
     this.username = username;
     this.token = token;
     this.id = userId;

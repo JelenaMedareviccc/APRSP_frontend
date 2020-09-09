@@ -29,7 +29,7 @@ export class PaymentFormComponent implements OnInit {
   newPayment: Payment;
   editPaymentId: number;
   receiptId: number;
-  date_of_issue;
+  dateOfIssue: any;
   formText: string;
 
   ngOnInit() {
@@ -51,9 +51,9 @@ export class PaymentFormComponent implements OnInit {
     let amount = null;
     this.paymentService.getPayment(this.editPaymentId).subscribe(
       (data) => {
-        this.date_of_issue = data.date_of_issue;
+        this.dateOfIssue = data.dateOfIssue;
         amount = data.amount;
-        this.createForm(this.date_of_issue, amount);
+        this.createForm(this.dateOfIssue, amount);
       },
       (error) => {
         console.log(error);
@@ -61,30 +61,30 @@ export class PaymentFormComponent implements OnInit {
     );
   }
 
-  createForm(date_of_issue, amount) {
+  createForm(dateOfIssue: any, amount: number) {
     this.paymentForm  = this.formBuilder.group({
-      date_of_issue: [formatDate(date_of_issue, 'MM/DD/YYYY', 'en'), [Validators.required]],
+      dateOfIssue: [formatDate(dateOfIssue, 'MM/DD/YYYY', 'en'), [Validators.required]],
       amount: new FormControl(amount, Validators.required)
-  
+
     });
-    this.date_of_issue=date_of_issue;
-   
+    this.dateOfIssue=dateOfIssue;
+
   }
 
   createEditPayment() {
     this.newPayment = this.paymentForm.value;
     this.receiptService.getReceipt(this.receiptId).subscribe((r) => {
-      
-      const momentDateReceipt = new Date(r.date_of_issue);
+
+      const momentDateReceipt = new Date(r.dateOfIssue);
       const formattedDateReceipt = moment(momentDateReceipt).format("MM/DD/YYYY");
-      r.date_of_issue = formattedDateReceipt;
+      r.dateOfIssue = formattedDateReceipt;
       const receipt = { receipt: r };
       this.newPayment = { ...this.newPayment, ...receipt };
-      console.log("Datum: " + this.newPayment.date_of_issue);
-      const momentDate = new Date(this.newPayment.date_of_issue);
+      console.log("Datum: " + this.newPayment.dateOfIssue);
+      const momentDate = new Date(this.newPayment.dateOfIssue);
     const formattedDate = moment(momentDate).format("MM/DD/YYYY");
-    this.newPayment.date_of_issue = formattedDate;
-    console.log(this.newPayment.date_of_issue);
+    this.newPayment.dateOfIssue = formattedDate;
+    console.log(this.newPayment.dateOfIssue);
       if (this.editPaymentId) {
         const id = { paymentId: this.editPaymentId };
         this.newPayment = { ...id, ...this.newPayment };
@@ -118,7 +118,7 @@ export class PaymentFormComponent implements OnInit {
     }
   }
 
-  openDialog(actionType){
+  openDialog(actionType: string){
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
       data: { action: actionType},
@@ -128,7 +128,7 @@ export class PaymentFormComponent implements OnInit {
       if (!result) {
         return;
       }
-      
+
     });
   }
 }

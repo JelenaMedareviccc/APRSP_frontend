@@ -13,7 +13,7 @@ import * as moment from 'moment';
   styleUrls: ["./item-form.component.css"],
 })
 export class ItemFormComponent implements OnInit {
-  editID: number;
+  editId: number;
   itemForm: FormGroup;
   receiptId: number;
   formText: string;
@@ -28,11 +28,11 @@ export class ItemFormComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((p) => {
-      this.editID = +p["itemid"];
+      this.editId = +p["itemid"];
       this.formText = "Add new item";
       this.route.parent.params.subscribe((params: Params) => {
         this.receiptId = +params["receiptid"];
-        if (this.editID) {
+        if (this.editId) {
           this.initEditForm();
           this.formText = "Edit item";
         }
@@ -42,13 +42,9 @@ export class ItemFormComponent implements OnInit {
   }
 
   initEditForm() {
-    this.itemService.getItem(this.editID).subscribe(
-      (data) => {
-        console.log(data);
-        const name = data.name;
-        const price = data.price;
-        const measure = data.measure;
-        this.createForm(name, price, measure);
+    this.itemService.getItem(this.editId).subscribe(
+      (item) => {
+        this.createForm(item.name, item.price, item.measure);
       },
       (error) => {
         console.log(error);
@@ -56,7 +52,7 @@ export class ItemFormComponent implements OnInit {
     );
   }
 
-  createForm(name, price, measure) {
+  createForm(name: string, price: number, measure: number) {
     this.itemForm = new FormGroup({
       name: new FormControl(name, [
         Validators.required,
@@ -83,14 +79,14 @@ export class ItemFormComponent implements OnInit {
       this.receiptService
         .getReceipt(this.receiptId)
         .subscribe((receiptInfo) => {
-          const momentDate = new Date(receiptInfo.date_of_issue);
+          const momentDate = new Date(receiptInfo.dateOfIssue);
           const formattedDate = moment(momentDate).format("MM/DD/YYYY");
-          receiptInfo.date_of_issue = formattedDate;
+          receiptInfo.dateOfIssue = formattedDate;
           const receipt = { receipt: receiptInfo };
           newItem = { ...newItem, ...receipt };
           console.log(newItem);
-          if (this.editID) {
-            const itemId = { itemId: this.editID };
+          if (this.editId) {
+            const itemId = { itemId: this.editId };
             newItem = { ...itemId, ...newItem };
             this.itemService.updateItem(newItem).subscribe(
               () => {
@@ -116,8 +112,8 @@ export class ItemFormComponent implements OnInit {
 
   redirectTo() {
     this.itemForm.reset();
-    this.itemService.itemEmitter.emit(this.editID);
-    if (this.editID) {
+    this.itemService.itemEmitter.emit(this.editId);
+    if (this.editId) {
       this.router.navigate(["../../"], { relativeTo: this.route });
     } else {
       this.router.navigate(["../"], { relativeTo: this.route });
@@ -134,7 +130,7 @@ export class ItemFormComponent implements OnInit {
       if (!result) {
         return;
       }
-      
+
     });
   }
 }

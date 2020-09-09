@@ -14,13 +14,13 @@
       <mat-label>Client registration number</mat-label>
       <input
         matInput
-        name="client_reg_number"
-        formControlName="client_reg_number"
+        name="clientRegNumber"
+        formControlName="clientRegNumber"
       />
       <span
         *ngIf="
-          !clientForm.get('client_reg_number').valid &&
-          clientForm.get('client_reg_number').touched
+          !clientForm.get('clientRegNumber').valid &&
+          clientForm.get('clientRegNumber').touched
         "
         >Registration number must contain 6 digits!</span
       >
@@ -61,11 +61,11 @@
     <br />
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Account number</mat-label>
-      <input matInput name="account_number" formControlName="account_number" />
+      <input matInput name="accountNumber" formControlName="accountNumber" />
       <span
         *ngIf="
-          !clientForm.get('account_number').valid &&
-          clientForm.get('account_number').touched
+          !clientForm.get('accountNumber').valid &&
+          clientForm.get('accountNumber').touched
         "
         >Account number must contain 16 digits!</span
       >

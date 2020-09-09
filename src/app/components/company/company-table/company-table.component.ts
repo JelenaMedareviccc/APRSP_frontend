@@ -29,7 +29,7 @@ export class CompanyTableComponent implements OnInit {
     "address",
     "contact",
     "email",
-    "account_number",
+    "accountNumber",
     "edit",
     "delete",
     "clients",
@@ -59,17 +59,15 @@ export class CompanyTableComponent implements OnInit {
     let userData = JSON.parse(localStorage.getItem("userData"));
     this.userId = userData["id"];
     this.userName = userData["username"];
-
-
     this.initializeDataSource();
   }
 
   initializeDataSource() {
 
     this.companyService.getCompanyByUser(this.userId).subscribe(
-      (c) => {
+      (companies) => {
         this.showCompany = true;
-       this.companies = c;
+       this.companies = companies;
       this.dataSource = new MatTableDataSource<Company>(this.companies);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -82,7 +80,7 @@ export class CompanyTableComponent implements OnInit {
           data.email.toLowerCase().includes(filter)
         );
       };
-   
+
       },
       (error) => {
         console.log(error);
@@ -94,18 +92,18 @@ export class CompanyTableComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  editCompany(companyId) {
+  editCompany(companyId: number) {
     this.router.navigate([`${companyId}/edit`], { relativeTo: this.route });
   }
 
-  deleteCompany(id: number) {
+  deleteCompany(companyId: number) {
     const dialogRef = this.openDialog("delete");
-  
+
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) {
         return;
       }
-      this.companyService.deleteCompany(id).subscribe(
+      this.companyService.deleteCompany(companyId).subscribe(
         () => {
           this.initializeDataSource();
         },
@@ -116,7 +114,7 @@ export class CompanyTableComponent implements OnInit {
     });
   }
 
-  openDialog(actionType: String): any{
+  openDialog(actionType: string): any{
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
         data: { action: actionType },
@@ -131,7 +129,7 @@ export class CompanyTableComponent implements OnInit {
   onRowClick(companyid: any){
     this.router.navigate([`${companyid}`], { relativeTo: this.route });
 
-    
+
   }
 
 

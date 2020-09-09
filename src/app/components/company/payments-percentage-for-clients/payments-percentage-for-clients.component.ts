@@ -12,7 +12,7 @@ import * as d3 from 'd3';
 })
 export class PaymentsPercentageForClientsComponent implements OnInit {
 
-  
+
   private data;
   private svg;
   private margin = 50;
@@ -37,7 +37,7 @@ export class PaymentsPercentageForClientsComponent implements OnInit {
       })
 
       this.companyService.getCompany(this.companyId).subscribe((data) => {
-        
+
         this.companyName = data.name;
 
       });
@@ -47,14 +47,12 @@ export class PaymentsPercentageForClientsComponent implements OnInit {
 
   fetchData(){
   this.clientService.getClientsPayment(this.companyId, this.year).subscribe(clients => {
-    console.log("Uslo")
     this.data = clients;
-    console.log(this.data);
     this.createSvg();
     this.createColors();
     this.drawChart();
   })
-  
+
 
   }
 

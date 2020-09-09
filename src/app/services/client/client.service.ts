@@ -25,8 +25,8 @@ export class ClientService {
     return this.httpClient.get<Client[]>(this.API_URL);
   }
 
-  public getClient(id: number): Observable<Client> {
-    return this.httpClient.get<Client>(this.API_URL + "/" + id);
+  public getClient(clientId: number): Observable<Client> {
+    return this.httpClient.get<Client>(this.API_URL + "/" + clientId);
   }
 
   public getClientByName(name: string): Observable<Client[]> {
@@ -52,8 +52,8 @@ export class ClientService {
     return this.httpClient.put<Client>(this.API_URL, client);
   }
 
-  public deleteClient(id: number): Observable<{}> {
-    return this.httpClient.delete(this.API_URL + "/" + id, httpOptions);
+  public deleteClient(clientId: number): Observable<{}> {
+    return this.httpClient.delete(this.API_URL + "/" + clientId, httpOptions);
   }
 
    public getClientByUser(userId: number): Observable<Client[]> {

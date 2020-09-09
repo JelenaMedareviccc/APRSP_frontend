@@ -50,7 +50,7 @@
     </mat-date-range-input>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-date-range-picker #picker></mat-date-range-picker>
-  
+
     <mat-error *ngIf="dateForm.controls.startDate.hasError('matStartDateInvalid')">Invalid start date</mat-error>
     <mat-error *ngIf="dateForm.controls.endDate.hasError('matEndDateInvalid')">Invalid end date</mat-error>
   </mat-form-field>
@@ -129,22 +129,22 @@
         <td mat-footer-cell *matFooterCellDef><strong>TOTAL</strong></td>
       </ng-container>
 
-      <ng-container matColumnDef="date_of_issue">
+      <ng-container matColumnDef="dateOfIssue">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Date of issue</th>
-        <td mat-cell *matCellDef="let element">{{ element.date_of_issue }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.dateOfIssue }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
 
-      <ng-container matColumnDef="time_limit">
+      <ng-container matColumnDef="timeLimit">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Time limit</th>
-        <td mat-cell *matCellDef="let element">{{ element.time_limit}} days</td>
+        <td mat-cell *matCellDef="let element">{{ element.timeLimit}} days</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
 
-      <ng-container matColumnDef="total_amount">
+      <ng-container matColumnDef="totalAmount">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Total amount</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.total_amount | currency }}
+          {{ element.totalAmount | currency }}
         </td>
         <td mat-footer-cell *matFooterCellDef>
           <strong>{{ getTotalCost() | currency }}</strong>
@@ -159,9 +159,9 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="percentage_interest">
+      <ng-container matColumnDef="percentageInterest">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Interest</th>
-        <td mat-cell *matCellDef="let element">{{ element.percentage_interest}} % </td>
+        <td mat-cell *matCellDef="let element">{{ element.percentageInterest}} % </td>
         <td mat-footer-cell *matFooterCellDef></td>
 
       </ng-container>

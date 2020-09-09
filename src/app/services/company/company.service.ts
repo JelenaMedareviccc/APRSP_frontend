@@ -23,13 +23,11 @@ export class CompanyService {
     return this.httpClient.get<Company[]>(this.API_URL);
   }
 
-  public getCompany(id: number): Observable<Company> {
-    return this.httpClient.get<Company>(this.API_URL + "/" + id);
+  public getCompany(companyId: number): Observable<Company> {
+    return this.httpClient.get<Company>(this.API_URL + "/" + companyId);
   }
 
   public createCompany(company: Company): Observable<Company> {
-    console.log(company);
-    console.log(JSON.stringify(company));
     return this.httpClient.post<Company>(this.API_URL, company);
   }
 
@@ -37,8 +35,8 @@ export class CompanyService {
     return this.httpClient.put<Company>(this.API_URL, company);
   }
 
-  public deleteCompany(id: number): Observable<Company> {
-    return this.httpClient.delete<Company>(this.API_URL + "/" + id);
+  public deleteCompany(companyId: number): Observable<Company> {
+    return this.httpClient.delete<Company>(this.API_URL + "/" + companyId);
   }
 
   public getCompanyByUser(userId: number): Observable<Company[]> {

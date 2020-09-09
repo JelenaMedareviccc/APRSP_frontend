@@ -2,16 +2,16 @@ import { Client } from "./client";
 
 export class Receipt {
   receiptId: number;
-  date_of_issue: string;
-  time_limit: number;
-  total_amount: number;
+  dateOfIssue: string;
+  timeLimit: number;
+  totalAmount: number;
   debt: number;
-  percentage_interest: number;
+  percentageInterest: number;
   client: Client;
 
-  constructor(date_of_issue: string, time_limit: number, client: Client) {
-    this.date_of_issue = date_of_issue;
-    this.time_limit = time_limit;
+  constructor(dateOfIssue: string, timeLimit: number, client: Client) {
+    this.dateOfIssue = dateOfIssue;
+    this.timeLimit = timeLimit;
     this.client = client;
   }
 }

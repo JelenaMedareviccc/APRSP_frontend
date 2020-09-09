@@ -59,7 +59,7 @@ export class UserService {
     const logUser = new User(values[1], values[0], values[2], expirationData);
 console.log(logUser);
     this.user.next(res);
- 
+
     this.autoLogOut(expiration);
     console.log("expiration" + expiration);
     res.expiration = new Date(new Date().getTime() + res.expiration);
@@ -109,8 +109,8 @@ console.log(logUser);
 
   }
 
-  public getUser(id: number): Observable<User> {
-    return this.httpClient.get<User>(this.API_URL + "userId/" + id);
+  public getUser(userId: number): Observable<User> {
+    return this.httpClient.get<User>(this.API_URL + "userId/" + userId);
   }
 
   public getUsers(): Observable<User[]> {
@@ -121,8 +121,8 @@ console.log(logUser);
     return this.httpClient.put<User>(this.API_URL, user);
   }
 
-  public deleteUser(id: number): Observable<{}> {
-    return this.httpClient.delete(this.API_URL  + id);
+  public deleteUser(userId: number): Observable<{}> {
+    return this.httpClient.delete(this.API_URL  + userId);
   }
 
   public changePassword(user: User): Observable<User> {
@@ -132,10 +132,10 @@ console.log(logUser);
   public changeUserToAdmin(id:number): Observable<User> {
     return this.httpClient.put<User>(this.API_URL_ADMIN + "changeUserToAdmin/"+  id, null );
   }
-  
 
 
 
 
-  
+
+
 }

@@ -46,14 +46,14 @@ export class UserFormComponent implements OnInit {
       this.route.params.subscribe((params: Params) => {
         this.userId = +params["userid"];
         this.userService.getUser(this.userId).subscribe(user => {
-          this.createUpdateForm(user.first_name, user.last_name, user.username, user.email, user.contact);
-  
+          this.createUpdateForm(user.firstName, user.lastName, user.username, user.email, user.contact);
+
         })
         this.updateUser=true;
-      
+
       });
 
-    
+
       }
     else if (this.router.url.includes("changePassword")) {
       this.signin = true;
@@ -66,7 +66,7 @@ export class UserFormComponent implements OnInit {
     }
   }
 
-  createFormSignIn(username, password) {
+  createFormSignIn(username: string, password: string) {
     this.userForm = new FormGroup({
       username: new FormControl(username, [
         Validators.required,
@@ -80,14 +80,14 @@ export class UserFormComponent implements OnInit {
     });
   }
 
-  createForm(firstName, lastName, username, email, password, contact) {
+  createForm(firstName: string, lastName: string, username: string, email: string, password: string, contact: string) {
     this.userForm = new FormGroup({
-      first_name: new FormControl(firstName, [
+      firstName: new FormControl(firstName, [
         Validators.required,
         Validators.maxLength(20),
         Validators.minLength(2),
       ]),
-      last_name: new FormControl(lastName, [
+      lastName: new FormControl(lastName, [
         Validators.required,
         Validators.maxLength(30),
         Validators.minLength(2),
@@ -110,14 +110,14 @@ export class UserFormComponent implements OnInit {
     });
   }
 
-  createUpdateForm(firstName, lastName, username, email, contact) {
+  createUpdateForm(firstName: string, lastName: string, username: string, email: string, contact: string) {
     this.userForm = new FormGroup({
-      first_name: new FormControl(firstName, [
+      firstName: new FormControl(firstName, [
         Validators.required,
         Validators.maxLength(20),
         Validators.minLength(2),
       ]),
-      last_name: new FormControl(lastName, [
+      lastName: new FormControl(lastName, [
         Validators.required,
         Validators.maxLength(30),
         Validators.minLength(2),
@@ -138,7 +138,7 @@ export class UserFormComponent implements OnInit {
 
   signInOrSignUpOrUpdateOrChangePassword() {
     let newUser = this.userForm.value;
-    let userId;
+    let userId: number;
 
     if(this.router.url.includes('edit')){
       this.userService.getUser(this.userId).subscribe(user => {
@@ -153,12 +153,12 @@ export class UserFormComponent implements OnInit {
           this.openDialog("edit");
         })
       })
-    
+
     } else if(this.router.url.includes('changePassword')){
       this.userService.changePassword(newUser).subscribe(() => {
         this.router.navigate(["../signin"], { relativeTo: this.route });
-       
-        
+
+
       }, ()  =>{
         this.openDialog("changePassword");
 
@@ -173,9 +173,9 @@ export class UserFormComponent implements OnInit {
           this.companyService.getCompanyByUser(userId).subscribe(company => {
             if(!company.length){
               this.router.navigate(["../company/newCompany"], { relativeTo: this.route });
-              
+
             } else {
-          
+
               this.router.navigate(["../company"], { relativeTo: this.route });
             }
           })
@@ -220,7 +220,7 @@ export class UserFormComponent implements OnInit {
       if (!result) {
         return;
       }
-      
+
     });
   }
 

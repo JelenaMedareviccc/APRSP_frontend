@@ -21,9 +21,9 @@ import { timestamp } from 'rxjs/operators';
 export class ReceiptLastYearComponent implements OnInit {
   displayedColumns = [
     "receiptId",
-    "date_of_issue",
-    "time_limit",
-    "total_amount",
+    "dateOfIssue",
+    "timeLimit",
+    "totalAmount",
     "debt",
   ];
   dataSource: MatTableDataSource<Receipt>;
@@ -31,9 +31,9 @@ export class ReceiptLastYearComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   clientId: number;
-  clientName: String;
-  companyName: String;
-  reportType: String;
+  clientName: string;
+  companyName: string;
+  reportType: string;
 
   private receipts: Receipt[];
 
@@ -51,7 +51,7 @@ export class ReceiptLastYearComponent implements OnInit {
       this.clientId = +params["clientid"];
       this.initializeDataSource();
       this.clientService.getClient(this.clientId).subscribe((data) => {
-        
+
         this.clientName = data.name;
 
       });
@@ -61,9 +61,9 @@ export class ReceiptLastYearComponent implements OnInit {
       const companyid = +params["companyid"];
       this.companyService.getCompany(companyid).subscribe(company => {
         this.companyName = company.name;
-        
+
       })
-      
+
      });
   }
 
@@ -136,7 +136,7 @@ export class ReceiptLastYearComponent implements OnInit {
             (receipts) => {
               console.log(receipts);
               if (receipts) {
-              
+
                 this.receipts = receipts;
                 this.dataSource = new MatTableDataSource<Receipt>(
                   this.receipts
@@ -158,16 +158,16 @@ export class ReceiptLastYearComponent implements OnInit {
   getTotal() {
     if (this.receipts) {
       return this.receipts
-        .map((t) => t.total_amount)
+        .map((t) => t.totalAmount)
         .reduce((acc, value) => acc + value, 0);
     }
   }
 
   public openPDF():void {
-   
+
    let doc = new jsPDF();
   this.pdfMaker(doc);
-    
+
 
     doc.output('dataurlnewwindow', "Report");
   }
@@ -176,26 +176,26 @@ export class ReceiptLastYearComponent implements OnInit {
   public downloadPDF():void {
     let doc = new jsPDF();
     this.pdfMaker(doc);
-      
-  
-   
+
+
+
     doc.save('report.pdf');
   }
 
   private pdfMaker(doc: jsPDF){
     doc.setProperties({
       title: 'Report',
-      subject: 'Receipt report' + this.reportType,		
+      subject: 'Receipt report' + this.reportType,
       author: this.clientName
     });
     doc.setFontSize(10);
 
     doc.page=1; // use this as a counter.
 
-    let footer = function footer(){ 
+    let footer = function footer(){
       let pageCount = doc.internal.getNumberOfPages();
-      for(let i = 0; i < pageCount; i++) { 
-      doc.setPage(i); 
+      for(let i = 0; i < pageCount; i++) {
+      doc.setPage(i);
       doc.text(100, 285, "Page: " + doc.internal.getCurrentPageInfo().pageNumber + "/" + pageCount);
       }
 };
@@ -204,11 +204,11 @@ const client = this.clientName;
 const report = this.reportType;
 let companyName= this.companyName;
 
-  
+
 
 const header = function(headerData: any) {
   doc.setFontSize(20);
-  
+
   doc.setFontStyle('normal');
 
  doc.text("REPORT ",headerData.settings.margin.left+ 70, 15 )
@@ -219,7 +219,7 @@ doc.setFontSize(15);
   doc.text("Client: " + client, headerData.settings.margin.left, 40);
   doc.text("Company: " + companyName, headerData.settings.margin.left,50)
   let datetime = new Date();
-  
+
  const date =datetime.getDay() + '/' + (datetime.getMonth() + 1) + '/' + datetime.getFullYear();
   doc.text('Date: ' + date.toString(), headerData.settings.margin.left, 60);
   const time = datetime.getHours() + ':'+datetime.getMinutes()+':'+ datetime.getSeconds();
@@ -235,13 +235,13 @@ doc.setFontSize(15);
             },
             fontName: "times",
   didDrawPage: header,
-  
+
     paperSize: {
         format: 'A4',
         orientation: 'portrait',
         border: '1.8cm'
     },
-   
+
 
 
 

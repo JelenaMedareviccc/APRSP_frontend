@@ -11,8 +11,8 @@ import { UserService } from 'src/app/services/user/user.service';
 })
 export class UserAccountComponent implements OnInit {
   user: User;
-   userId;
-   username: String;
+   userId: number;
+   username: string;
    showUser: boolean = false;
 
   constructor(
@@ -26,12 +26,9 @@ export class UserAccountComponent implements OnInit {
     this.userId = userData["id"];
    this.username = userData["username"];
    this.fetchData();
-
-    
   }
 
   fetchData() {
-   
       this.userService.getUser(this.userId).subscribe(user =>{
         this.showUser =true;
         this.user = user;

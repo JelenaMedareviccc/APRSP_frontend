@@ -26,12 +26,11 @@ export class ReceiptService {
     return this.httpClient.get<Receipt[]>(this.API_URL);
   }
 
-  public getReceipt(id: number): Observable<Receipt> {
-    return this.httpClient.get<Receipt>(this.API_URL + "/receiptId/" + id);
+  public getReceipt(receiptId: number): Observable<Receipt> {
+    return this.httpClient.get<Receipt>(this.API_URL + "/receiptId/" + receiptId);
   }
 
   public getReceiptByClient(clientId: number): Observable<Receipt[]> {
-    console.log(clientId + "KLIJENT ID");
     return this.httpClient.get<Receipt[]>(this.API_URL + "/client/" + clientId);
   }
 
@@ -43,8 +42,8 @@ export class ReceiptService {
     return this.httpClient.put<Receipt>(this.API_URL, receipt);
   }
 
-  public deleteReceipt(id: number): Observable<{}> {
-    return this.httpClient.delete(this.API_URL + "/" + id, httpOptions);
+  public deleteReceipt(receiptId: number): Observable<{}> {
+    return this.httpClient.delete(this.API_URL + "/" + receiptId, httpOptions);
   }
 
   public getLastYearReceipts(id: number): Observable<Receipt[]> {
@@ -82,14 +81,14 @@ export class ReceiptService {
     id: number,
     year: String
   ): Observable<Receipt[]> {
-    
+
     return this.httpClient.get<Receipt[]>(
       this.API_URL +
         "/" +
         id +
         "/filteredReceiptForSelectedYear/?year=" +
-        year 
-        
+        year
+
     );
   }
 

@@ -14,8 +14,8 @@ export class ClientComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.clientService.clientEmiter.subscribe((res) => {
-      if (res) {
+    this.clientService.clientEmiter.subscribe((client) => {
+      if (client) {
         let snackBarRef = this._snackBar.open(
           "Client succesfully updated!",
           "OK"
@@ -30,7 +30,7 @@ export class ClientComponent implements OnInit {
   }
 
   goBack(){
-    
+
   }
 
 }

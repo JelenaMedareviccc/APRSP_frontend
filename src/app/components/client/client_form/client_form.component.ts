@@ -12,7 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ["./client_form.component.css"],
 })
 export class ClientFormComponent implements OnInit {
-  editID: number;
+  editId: number;
   editMode = false;
   clientForm: FormGroup;
   companyId: number;
@@ -29,12 +29,12 @@ export class ClientFormComponent implements OnInit {
   ngOnInit() {
     this.createForm(null, null, null, null, null, null);
     this.route.params.subscribe((params: Params) => {
-      this.editID = +params["clientid"];
+      this.editId = +params["clientid"];
       this.editMode = params["clientid"] != null;
       this.route.parent.params.subscribe((params: Params) => {
         this.companyId = +params["companyid"];
         this.formText = "Add new client";
-        if (this.editID) {
+        if (this.editId) {
           this.initEditForm();
           this.formText = "Edit client";
         }
@@ -43,16 +43,15 @@ export class ClientFormComponent implements OnInit {
   }
 
   initEditForm() {
-    this.clientService.getClient(this.editID).subscribe(
-      (data) => {
-        console.log(data);
+    this.clientService.getClient(this.editId).subscribe(
+      (client) => {
         this.createForm(
-          data.name,
-          data.client_reg_number,
-          data.address,
-          data.contact,
-          data.email,
-          data.account_number
+          client.name,
+          client.clientRegNumber,
+          client.address,
+          client.contact,
+          client.email,
+          client.accountNumber
         );
       },
       (error) => {
@@ -61,14 +60,14 @@ export class ClientFormComponent implements OnInit {
     );
   }
 
-  createForm(name, client_reg_number, address, contact, email, account_number) {
+  createForm(name: string, clientRegNumber: string, address: string, contact: string, email: string, accountNumber: string) {
     this.clientForm = new FormGroup({
       name: new FormControl(name, [
         Validators.required,
         Validators.maxLength(40),
         Validators.minLength(3),
       ]),
-      client_reg_number: new FormControl(client_reg_number, [
+      clientRegNumber: new FormControl(clientRegNumber, [
         Validators.required,
         Validators.maxLength(6),
         Validators.minLength(6),
@@ -83,7 +82,7 @@ export class ClientFormComponent implements OnInit {
         Validators.pattern(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/),
       ]),
       email: new FormControl(email, [Validators.required, Validators.email]),
-      account_number: new FormControl(account_number, [
+      accountNumber: new FormControl(accountNumber, [
         Validators.required,
         Validators.maxLength(16),
         Validators.minLength(16),
@@ -99,7 +98,7 @@ export class ClientFormComponent implements OnInit {
       newClient = { ...newClient, ...company };
       console.log(newClient);
       if (this.editMode) {
-        let clientId = { clientId: this.editID };
+        let clientId = { clientId: this.editId };
         newClient = { ...clientId, ...newClient };
         this.clientService.updateClient(newClient).subscribe(
           () => {
@@ -132,7 +131,7 @@ export class ClientFormComponent implements OnInit {
     }
   }
 
-  openDialog(actionType: String){
+  openDialog(actionType: string){
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
       data: { action: actionType},

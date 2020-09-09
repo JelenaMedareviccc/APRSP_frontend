@@ -19,8 +19,8 @@ import { UserService } from 'src/app/services/user/user.service';
 export class UserTableComponent implements OnInit {
   displayedColumns = [
     "id",
-    "first_name",
-    "last_name",
+    "firstName",
+    "lastName",
     "username",
     "email",
     "contact",
@@ -30,7 +30,6 @@ export class UserTableComponent implements OnInit {
     "delete"
   ];
   dataSource: MatTableDataSource<User>;
-  jeste=true;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -48,17 +47,17 @@ export class UserTableComponent implements OnInit {
      this.fetchData();
     this.initializeDataSource();
   }
- 
+
  fetchData() {
-  
-     
+
+
         this.userService.getUsers().subscribe((users) => {
           this.users = users;
           this.initializeDataSource();
         }, error => {
           console.log(error);
         });
-    
+
   }
 
   initializeDataSource(){
@@ -67,7 +66,7 @@ export class UserTableComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.dataSource.filterPredicate = function(data, filter: string): boolean {
-    return data.username.toLowerCase().includes(filter) || data.first_name.toLowerCase().includes(filter) || data.last_name.toLowerCase().includes(filter);
+    return data.username.toLowerCase().includes(filter) || data.firstName.toLowerCase().includes(filter) || data.lastName.toLowerCase().includes(filter);
  };
   }
 
@@ -82,10 +81,10 @@ export class UserTableComponent implements OnInit {
 
   deleteUser(userId: number) {
 
-    
+
   const dialogRef= this.openDialog('delete');
     if(dialogRef){
-      
+
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) {
         return false;
@@ -98,11 +97,11 @@ export class UserTableComponent implements OnInit {
           this.openDialog("deleteError");
         }
       );
-      
+
     });
-    
+
     }
-  
+
   }
 
 
@@ -113,11 +112,11 @@ export class UserTableComponent implements OnInit {
   }
 
   changeRole(userId: number){
-    
-      
+
+
   const dialogRef= this.openDialog('changeRole');
   if(dialogRef){
-    
+
   dialogRef.afterClosed().subscribe((result) => {
     if (!result) {
       return false;
@@ -128,14 +127,14 @@ export class UserTableComponent implements OnInit {
       this.openDialog("roleError");
     }
     );
-    
+
   });
-  
+
   }
 
 }
 
-   openDialog(actionType): any{
+   openDialog(actionType: string): any{
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
       data: { action: actionType },

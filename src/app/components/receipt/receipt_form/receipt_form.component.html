@@ -7,9 +7,9 @@
       <input
         matInput
         [matDatepicker]="picker"
-        formControlName="date_of_issue"
-        value="{{date_of_issue | date:'yyyy-MM-dd' }}"
-      
+        formControlName="dateOfIssue"
+        value="{{dateOfIssue | date:'yyyy-MM-dd' }}"
+
       />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker  #picker></mat-datepicker>
@@ -19,19 +19,19 @@
       <mat-label>Time limit</mat-label>
       <input
         matInput
-        name="time_limit"
+        name="timeLimit"
         type="number"
-        formControlName="time_limit"
+        formControlName="timeLimit"
         min="1"
       />
       <div
         *ngIf="
-          receiptForm.get('time_limit').invalid &&
-          (receiptForm.get('time_limit').touched ||
-          receiptForm.get('time_limit').dirty)
+          receiptForm.get('timeLimit').invalid &&
+          (receiptForm.get('timeLimit').touched ||
+          receiptForm.get('timeLimit').dirty)
         "
       >
-        <div *ngIf="receiptForm.get('time_limit').errors.required"></div>
+        <div *ngIf="receiptForm.get('timeLimit').errors.required"></div>
         Please enter a valid time limit!
       </div>
     </mat-form-field>
