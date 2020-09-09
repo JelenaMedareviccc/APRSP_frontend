@@ -56,6 +56,7 @@ import { MatNativeDateModule, MatRippleModule} from '@angular/material/core';
 import { UserTableComponent } from './components/user/user-table/user-table.component';
 import { UserFormComponent } from './components/user/user-form/user-form.component';
 import { UserAccountComponent } from './components/user/user-account/user-account.component';
+import { PaymentsPercentageForClientsComponent } from './components/company/payments-percentage-for-clients/payments-percentage-for-clients.component';
 
 
 
@@ -85,7 +86,8 @@ import { UserAccountComponent } from './components/user/user-account/user-accoun
     CompanyroComponent,
     UserTableComponent,
     UserFormComponent,
-    UserAccountComponent
+    UserAccountComponent,
+    PaymentsPercentageForClientsComponent
   ],
   imports: [
     BrowserModule,

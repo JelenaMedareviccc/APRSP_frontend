@@ -1,14 +1,11 @@
 import { CompanyService } from "./../../../services/company/company.service";
-import { ClientService } from "./../../../services/client/client.service";
 import {
   Component,
   OnInit,
   Input,
   ViewChild,
-  Output,
-  EventEmitter,
 } from "@angular/core";
-import { Client } from "src/app/models/client";
+
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatDialog } from "@angular/material/dialog";
@@ -17,10 +14,12 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { MatSort } from "@angular/material/sort";
 import { Company } from "src/app/models/company";
 
+
 @Component({
   selector: "app-company-table",
   templateUrl: "./company-table.component.html",
   styleUrls: ["./company-table.component.css"],
+
 })
 export class CompanyTableComponent implements OnInit {
   displayedColumns = [
@@ -45,6 +44,8 @@ export class CompanyTableComponent implements OnInit {
   userId: number;
   companies: Company[];
   showCompany: boolean;
+  showYearPicker: boolean;
+
 
   constructor(
     public dialog: MatDialog,
@@ -59,10 +60,12 @@ export class CompanyTableComponent implements OnInit {
     this.userId = userData["id"];
     this.userName = userData["username"];
 
+
     this.initializeDataSource();
   }
 
   initializeDataSource() {
+
     this.companyService.getCompanyByUser(this.userId).subscribe(
       (c) => {
         this.showCompany = true;
@@ -124,5 +127,13 @@ export class CompanyTableComponent implements OnInit {
   addNewCompany() {
     this.router.navigate(["newCompany"], { relativeTo: this.route });
   }
+
+  onRowClick(companyid: any){
+    this.router.navigate([`${companyid}`], { relativeTo: this.route });
+
+    
+  }
+
+
 
 }

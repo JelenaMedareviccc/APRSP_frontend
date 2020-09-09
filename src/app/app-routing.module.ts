@@ -21,6 +21,7 @@ import { CompanyroComponent } from './components/company/companyro.component';
 import { UserFormComponent } from './components/user/user-form/user-form.component';
 import { UserTableComponent } from './components/user/user-table/user-table.component';
 import { UserAccountComponent } from './components/user/user-account/user-account.component';
+import { PaymentsPercentageForClientsComponent } from './components/company/payments-percentage-for-clients/payments-percentage-for-clients.component';
 
 export const routingConfiguration: ExtraOptions = {
   paramsInheritanceStrategy: "always",
@@ -46,6 +47,7 @@ const routes: Routes = [
        children: [
           {path: "", component: CompanyComponent },
           {path: "edit", component: CompanyFormComponent},
+          {path: "paymentPercentageForClients", component: PaymentsPercentageForClientsComponent },
           {path: "client", component: ClientComponent,
             children: [
                { path: "", component: ClientTableComponent },

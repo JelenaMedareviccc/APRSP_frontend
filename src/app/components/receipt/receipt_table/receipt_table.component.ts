@@ -15,16 +15,13 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { Moment } from 'moment';
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
-import { formatDate } from '@angular/common';
-
-
 
 export const MY_FORMATS = {
   parse: {
     dateInput: 'LL',
   },
   display: {
-    dateInput: 'YYYY-MM-DD',
+    dateInput: 'YYYY',
     monthYearLabel: 'YYYY',
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'YYYY',

@@ -1,6 +1,6 @@
 <div class="client-padding" *ngIf="showCompany">
   <button class="btn btn-add" (click)="addNewCompany()">Add new company</button>
-  <br />
+
 
   <h1 class="textColor">{{ userName }}'s companies</h1>
   <mat-form-field>
@@ -86,6 +86,7 @@
       mat-row
       style="cursor: default;"
       *matRowDef="let row; columns: displayedColumns; let i = index"
+      (click)= "onRowClick(row.companyId)"
     ></tr>
   </table>
   <mat-paginator

@@ -1,5 +1,27 @@
+<div  *ngIf="showCompany">
+  <button class="btn btn-add" (click)="showYearChooserForPayments()">Payments per year</button>
 
-<mat-card class="dashboard-card" *ngIf="showCompany" >
+<div class="year-picker" *ngIf="showYearPicker">
+  <form  (ngSubmit)="clientsPaymentPerYear()">
+<mat-form-field appearance="fill" >
+  <mat-label>Year</mat-label>
+  <input matInput [matDatepicker]="dp" [formControl]="year">
+  <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+  <mat-datepicker #dp
+                  startView="multi-year"
+                  (yearSelected)="chosenYearHandler($event,dp)"
+                  panelClass="example-month-picker">
+  </mat-datepicker>
+</mat-form-field>
+<button mat-raised-button [disabled]="!year.valid">
+  Confirm filter
+</button>
+</form>
+</div>
+<br />
+
+<mat-card  class="dashboard-card"  >
+ 
   <button class="btn btn-add" (click)="addNewClient()">Add new client</button>
 <br/>
       <mat-card-header>
@@ -29,6 +51,6 @@
       </mat-card-content>
     </mat-card>
     <div class="loader spinner" *ngIf="!showCompany">Loading...</div>
- 
+  </div>
 
 

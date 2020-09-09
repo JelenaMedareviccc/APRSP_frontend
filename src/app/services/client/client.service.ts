@@ -1,6 +1,7 @@
 import { Injectable, Output, EventEmitter } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Client } from "../../models/client";
+import { ClientPayment } from "../../models/clientpayment";
 import * as config from "../../config/config.json";
 import { Observable } from "rxjs";
 
@@ -58,6 +59,12 @@ export class ClientService {
    public getClientByUser(userId: number): Observable<Client[]> {
     return this.httpClient.get<Client[]>(
       this.API_URL + "/user/" + userId
+    );
+  }
+
+  public getClientsPayment(companyId: number, year: String): Observable<ClientPayment[]> {
+    return this.httpClient.get<ClientPayment[]>(
+      this.API_URL + "/company/" + companyId+ "/paymentPercentage?year="+ year
     );
   }
 }
