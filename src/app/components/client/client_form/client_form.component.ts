@@ -6,6 +6,7 @@ import { CompanyService } from "src/app/services/company/company.service";
 import { DialogComponent } from '../../dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
+
 @Component({
   selector: "app-client-form",
   templateUrl: "./client_form.component.html",
@@ -17,6 +18,7 @@ export class ClientFormComponent implements OnInit {
   clientForm: FormGroup;
   companyId: number;
   formText: string;
+  
 
   constructor(
     private clientService: ClientService,
@@ -24,7 +26,10 @@ export class ClientFormComponent implements OnInit {
     private router: Router,
     private companyService: CompanyService,
     public dialog: MatDialog
-  ) {}
+  ) {
+  
+
+  }
 
   ngOnInit() {
     this.createForm(null, null, null, null, null, null);
@@ -33,7 +38,7 @@ export class ClientFormComponent implements OnInit {
       this.editMode = params["clientid"] != null;
       this.route.parent.params.subscribe((params: Params) => {
         this.companyId = +params["companyid"];
-        this.formText = "Add new client";
+        this.formText = "New client";
         if (this.editId) {
           this.initEditForm();
           this.formText = "Edit client";

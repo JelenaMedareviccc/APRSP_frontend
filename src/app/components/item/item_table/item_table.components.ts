@@ -7,6 +7,8 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 import { ItemService } from "src/app/services/item/item.service";
 import { MatSort } from "@angular/material/sort";
 import { DialogComponent } from "../../dialog/dialog.component";
+import { ReceiptService } from 'src/app/services/receipt/receipt.service';
+import { ClientService } from 'src/app/services/client/client.service';
 
 @Component({
   selector: "app-item-table",
@@ -30,21 +32,22 @@ export class ItemTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   receiptId: number;
-  showButtons: boolean = true;
+  showButtons: boolean = false;
   title: string;
   companyId: number;
   clientId: number;
+  showItems: boolean = false;
 
   constructor(
     private itemService: ItemService,
     public dialog: MatDialog,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private clientService: ClientService
   ) {}
 
   ngOnInit() {
     this.fetchData();
-    this.initializeDataSource();
   }
 
   fetchData() {
@@ -53,7 +56,7 @@ export class ItemTableComponent implements OnInit {
       let userData = JSON.parse(localStorage.getItem("userData"));
       const userId = userData["id"];
       const username = userData["username"];
-      this.title=username;
+      this.title=username + "'s items";
       this.itemService.getItemByUser(userId).subscribe(items => {
         this.items = items;
         this.initializeDataSource();
@@ -69,11 +72,18 @@ export class ItemTableComponent implements OnInit {
         this.clientId = +params["clientid"];
 
       });
+
+      this.clientService.getClient(this.clientId).subscribe(client => {
+        this.title = client.name+"'s items for receipt with id "+ this.receiptId
+      })
+
+      
     this.itemService.getItemByReceipt(this.receiptId).subscribe(
       (items) => {
         this.items = items;
         this.initializeDataSource();
         this.showButtons= true;
+      
       },
       (error) => {
         console.log(error);
@@ -83,6 +93,7 @@ export class ItemTableComponent implements OnInit {
   }
 
   initializeDataSource(){
+  
     this.dataSource = new MatTableDataSource<Item>(this.items);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -92,6 +103,9 @@ export class ItemTableComponent implements OnInit {
     ): boolean {
       return data.name.toLowerCase().includes(filter);
     };
+    if(this.items){
+      this.showItems = true;
+    }
 
   }
 

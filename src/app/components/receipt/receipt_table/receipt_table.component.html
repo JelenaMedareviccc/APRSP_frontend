@@ -1,30 +1,29 @@
-<div class="client-padding"  #htmlData id="htmlData">
+<div class="table-padding">
+  <div *ngIf="showReceipts">
+    <h1 ><strong>{{ title | uppercase }}'S RECEIPTS</strong></h1>
   <div *ngIf="showButtons">
-  <button class="btn btn-add" (click)="addNewReceipt()" >Add new receipt</button>
+  <button class="btn btn-add btn-color" (click)="addNewReceipt()" >NEW RECEIPT</button>
   <div *ngIf="showFilter">
-  <button class="btn btn-add" (click)="onShowLastYearReceipts()">
-    Show last years receipts
+  <button class="btn btn-add btn-color" (click)="onShowLastYearReceipts()">
+   SHOW LAST YEARS RECEIPTS
   </button>
-  <button class="btn btn-add" (click)="onShowLast365DaysReceipts()">
-    Show last 365 days receipts
+  <button class="btn btn-add btn-color" (click)="onShowLast365DaysReceipts()">
+    SHOW LAST 365 DAYS RECEIPTS
   </button>
-  <button class="btn btn-add" (click)="onShowSelectedYear()">
-    Show receipt for selected year
+  <button class="btn btn-add btn-color" (click)="onShowSelectedYear()">
+    SHOW RECEIPT FOR SELECTED YEAR
   </button>
-  <button class="btn btn-add" (click)="onShowBetweenTwoDates()">
-    Show receipts between dates
+  <button class="btn btn-add btn-color" (click)="onShowBetweenTwoDates()">
+    SHOW RECEIPTS BETWEEN DATES
   </button>
-  <button class="btn btn-add" (click)="backToClients()">Back to clients</button>
+  <button class="btn btn-add btn-color" (click)="backToClients()">BACK TO CLIENTS</button>
 </div>
 </div>
-  <br />
-  <br />
-  <br />
-  <h1 class="textColor">{{ title }}'s receipts</h1>
 
-  <!--
+  <div class="same-line-filter">
   <div *ngIf="!showBetweenFilter">
-    <mat-form-field appearance="fill" [formGroup]="dateForm" (ngSubmit)="filterReceipts()">
+    <form  [formGroup]="dateForm" (ngSubmit)="filterReceipts()">
+    <mat-form-field appearance="fill"  >
       <mat-label>Enter a date range</mat-label>
       <mat-date-range-input [rangePicker]="picker">
         <input matStartDate placeholder="Start date" formControlName="startDate">
@@ -32,13 +31,16 @@
       </mat-date-range-input>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-date-range-picker #picker></mat-date-range-picker>
+    
     </mat-form-field>
-    <button mat-raised-button [disabled]="!dateForm.valid">
+    <button mat-raised-button [disabled]="!dateForm.valid" class="btn-color">
       Confirm filter
     </button>
+  </form>
+    
 </div>
 
-
+<!--
 
 <div *ngIf="!showBetweenFilter">
   <form (ngSubmit)="filterReceipts()">
@@ -62,24 +64,23 @@
 -->
 
 <div *ngIf="!showYearPicker">
-  <form  (ngSubmit)="filterReceiptsForSelectedYear()">
-<mat-form-field appearance="fill" >
+  <form  (ngSubmit)="filterReceiptsForSelectedYear()" >
+<mat-form-field appearance="fill"  >
   <mat-label>Year</mat-label>
   <input matInput [matDatepicker]="dp" [formControl]="year">
   <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
   <mat-datepicker #dp
                   startView="multi-year"
-                  (yearSelected)="chosenYearHandler($event,dp)"
-                  panelClass="example-month-picker">
+                >
   </mat-datepicker>
 </mat-form-field>
-<button mat-raised-button [disabled]="!year.valid">
+<button mat-raised-button [disabled]="!year.valid" class="btn-color">
   Confirm filter
 </button>
 </form>
 </div>
-
-
+</div>
+<!--
   <div *ngIf="!showBetweenFilter">
     <form [formGroup]="dateForm" (ngSubmit)="filterReceipts()">
       <mat-form-field>
@@ -88,6 +89,7 @@
           matInput
           [matDatepicker]="startPicker"
           formControlName="startDate"
+          [max] = "today"
         />
         <mat-datepicker-toggle
           matSuffix
@@ -98,19 +100,19 @@
 
       <mat-form-field>
         <mat-label>Choose end date</mat-label>
-        <input matInput [matDatepicker]="endPicker" formControlName="endDate" />
+        <input matInput [matDatepicker]="endPicker" formControlName="endDate"  [max] = "today"/>
         <mat-datepicker-toggle
           matSuffix
           [for]="endPicker"
         ></mat-datepicker-toggle>
         <mat-datepicker #endPicker></mat-datepicker>
       </mat-form-field>
-      <button mat-raised-button [disabled]="!dateForm.valid">
+      <button mat-raised-button [disabled]="!dateForm.valid" class="btn-color">
         Confirm filter
       </button>
     </form>
   </div>
-
+-->
 
   <br />
   <br />
@@ -126,44 +128,55 @@
       <ng-container matColumnDef="receiptId">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Receipt ID</th>
         <td mat-cell *matCellDef="let element">{{ element.receiptId }}</td>
+        <div *ngIf="showFooter">
         <td mat-footer-cell *matFooterCellDef><strong>TOTAL</strong></td>
+      </div>
       </ng-container>
 
       <ng-container matColumnDef="dateOfIssue">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Date of issue</th>
         <td mat-cell *matCellDef="let element">{{ element.dateOfIssue }}</td>
+        <div *ngIf="showFooter">
         <td mat-footer-cell *matFooterCellDef></td>
+      </div>
       </ng-container>
 
       <ng-container matColumnDef="timeLimit">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Time limit</th>
         <td mat-cell *matCellDef="let element">{{ element.timeLimit}} days</td>
+        <div *ngIf="showFooter">
         <td mat-footer-cell *matFooterCellDef></td>
+        </div>
       </ng-container>
 
       <ng-container matColumnDef="totalAmount">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Total amount</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.totalAmount | currency }}
+          {{ element.totalAmount | currency : currencyType: 'symbol' }}
         </td>
+        <div *ngIf="showFooter">
         <td mat-footer-cell *matFooterCellDef>
-          <strong>{{ getTotalCost() | currency }}</strong>
+          <strong>{{ getTotalCost() | currency : currencyType: 'symbol'  }}</strong>
         </td>
+        </div>
       </ng-container>
 
       <ng-container matColumnDef="debt">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Debt</th>
-        <td mat-cell *matCellDef="let element">{{ element.debt | currency }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.debt | currency : currencyType: 'symbol' }}</td>
+        <div *ngIf="showFooter">
         <td mat-footer-cell *matFooterCellDef>
-          <strong>{{ getTotalDebt() | currency }}</strong>
+          <strong>{{ getTotalDebt() | currency : currencyType: 'symbol'  }}</strong>
         </td>
+        </div>
       </ng-container>
 
       <ng-container matColumnDef="percentageInterest">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Interest</th>
         <td mat-cell *matCellDef="let element">{{ element.percentageInterest}} % </td>
+        <div *ngIf="showFooter">
         <td mat-footer-cell *matFooterCellDef></td>
-
+        </div>
       </ng-container>
 
       <ng-container matColumnDef="payment">
@@ -173,7 +186,9 @@
             Payment
           </button>
         </td>
+        <div *ngIf="showFooter">
         <td mat-footer-cell *matFooterCellDef></td>
+        </div>
       </ng-container>
 
       <ng-container matColumnDef="delete">
@@ -183,7 +198,9 @@
             Delete
           </button>
         </td>
+        <div *ngIf="showFooter">
         <td mat-footer-cell *matFooterCellDef></td>
+        </div>
       </ng-container>
 
       <ng-container matColumnDef="edit">
@@ -193,7 +210,9 @@
             Edit
           </button>
         </td>
+        <div *ngIf="showFooter">
         <td mat-footer-cell *matFooterCellDef></td>
+        </div>
       </ng-container>
 
       <ng-container matColumnDef="items">
@@ -203,12 +222,16 @@
             Items
           </button>
         </td>
+        <div *ngIf="showFooter">
         <td mat-footer-cell *matFooterCellDef></td>
+        </div>
       </ng-container>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <div *ngIf="showFooter">
     <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+    </div>
   </table>
   <mat-paginator
     [pageSize]="10"
@@ -216,4 +239,7 @@
     [showFirstLastButtons]="true"
   >
   </mat-paginator>
+  </div>
 </div>
+<div class="spinner-table" *ngIf="!showReceipts"><mat-spinner diameter="150" ></mat-spinner></div>
+

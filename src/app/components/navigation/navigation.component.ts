@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, OnDestroy, ChangeDetectorRef, DoCheck } from '@angular/core';
 import { BreakpointObserver, Breakpoints, MediaMatcher } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
@@ -11,7 +11,7 @@ import {Location} from '@angular/common';
   templateUrl: "./navigation.component.html",
   styleUrls: ["./navigation.component.css"],
 })
-export class NavigationComponent implements OnInit, OnDestroy {
+export class NavigationComponent implements OnInit, OnDestroy{
   isAuth: boolean = true;
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
@@ -38,11 +38,13 @@ export class NavigationComponent implements OnInit, OnDestroy {
                 this._mobileQueryListener = () => changeDetectorRef.detectChanges();
                 this.mobileQuery.addListener(this._mobileQueryListener);
               }
+  
 
 
 
   ngOnInit(): void {
     this.userService.user.subscribe((user) => {
+      console.log(user);
       this.isAuth = !user;
       if(user!=null){
         this.userId = user.id;
@@ -62,6 +64,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   auth() {
     if (JSON.parse(localStorage.getItem("userData"))) {
       if (this.userService.logout()) {
+        this.admin=false;
         this.router.navigate(["/signin"]);
       }
     } else {

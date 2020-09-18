@@ -28,6 +28,7 @@ export class CompanyService {
   }
 
   public createCompany(company: Company): Observable<Company> {
+    console.log("COMAPNY CREATE")
     return this.httpClient.post<Company>(this.API_URL, company);
   }
 

@@ -1,6 +1,6 @@
-<div class="example-container">
+<div class="form-container">
   <form [formGroup]="paymentForm" (ngSubmit)="createEditPayment()">
-    <h1 color="grey">{{ formText }}</h1>
+    <h1><strong>{{ formText }}</strong></h1>
     <mat-form-field appearance="fill" class="input-field">
       <mat-label>Amount</mat-label>
       <input
@@ -9,8 +9,9 @@
         type="number"
         formControlName="amount"
         class="right-amount"
+        required
       />
-      <span matPrefix>$&nbsp;</span>
+      <span matPrefix>{{currency}}</span>
       <span matSuffix>.00</span>
       <div
         *ngIf="
@@ -28,7 +29,9 @@
       <input matInput
       [matDatepicker]="picker"
         formControlName="dateOfIssue"
+        [max] = "today"
         value="{{dateOfIssue | date:'yyyy-MM-dd'}}"
+        required
     />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
@@ -37,8 +40,8 @@
     <br />
     <br />
     <div class="button-pos">
-      <button class="btn submit-button" [disabled]="!paymentForm.valid">
-        Submit
+      <button class="btn submit-button btn-color" [disabled]="!paymentForm.valid">
+        SUBMIT
       </button>
     </div>
   </form>

@@ -34,6 +34,7 @@ export class UserTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   users: User[]= [];
+  showUsers: boolean = false;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
@@ -45,7 +46,6 @@ export class UserTableComponent implements OnInit {
 
   ngOnInit() {
      this.fetchData();
-    this.initializeDataSource();
   }
 
  fetchData() {
@@ -61,13 +61,16 @@ export class UserTableComponent implements OnInit {
   }
 
   initializeDataSource(){
-    console.log(this.users);
     this.dataSource = new MatTableDataSource<User>(this.users);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.dataSource.filterPredicate = function(data, filter: string): boolean {
     return data.username.toLowerCase().includes(filter) || data.firstName.toLowerCase().includes(filter) || data.lastName.toLowerCase().includes(filter);
  };
+
+    if(this.users){
+      this.showUsers=true;
+    }
   }
 
   applyFilter(filterValue: string) {

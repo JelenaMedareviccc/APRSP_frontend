@@ -1,5 +1,12 @@
+<div class="table-padding">
+<div class="show-company-filters" >
+
 <div  *ngIf="showCompany">
-  <button class="btn btn-add" (click)="showYearChooserForPayments()">Payments per year</button>
+  <div class="button-pos">
+  <button class="btn btn-add btn-color" (click)="showYearChooserForPayments()">Payments per year</button>
+  <button class="btn btn-add btn-color" (click)="showPaymentsFor365Days()">Show payments for last 365 days</button>
+</div>
+
 
 <div class="year-picker" *ngIf="showYearPicker">
   <form  (ngSubmit)="clientsPaymentPerYear()">
@@ -13,16 +20,17 @@
                   panelClass="example-month-picker">
   </mat-datepicker>
 </mat-form-field>
-<button mat-raised-button [disabled]="!year.valid">
-  Confirm filter
+<button class="btn-color" mat-raised-button [disabled]="!year.valid">
+  COMFIRM
 </button>
+
 </form>
 </div>
 <br />
 
 <mat-card  class="dashboard-card"  >
 
-  <button class="btn btn-add" (click)="addNewClient()">Add new client</button>
+  <button class="btn btn-add btn-color" (click)="addNewClient()">NEW CLIENT</button>
 <br/>
       <mat-card-header>
         <mat-card-title>
@@ -50,7 +58,10 @@
         </div>
       </mat-card-content>
     </mat-card>
-    <div class="loader spinner" *ngIf="!showCompany">Loading...</div>
   </div>
+</div>
+    <div class="spinner" *ngIf="!showCompany"><mat-spinner diameter="150" ></mat-spinner></div>
+  </div>
+
 
 

@@ -1,9 +1,10 @@
-<div class="client-padding">
-  <h1 class="textColor">{{ title }}'s items</h1>
+<div class="table-padding">
+  <div *ngIf="showItems">
+  <h1 class="textColor">{{ title | uppercase }}</h1>
   <div *ngIf="showButtons">
 
-  <button class="btn btn-add" (click)="addNewItem()" >Add item</button>
-  <button class="btn btn-add" (click)="backToReceipts()">Back to receipts</button>
+  <button class="btn btn-add btn-color" (click)="addNewItem()" >ADD ITEM</button>
+  <button class="btn btn-add btn-color" (click)="backToReceipts()">BACK TO RECEIPTS</button>
   <br />
 </div>
   <mat-form-field>
@@ -82,4 +83,7 @@
     [showFirstLastButtons]="true"
   >
   </mat-paginator>
+  </div>
 </div>
+<div class="spinner-table" *ngIf="!showItems"><mat-spinner diameter="150" ></mat-spinner></div>
+

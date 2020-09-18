@@ -1,9 +1,9 @@
-<div class="example-container">
-  <h1 color="gray">{{ formText }}</h1>
+<div class="form-container">
+  <h1 color="gray">{{ formText | uppercase }}</h1>
   <form [formGroup]="companyForm" (ngSubmit)="createOrEditCompany()">
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Name</mat-label>
-      <input matInput id="name" name="name" formControlName="name" />
+      <input matInput id="name" name="name" formControlName="name" required />
       <span
         *ngIf="
           !companyForm.get('name').valid && companyForm.get('name').touched
@@ -15,7 +15,7 @@
 
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Email</mat-label>
-      <input matInput name="email" type="email" formControlName="email" />
+      <input matInput name="email" type="email" formControlName="email" required/>
       <span
         *ngIf="
           !companyForm.get('email').valid && companyForm.get('email').touched
@@ -26,7 +26,7 @@
     <br />
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>PIB</mat-label>
-      <input matInput name="pib" formControlName="pib" />
+      <input matInput name="pib" formControlName="pib" required />
       <span
         *ngIf="!companyForm.get('pib').valid && companyForm.get('pib').touched"
         >PIB must contain 6 digits!</span
@@ -35,7 +35,7 @@
     <br />
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Address</mat-label>
-      <input matInput name="address" formControlName="address" />
+      <input matInput name="address" formControlName="address" required />
       <span
         *ngIf="
           !companyForm.get('address').valid &&
@@ -47,7 +47,7 @@
     <br />
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Contact</mat-label>
-      <input matInput name="contact" formControlName="contact" />
+      <input matInput name="contact" formControlName="contact" required />
       <span
         *ngIf="
           !companyForm.get('contact').valid &&
@@ -60,7 +60,7 @@
 
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Account number</mat-label>
-      <input matInput name="accountNumber" formControlName="accountNumber" />
+      <input matInput name="accountNumber" formControlName="accountNumber" required />
       <span
         *ngIf="
           !companyForm.get('accountNumber').valid &&
@@ -70,11 +70,21 @@
       >
     </mat-form-field>
     <br />
+     
+    <mat-form-field appearance="fill">
+      <mat-label>Currency</mat-label>
+      <mat-select formControlName="currency">
+        <mat-option *ngFor="let currency of currencies | keyvalue" [value]="currency.value" required>
+          {{currency.value}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+   
     <br />
     <br />
     <div class="button-pos">
-      <button class="btn submit-button" [disabled]="!companyForm.valid">
-        Submit
+      <button class="btn submit-button btn-color" [disabled]="!companyForm.valid">
+        SUMBIT
       </button>
     </div>
   </form>

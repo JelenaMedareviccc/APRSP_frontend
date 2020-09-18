@@ -2,16 +2,6 @@ tr.mat-footer-row {
   font-weight: bold;
 }
 
-table {
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.3);
-}
-
-mat-paginator {
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.3);
-}
-
 .mat-form-field {
   font-size: 14px;
   width: 100%;
@@ -19,6 +9,11 @@ mat-paginator {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
-.textColor {
-  color: grey;
+
+.btn-pdf{
+  display: flex;
+  justify-content: flex-end;
+width:100%;
+overflow: hidden;
+margin-bottom: 15px;
 }

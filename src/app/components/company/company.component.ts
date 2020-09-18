@@ -67,8 +67,8 @@ export class CompanyComponent implements OnInit {
   initializeDataSource() {
     this.year = new FormControl(moment(), Validators.required);
       this.companyService.getCompany(this.companyId).subscribe(company =>{
-        this.showCompany =true;
         this.company = company;
+        this.showCompany =true;
       }, error => {
         console.log(error);
       });
@@ -92,7 +92,7 @@ export class CompanyComponent implements OnInit {
   }
 
   showYearChooserForPayments(){
-    this.showYearPicker=true;
+    this.showYearPicker=!this.showYearPicker;
 
   }
 
@@ -101,6 +101,13 @@ export class CompanyComponent implements OnInit {
       relativeTo: this.route,
       queryParams: { year: this.year.value.format("YYYY") },
     });
+  }
+
+  showPaymentsFor365Days(){
+    this.router.navigate(["paymentsForLast365Days"], {
+      relativeTo: this.route
+    });
+
   }
 
 

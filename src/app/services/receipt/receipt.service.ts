@@ -62,8 +62,8 @@ export class ReceiptService {
 
   public getReceiptsBetweenTwoDates(
     id: number,
-    startDate: String,
-    endDate: String
+    startDate: string,
+    endDate: string
   ): Observable<Receipt[]> {
     console.log(id, startDate, endDate);
     return this.httpClient.get<Receipt[]>(
@@ -79,7 +79,7 @@ export class ReceiptService {
 
   public getReceiptsForSelectedYear(
     id: number,
-    year: String
+    year: string
   ): Observable<Receipt[]> {
 
     return this.httpClient.get<Receipt[]>(

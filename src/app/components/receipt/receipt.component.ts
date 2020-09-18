@@ -14,8 +14,8 @@ export class ReceiptComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.receiptService.receiptEmiter.subscribe((item) => {
-      if (!item) {
+    this.receiptService.receiptEmiter.subscribe((receipt) => {
+      if (!receipt) {
         let snackBarRef = this._snackBar.open(
           "Receipt succesfully updated!",
           "OK"

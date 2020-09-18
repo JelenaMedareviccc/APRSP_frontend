@@ -1,6 +1,8 @@
-<div class="example-container">
+<div class="form-container">
   <form [formGroup]="receiptForm" (ngSubmit)="createEditReceipt()">
-    <h1 color="gray">{{ formText }}</h1>
+    <h1 ><strong>{{ formText | uppercase }}</strong></h1>
+    <br/>
+   
     <mat-form-field appearance="outline">
       <mat-label>Date of issue</mat-label>
 
@@ -8,7 +10,10 @@
         matInput
         [matDatepicker]="picker"
         formControlName="dateOfIssue"
-        value="{{dateOfIssue | date:'yyyy-MM-dd' }}"
+        [max] = "today"
+        value="{{dateOfIssue | date:'MM/DD/YYYY'}}"
+        required
+
 
       />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -16,13 +21,14 @@
     </mat-form-field>
     <br />
     <mat-form-field appearance="outline" class="input-field">
-      <mat-label>Time limit</mat-label>
+      <mat-label>Time limit in days</mat-label>
       <input
         matInput
         name="timeLimit"
         type="number"
         formControlName="timeLimit"
         min="1"
+        required
       />
       <div
         *ngIf="
@@ -36,27 +42,28 @@
       </div>
     </mat-form-field>
     <br />
+
     <div *ngIf="!editId" class="items-container">
       <div class="items-center">
         <button
-          class="btn btn-default button-pos"
+          class="btn btn-default button-pos btn-color btn-add"
           type="button"
-          (click)="onAddItem()"
-        >
-          Add item
+          (click)="onAddItem()">
+          ADD ITEM
         </button>
         <div *ngIf="showItems">
           <h4><strong>Items </strong></h4>
-          <ol *ngFor="let item of items">
+          <ul *ngFor="let item of items">
             <li>{{ item.name }}</li>
-          </ol>
+          </ul>
         </div>
       </div>
     </div>
+    
 
     <div class="button-pos">
-      <button class="btn submit-button" [disabled]="!receiptForm.valid">
-        Submit
+      <button class="btn submit-button btn-color" [disabled]="!receiptForm.valid">
+        SUBMIT
       </button>
     </div>
   </form>

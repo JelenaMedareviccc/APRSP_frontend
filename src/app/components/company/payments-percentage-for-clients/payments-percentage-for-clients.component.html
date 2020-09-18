@@ -1,1 +1,69 @@
-<figure id="pie"></figure>
+<div class="table-padding">
+  <div class="col-md-4 text-right">
+    <button class="btn btn-success btn-block btn-color" (click)="openPDF()">Open PDF</button>
+    <button class="btn btn-danger btn-block btn-color" (click)="downloadPDF()">Download PDF</button>
+  </div>
+<mat-grid-list cols="2" >
+  <mat-grid-tile>
+    <figure id="pie"></figure>
+  </mat-grid-tile>
+  <mat-grid-tile>
+  
+     <div class="table-padding">
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input
+      matInput
+      (keyup)="applyFilter($event.target.value)"
+      placeholder="Search"
+    />
+  </mat-form-field>
+  <br />
+
+  <table mat-table [dataSource]="dataSource"  id="myPaymentClientTable" matSort>
+    <ng-container>
+      <ng-container matColumnDef="clientId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+        <td mat-cell *matCellDef="let element">{{ element.clientId }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="clientName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Client Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.clientName }}</td>
+      </ng-container>
+
+
+
+      <ng-container matColumnDef="sumOfPayments">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Sum Of Payments</th>
+        <td mat-cell *matCellDef="let element">{{ element.sumOfPayments }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="paymentPercentage">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Payment Percentage</th>
+        <td mat-cell *matCellDef="let element">{{ element.paymentPercentage }}</td>
+      </ng-container>
+
+      
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr
+      mat-row
+      style="cursor: default;"
+      *matRowDef="let row; columns: displayedColumns; let i = index"
+    ></tr>
+  </table>
+  <mat-paginator
+    [pageSize]="10"
+    [pageSizeOptions]="[5, 10, 20]"
+    [showFirstLastButtons]="true"
+  >
+  </mat-paginator>
+</div>
+  </mat-grid-tile>
+</mat-grid-list>
+
+</div>
+
+
+

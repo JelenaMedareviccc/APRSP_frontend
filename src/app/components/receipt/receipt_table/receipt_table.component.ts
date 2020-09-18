@@ -1,6 +1,6 @@
 import { ClientService } from "./../../../services/client/client.service";
 import { Receipt } from "./../../../models/receipt";
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef, Directive } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { ReceiptService } from "src/app/services/receipt/receipt.service";
@@ -15,6 +15,10 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { Moment } from 'moment';
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import { CompanyService } from 'src/app/services/company/company.service';
+
+
+
 
 export const MY_FORMATS = {
   parse: {
@@ -28,11 +32,12 @@ export const MY_FORMATS = {
   },
 };
 
+
 @Component({
   selector: "app-receipt-table",
   templateUrl: "./receipt_table.component.html",
   styleUrls: ["./receipt_table.component.css"],
-  providers: [
+ /* providers: [
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
@@ -43,7 +48,7 @@ export const MY_FORMATS = {
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
 
 
-  ],
+  ],*/
 })
 export class ReceiptTableComponent implements OnInit {
   displayedColumns = [
@@ -69,9 +74,14 @@ export class ReceiptTableComponent implements OnInit {
   showBetweenFilter: boolean;
   showYearPicker: boolean;
   showFilter: boolean = false;
-  showButtons: boolean = true;
+  showButtons: boolean = false;
   companyId: number;
   receipts: Receipt[] = [];
+  currencyType: string;
+  showFooter: boolean= true;
+  today = new Date();
+  showReceipts: boolean = false;
+
 
   constructor(
     private receiptService: ReceiptService,
@@ -79,7 +89,7 @@ export class ReceiptTableComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private clientService: ClientService,
-    private formBuilder: FormBuilder
+    private companyService: CompanyService
   ) {}
 
   ngOnInit(): void {
@@ -103,10 +113,13 @@ export class ReceiptTableComponent implements OnInit {
       const userId = userData["id"];
       const username = userData["username"];
       this.title=username;
+      this.showFooter=false;
       this.receiptService.getReceiptByUser(userId).subscribe(receipts => {
+        console.log(receipts);
         this.receipts = receipts;
         this.initializeDataSource();
         this.showButtons = false;
+        
       }, error => {
         console.log(error);
       })
@@ -116,7 +129,15 @@ export class ReceiptTableComponent implements OnInit {
         this.clientId = +params["clientid"];
         this.clientService.getClient(this.clientId).subscribe((client) => {
           this.title = client.name;
+          this.companyId =client.company.companyId;
+          this.companyService.getCompany(this.companyId).subscribe((company) => {
+            this.currencyType = company.currency;
+  
+          })
+
         });
+       
+        
 
         this.receiptService.getReceiptByClient(this.clientId).subscribe(
           (receipts) => {
@@ -143,6 +164,7 @@ export class ReceiptTableComponent implements OnInit {
         this.showYearPicker=false;
 
       } else {
+        this.showReceipts=true;
         this.showFilter = true;
         this.showBetweenFilter=true;
         this.showYearPicker=true;
@@ -270,22 +292,31 @@ export class ReceiptTableComponent implements OnInit {
 
   }
 
+
+/*
+  
   chosenYearHandler(normalizedYear: Moment,  datepicker: MatDatepicker<Moment>) {
     if(this.year.value !== null){
       const ctrlValue = this.year.value;
       ctrlValue.year(normalizedYear.year());
+      
+      
 
      this.year.setValue(ctrlValue);
      datepicker.close();
 
     }
   }
+*/
+
 
   filterReceiptsForSelectedYear(){
 
+    const start = new Date(this.year.value);
+    const  yearOnly= moment(start).format("YYYY");
     this.router.navigate(["filteredReceiptsForSelectedYear"], {
       relativeTo: this.route,
-      queryParams: { year: this.year.value.format("YYYY") },
+      queryParams: { year: yearOnly },
     });
 
 

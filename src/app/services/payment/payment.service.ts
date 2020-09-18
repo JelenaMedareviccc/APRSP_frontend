@@ -45,4 +45,10 @@ export class PaymentService {
       this.API_URL + "/user/" + userId
     );
   }
+
+  public getPaymentByCompanyFor365(companyId: number): Observable<Payment[]> {
+    return this.httpClient.get<Payment[]>(
+      this.API_URL + "/company/" + companyId + "/paymentsForLast365Days"
+    );
+  }
 }

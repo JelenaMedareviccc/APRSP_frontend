@@ -1,4 +1,5 @@
 import { Company } from "./company";
+import { CurrencyEnum } from './currencyEnum';
 
 export class Client {
   clientId: number;
@@ -28,5 +29,6 @@ export class Client {
     this.email = email;
     this.accountNumber = accountNumber;
     this.company = company;
+  
   }
 }

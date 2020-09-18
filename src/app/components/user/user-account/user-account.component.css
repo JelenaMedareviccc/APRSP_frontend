@@ -3,10 +3,12 @@
   left: 25%;
   background-color: rgba(255, 255, 255, 0.7);
   width: 50%;
-  border-radius: 3px;
+
   margin-top: 15%;
   overflow: hidden;
-  box-shadow: 0 10px 20px rgba(grey, 0.6);
+  border-radius: 15px;
+
+  box-shadow:5px 6px #ca4679 ;
 }
 
 .dashboard-card:hover {
@@ -14,14 +16,9 @@
   z-index: 25;
 }
 
-.more-button {
-  position: absolute;
-  top: 5px;
-  right: 10px;
-}
 
-.more-button:active {
-  transform: scale(1.4) translateY(-0.5rem) skewX(-7deg);
+.btn-size{
+  padding: 15px;
 }
 
 .dashboard-card-content {

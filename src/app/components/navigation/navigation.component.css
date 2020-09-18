@@ -8,52 +8,53 @@
 }
 
 .color-text {
-  color: black;
+  color: #F6F3F5;
+  
 }
 
 .mat-toolbar.mat-primary {
   position: sticky;
   top: 0;
   z-index: 1;
-  background-color: #a8a8a8;
+  background-color: #ca4679;
 }
 
 
 .mat-drawer {
-  background-color: #a8a8a8;
+  background-color: #ca4679;
 }
 
 .material-icons{
-  color:  #A8A8A8;
+  color:  #ca4679;
  
 }
 
 .icon {
-  color: black;
+  color:#F6F3F5;
 }
 .back{
   position: absolute;
   left: 20px;
   top: 20px;
+  bottom: 20px;
 }
 
 
 .auth{
-  color: black;
+  color: #F6F3F5;
   position: absolute;
-  left: 75%;
 }
 
 
 .container {
-  background-image: url(../../../assets/img/moon.jpeg);
+  background-color: #E5DCE2;
   background-size: cover;
   height: 100%;
   width: 100%;
   background-position: center;
   background-repeat: no-repeat;
   z-index: -1;
-  overflow: scroll;
+  overflow: auto;
   position: relative;
 }
 
@@ -61,7 +62,7 @@
   overflow: hidden;
 }
 
-.example-container {
+.form-container {
   display: flex;
   flex-direction: column;
   position: absolute;

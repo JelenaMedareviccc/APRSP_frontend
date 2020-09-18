@@ -1,8 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ClientService } from 'src/app/services/client/client.service';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { CompanyService } from 'src/app/services/company/company.service';
 import * as d3 from 'd3';
+import { ClientPayment } from 'src/app/models/clientpayment';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import * as jsPDF from "jspdf";
+import "jspdf-autotable";
+import { PdfMakerService } from 'src/app/services/pdfMaker/pdf-maker.service';
 
 
 @Component({
@@ -12,6 +19,17 @@ import * as d3 from 'd3';
 })
 export class PaymentsPercentageForClientsComponent implements OnInit {
 
+  displayedColumns = [
+    "clientId",
+    "clientName",
+    "sumOfPayments",
+    "paymentPercentage"
+  ];
+  dataSource: MatTableDataSource<ClientPayment>;
+  
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   private data;
   private svg;
@@ -22,10 +40,11 @@ export class PaymentsPercentageForClientsComponent implements OnInit {
   private radius = Math.min(this.width, this.height) / 2 - this.margin;
   private colors;
   private companyId: number;
-  companyName: String;
-  year: String;
+  companyName: string;
+  year: string;
 
-  constructor(private clientService: ClientService,  private router: Router, private companyService: CompanyService,
+  constructor(private clientService: ClientService,  private router: Router,private pdfMakerService: PdfMakerService,
+    private companyService: CompanyService,
     private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
@@ -35,6 +54,7 @@ export class PaymentsPercentageForClientsComponent implements OnInit {
         this.year = params["year"];
         this.fetchData();
       })
+
 
       this.companyService.getCompany(this.companyId).subscribe((data) => {
 
@@ -48,13 +68,30 @@ export class PaymentsPercentageForClientsComponent implements OnInit {
   fetchData(){
   this.clientService.getClientsPayment(this.companyId, this.year).subscribe(clients => {
     this.data = clients;
+  
+    this.dataSource =  new MatTableDataSource<ClientPayment>(clients);
+
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSource.filterPredicate = function(data, filter: string): boolean {
+    return data.clientName.toLowerCase().includes(filter);
+  };
+
     this.createSvg();
     this.createColors();
     this.drawChart();
+
   })
 
 
   }
+
+ 
+
+
+applyFilter(filterValue: string) {
+  this.dataSource.filter = filterValue.trim().toLowerCase();
+}
 
   private createSvg(): void {
     this.svg = d3.select("figure#pie")
@@ -83,7 +120,7 @@ private drawChart(): void {
   // Build the pie chart
   this.svg
   .selectAll('pieces')
-  .data(pie(this.data))
+  .data(pie(this.data.filter((d:any) => d.paymentPercentage>0)))
   .enter()
   .append('path')
   .attr('d', d3.arc()
@@ -104,10 +141,31 @@ private drawChart(): void {
   .data(pie(this.data))
   .enter()
   .append('text')
-  .text(d => (d.data.clientName + " " + d.data.paymentPercentage) )
+  .text(d => (d.data.clientName + " " + d.data.paymentPercentage+"%") )
   .attr("transform", d => "translate(" + labelLocation.centroid(d) + ")")
   .style("text-anchor", "middle")
   .style("font-size", 15);
+
+ 
 }
+
+
+public openPDF(): void {
+  let doc = new jsPDF();
+
+  this.pdfMakerService.pdfMaker(doc, "Percentage of payments for clients", this.companyName, "#myPaymentClientTable")
+  
+
+  doc.output("dataurlnewwindow", "Report");
+}
+
+public downloadPDF(): void {
+  let doc = new jsPDF();
+  //this.pdfMaker(doc);
+  this.pdfMakerService.pdfMaker(doc,  "Percentage of payments for clients", this.companyName, "#myPaymentClientTable")
+
+  doc.save("report.pdf");
+}
+
 
 }

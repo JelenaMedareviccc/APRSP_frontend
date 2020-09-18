@@ -8,6 +8,7 @@ import * as moment from "moment";
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../../dialog/dialog.component';
 import { formatDate } from '@angular/common';
+import { CompanyService } from 'src/app/services/company/company.service';
 
 @Component({
   selector: "app-payment-form",
@@ -23,7 +24,8 @@ export class PaymentFormComponent implements OnInit {
     private router: Router,
     private receiptService: ReceiptService,
     public dialog: MatDialog,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private companyService: CompanyService
   ) {}
 
   newPayment: Payment;
@@ -31,13 +33,20 @@ export class PaymentFormComponent implements OnInit {
   receiptId: number;
   dateOfIssue: any;
   formText: string;
+  today = new Date();
+  companyId: number;
+  currency: string;
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.editPaymentId = +params["paymentid"];
-      this.formText = "Add new payment";
+      this.formText = "New payment";
       this.route.parent.params.subscribe((p: Params) => {
         this.receiptId = +p["receiptid"];
+        this.companyId = +p["companyid"];
+        this.companyService.getCompany(this.companyId).subscribe(company => {
+          this.currency = company.currency;
+        })
       });
       this.createForm(null, null);
       if (this.editPaymentId) {

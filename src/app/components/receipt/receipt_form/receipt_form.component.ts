@@ -39,23 +39,22 @@ export class ReceiptFormComponent implements OnInit {
   showItems: boolean = false;
   dateOfIssue: any;
   formText: string;
+  today = new Date();
 
   ngOnInit() {
     this.route.parent.params.subscribe((data) => {
       this.clientId = +data["clientid"];
       this.editId = +data["receiptid"];
-      this.formText = "Add new receipt";
+      this.formText = "New receipt";
 
       this.createForm(null, null);
       if (this.itemService.itemsList.length !== 0) {
         this.receiptService.saveReceiptDataEmitter.subscribe((receipt) => {
           this.items = this.itemService.itemsList;
           this.showItems = true;
-        //  const momentDate = new Date(data.dateOfIssue);
-         // const formattedDate = moment(momentDate).format("MM/DD/YYYY");
-         // this.dateOfIssue = formattedDate;
-
-          this.createForm(this.dateOfIssue, data.timeLimit);
+        this.dateOfIssue = receipt.dateOfIssue;
+        console.log(receipt.dateOfIssue + "RECEIPT");
+          this.createForm(receipt.dateOfIssue, receipt.timeLimit);
         });
       }
 
@@ -84,15 +83,13 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   createForm(dateOfIssue: any, timeLimit: number) {
-
+    console.log(dateOfIssue);
     this.receiptForm = this.formBuilder.group({
-      dateOfIssue: [formatDate(dateOfIssue, 'MM/DD/YYYY', 'en'), [Validators.required]],
+      dateOfIssue: new FormControl( dateOfIssue, [Validators.required]),
       timeLimit: new FormControl(timeLimit, Validators.required)
 
     });
-  console.log(this.receiptForm.value);
-    this.dateOfIssue = dateOfIssue;
-    console.log(this.dateOfIssue);
+  
   }
 
   createEditReceipt() {

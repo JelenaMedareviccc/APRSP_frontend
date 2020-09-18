@@ -7,7 +7,12 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 import { DialogComponent } from "../../dialog/dialog.component";
 import { Payment } from "src/app/models/payment";
 import { PaymentService } from "src/app/services/payment/payment.service";
-import { ReceiptService } from 'src/app/services/receipt/receipt.service';
+import { ClientService } from 'src/app/services/client/client.service';
+import { CompanyService } from 'src/app/services/company/company.service';
+import { Company } from 'src/app/models/company';
+import * as jsPDF from "jspdf";
+import "jspdf-autotable";
+import { PdfMakerService } from 'src/app/services/pdfMaker/pdf-maker.service';
 
 @Component({
   selector: "app-payment-table",
@@ -21,14 +26,22 @@ export class PaymentTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   receiptId: number;
-  showButtons: boolean = true;
+  showButtons: boolean = false;
   private payments: Payment[] = [];
   title: string;
   companyId: number;
   clientId: number;
+  currencyType: string;
+  showFooter: boolean = true;
+  showEditDelete: boolean= true;
+  showPayments: boolean = false;
+  companyName: string;
+
 
   constructor(
     private paymentService: PaymentService,
+    private companyService: CompanyService,
+    private pdfMakerService: PdfMakerService,
     public dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute
@@ -36,7 +49,6 @@ export class PaymentTableComponent implements OnInit {
 
   ngOnInit(): void {
    this.fetchData();
-   this.initializeDataSource();
   }
 
   fetchData() {
@@ -44,27 +56,66 @@ export class PaymentTableComponent implements OnInit {
       let userData = JSON.parse(localStorage.getItem("userData"));
       const userId = userData["id"];
       const username = userData["username"];
-      this.title=username;
+      this.companyName=username;
+      this.title=username + 's payments';
+      this.showFooter = false;
+
       this.paymentService.getPaymentByUser(userId).subscribe(payments => {
         this.payments = payments;
         this.initializeDataSource();
         this.showButtons = false;
+        this.showEditDelete = true;
       }, error => {
         console.log(error);
       })
 
-    } else {
+    } else if (this.router.url.includes('paymentsForLast365Days')){
+      this.route.params.subscribe((params: Params) => {
+        this.companyId = +params["companyid"];
+       
+        this.companyService.getCompany(this.companyId).subscribe((company: Company) => {
+          this.title= company.name + "'s payments";
+          this.companyName= company.name;
+
+          this.paymentService.getPaymentByCompanyFor365(this.companyId).subscribe(payments => {
+            this.payments = payments;
+            this.initializeDataSource();
+            this.showButtons = false;
+            this.showEditDelete = false;
+            this.showFooter=true;
+          }, error => {
+            console.log(error);
+          })
+
+        }, error => {
+          console.log(error);
+        })
+        
+      })
+
+
+    
+    }
+    else {
       this.route.parent.params.subscribe((params: Params) => {
         this.receiptId = +params["receiptid"];
         this.companyId = +params["companyid"];
         this.clientId = +params["clientid"];
       });
 
+      this.companyService.getCompany(this.companyId).subscribe(company => {
+        this.currencyType=company.currency;
+        this.companyName=company.name;
+      })
     this.paymentService.getPaymentByReceipt(this.receiptId).subscribe(
       (payments) => {
         this.payments = payments;
         this.initializeDataSource();
         this.showButtons = true;
+        this.showEditDelete = true;
+        this.showFooter=true;
+        this.title = "Payments for receipt with id "+this.receiptId;
+        
 
       },
       (error) => {
@@ -75,9 +126,14 @@ export class PaymentTableComponent implements OnInit {
   }
 
   initializeDataSource(){
+  
     this.dataSource = new MatTableDataSource<Payment>(this.payments);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    if(this.payments){
+      this.showPayments=true;
+    }
 
   }
 
@@ -138,6 +194,25 @@ export class PaymentTableComponent implements OnInit {
       data: { action: actionType },
     });
     return dialogRef;
+  }
+
+  public openPDF(): void {
+    let doc = new jsPDF();
+
+    
+
+    this.pdfMakerService.pdfMaker(doc, this.title, this.companyName, "#myPaymentTable")
+    
+
+    doc.output("dataurlnewwindow", "Report");
+  }
+
+  public downloadPDF(): void {
+    let doc = new jsPDF();
+    //this.pdfMaker(doc);
+    this.pdfMakerService.pdfMaker(doc,  this.title, this.companyName, "#myPaymentTable")
+
+    doc.save("report.pdf");
   }
 
 

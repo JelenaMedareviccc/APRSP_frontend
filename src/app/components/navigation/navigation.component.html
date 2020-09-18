@@ -1,33 +1,32 @@
-<div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
+<div class="form-container" [class.example-is-mobile]="mobileQuery.matches">
   <mat-toolbar color="primary" class="example-toolbar">
     <button *ngIf="!isAuth" mat-icon-button (click)="snav.toggle()" ><mat-icon class="icon">menu</mat-icon></button>
    
       <span class="color-text"><strong>APRSP</strong></span>
       
-      <div class="auth">
-        <button mat-button (click)="myAccount()" *ngIf="!isAuth" color="grey">
+      <div class="auth" [ngStyle]="{'left': admin? '75%' : !isAuth? '80%': '90%'}"  >
+        <button mat-button (click)="myAccount()" *ngIf="!isAuth">
           <strong>MY ACCOUNT</strong>
         </button>
-        <button mat-button (click)="showUsers()" *ngIf="admin" color="grey">
+        <button mat-button (click)="showUsers()" *ngIf="admin">
           <strong>USERS</strong>
         </button>
-        <button mat-button (click)="auth()" color="grey">
+        <button mat-button (click)="auth()">
           <strong>{{ isAuth ? "LOGIN" : "LOGOUT" }}</strong>
         </button>
       </div>
   </mat-toolbar>
-
   
   <mat-sidenav-container class="example-sidenav-container"
                          [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
     <mat-sidenav #snav  [mode]="mobileQuery.matches ? 'over' : 'side'"
                  [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
       <mat-nav-list>
-        <a mat-list-item routerLink="company" >COMPANY</a>
-        <a mat-list-item routerLink="client/all" >CLIENT</a>
-        <a mat-list-item routerLink="receipt/all" >RECEIPT</a>
-        <a mat-list-item routerLink="item/all" >ITEM</a>
-        <a mat-list-item routerLink="payment/all" >PAYMENT</a>
+        <a mat-list-item routerLink="company"  class="color-text" ><strong>COMPANY</strong></a>
+        <a mat-list-item routerLink="client/all"   class="color-text"><strong>CLIENT</strong></a>
+        <a mat-list-item routerLink="receipt/all"  class="color-text" ><strong>RECEIPT</strong></a>
+        <a mat-list-item routerLink="item/all"   class="color-text"><strong>ITEM</strong></a>
+        <a mat-list-item routerLink="payment/all"  class="color-text" ><strong>PAYMENT</strong></a>
 
       </mat-nav-list>
     </mat-sidenav>
@@ -35,7 +34,7 @@
     <mat-sidenav-content>
      
       <div class="container">
-        <div class="back">
+        <div class="back" *ngIf="!isAuth">
           <span class="material-icons" (click)="goBack()">arrow_back</span>
         </div>
      <router-outlet></router-outlet>

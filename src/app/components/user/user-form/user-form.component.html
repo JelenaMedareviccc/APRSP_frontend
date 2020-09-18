@@ -1,4 +1,4 @@
-<div class="example-container">
+<div class="form-container" [ngStyle]="{'margin-top': signin ? '100px' : '30px'}">
   <form [formGroup]="userForm" (ngSubmit)="signInOrSignUpOrUpdateOrChangePassword()">
     <div *ngIf="!signin">
       <mat-form-field appearance="outline" class="input-field">
@@ -8,6 +8,7 @@
           id="firstName"
           name="firstName"
           formControlName="firstName"
+          required
         />
         <span
           *ngIf="
@@ -20,7 +21,7 @@
       <br />
       <mat-form-field appearance="outline" class="input-field">
         <mat-label>Last name</mat-label>
-        <input matInput name="lastName" formControlName="lastName" />
+        <input matInput name="lastName" formControlName="lastName" required/>
         <span
           *ngIf="
             !userForm.get('lastName').valid &&
@@ -32,7 +33,7 @@
       <br />
       <mat-form-field appearance="outline" class="input-field">
         <mat-label>Email</mat-label>
-        <input matInput name="email" formControlName="email" />
+        <input matInput name="email" formControlName="email" required />
         <span
           *ngIf="!userForm.get('email').valid && userForm.get('email').touched"
           >Please enter a valid email!</span
@@ -42,7 +43,7 @@
     <br />
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Contact</mat-label>
-      <input matInput name="contact" formControlName="contact" />
+      <input matInput name="contact" formControlName="contact" required/>
       <span
         *ngIf="
           !userForm.get('contact').valid &&
@@ -54,9 +55,10 @@
   </div>
     <br/>
     <div *ngIf ="!updateUser">
+     
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Username</mat-label>
-      <input matInput name="username" formControlName="username" />
+      <input matInput name="username" formControlName="username" required/>
       <span
         *ngIf="
           !userForm.get('username').valid && userForm.get('username').touched
@@ -65,6 +67,7 @@
       </span>
     </mat-form-field>
     <br />
+    <div *ngIf="!passwordLink">
     <mat-form-field appearance="outline" class="input-field" >
       <mat-label>Password</mat-label>
       <input
@@ -72,6 +75,7 @@
         name="password"
         formControlName="password"
         type="password"
+        required
       />
       <span
         *ngIf="
@@ -80,6 +84,7 @@
         >Password must contains 6 or more charachters!</span
       >
     </mat-form-field>
+  </div>
     <div (click)="changePassword()" *ngIf="!changePass">
       <strong>Forgot password?</strong>
     </div>
@@ -87,8 +92,8 @@
     <br />
 
     <div class="button-pos">
-      <button class="btn submit-button" [disabled]="!userForm.valid">
-        {{ changePass ? "Change Password" : updateUser ? "Update User" : signin ? "Login" : "Sign Up" }}
+      <button class="btn submit-button btn-color" [disabled]="!userForm.valid" >
+        {{passwordLink? "Password link": changePass ? "Change Password" : updateUser ? "Update User" : signin ? "Login" : "Sign Up" }}
       </button>
       <br />
       <br />

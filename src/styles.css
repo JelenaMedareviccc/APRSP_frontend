@@ -1,4 +1,4 @@
-@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 
 html,
@@ -14,7 +14,16 @@ body {
   border-radius: 20px;
   text-align: center;
   padding: 10px;
-  background-color: #dfdfde;
+}
+
+.submit-button {
+  padding: 20px;
+  width: 100%;
+}
+
+
+.button-pos {
+  text-align: center;
 }
 
 .btn:hover {
@@ -22,17 +31,66 @@ body {
 }
 
 .btn-add {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   float: right;
 }
 
-.client-padding {
-  padding-top: 20px;
+.btn-color{
+  background-color: #ca4679;
+  color: white;
+
+}
+
+.btn:disabled{
+  box-shadow: 0 10px 20px rgba( #ca4679, 0.2);
+
+}
+
+table {
+  width: 100%;
+
+
+}
+
+th.mat-header-cell, th.mat-cell {
+  text-align: center !important;
+}
+
+
+
+.table-padding {
+  padding-top: 5%;
   z-index: 1;
   width: 90%;
   position: absolute;
   left: 5%;
+
+
 }
+
+
+ .mat-spinner circle {
+  stroke: #ca4679;
+}
+
+.spinner {
+  margin: 15% auto;
+  position: relative;
+}
+
+
+.spinner-table{
+  margin-top: 15%;
+  margin-left: 45%;
+}
+
+
+
+
+
+
+
+
 
 
 

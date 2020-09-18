@@ -40,7 +40,7 @@ export class CompanyTableComponent implements OnInit {
 
   @Input() hasCompany = true;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  userName: String;
+  userName: string;
   userId: number;
   companies: Company[];
   showCompany: boolean;

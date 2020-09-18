@@ -1,6 +1,7 @@
 import { LayoutModule } from "@angular/cdk/layout";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatCardModule } from "@angular/material/card";
+import {MatSelectModule} from '@angular/material/select';
 
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
@@ -57,6 +58,12 @@ import { UserTableComponent } from './components/user/user-table/user-table.comp
 import { UserFormComponent } from './components/user/user-form/user-form.component';
 import { UserAccountComponent } from './components/user/user-account/user-account.component';
 import { PaymentsPercentageForClientsComponent } from './components/company/payments-percentage-for-clients/payments-percentage-for-clients.component';
+import { RegistrationConfirmComponent } from './components/user/registration-confirm/registration-confirm.component';
+import { InfoComponent } from './components/info/info.component';
+import {MatGridListModule} from '@angular/material/grid-list';
+
+
+
 
 
 
@@ -87,7 +94,9 @@ import { PaymentsPercentageForClientsComponent } from './components/company/paym
     UserTableComponent,
     UserFormComponent,
     UserAccountComponent,
-    PaymentsPercentageForClientsComponent
+    PaymentsPercentageForClientsComponent,
+    RegistrationConfirmComponent,
+    InfoComponent
   ],
   imports: [
     BrowserModule,
@@ -109,11 +118,11 @@ import { PaymentsPercentageForClientsComponent } from './components/company/paym
     MatInputModule,
     MatListModule,
     MatMenuModule,
-
+    MatSelectModule,
     MatPaginatorModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
-
+    MatGridListModule,
     MatSnackBarModule,
     MatSortModule,
     MatTableModule,

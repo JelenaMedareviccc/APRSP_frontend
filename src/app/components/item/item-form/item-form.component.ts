@@ -6,6 +6,7 @@ import { ItemService } from "src/app/services/item/item.service";
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../../dialog/dialog.component';
 import * as moment from 'moment';
+import { CompanyService } from 'src/app/services/company/company.service';
 
 @Component({
   selector: "app-item-form",
@@ -17,6 +18,8 @@ export class ItemFormComponent implements OnInit {
   itemForm: FormGroup;
   receiptId: number;
   formText: string;
+  currency: string;
+  companyId:number;
 
   constructor(
     private itemService: ItemService,
@@ -24,14 +27,22 @@ export class ItemFormComponent implements OnInit {
     private router: Router,
     private receiptService: ReceiptService,
     public dialog: MatDialog,
+    private companyService: CompanyService
   ) {}
 
   ngOnInit() {
     this.route.params.subscribe((p) => {
       this.editId = +p["itemid"];
-      this.formText = "Add new item";
+      this.formText = "New item";
       this.route.parent.params.subscribe((params: Params) => {
-        this.receiptId = +params["receiptid"];
+          this.companyId = +params["companyid"];
+          this.receiptId = +params["receiptid"];
+
+          this.companyService.getCompany(this.companyId).subscribe(company => {
+            this.currency = company.currency;
+          })
+        
+       
         if (this.editId) {
           this.initEditForm();
           this.formText = "Edit item";

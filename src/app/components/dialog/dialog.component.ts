@@ -11,10 +11,10 @@ export class DialogComponent implements OnInit {
 
   action: boolean = false;
   password: boolean = false;
-  title: String;
-  titleYesNo: String;
-  textYesNo: String;
-  text: String;
+  title: string;
+  titleYesNo: string;
+  textYesNo: string;
+  text: string;
 
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,

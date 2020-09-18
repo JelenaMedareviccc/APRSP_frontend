@@ -1,6 +1,7 @@
 import { CompanyService } from "src/app/services/company/company.service";
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import {CurrencyEnum} from '../../../models/currencyEnum';
 
 import { ActivatedRoute, Router, Params } from "@angular/router";
 import { UserService } from "src/app/services/user/user.service";
@@ -19,6 +20,8 @@ export class CompanyFormComponent implements OnInit {
   userId: number;
   username: string;
   formText: string;
+  currencies= CurrencyEnum;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -29,7 +32,7 @@ export class CompanyFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.createForm(null, null, null, null, null, null);
+    this.createForm(null, null, null, null, null, null, null);
 
     let userData = JSON.parse(localStorage.getItem("userData"));
     this.userId = userData["id"];
@@ -41,7 +44,7 @@ export class CompanyFormComponent implements OnInit {
         this.initEditForm();
       });
     } else {
-      this.formText = "Add new company";
+      this.formText = "New company";
     }
   }
 
@@ -54,7 +57,9 @@ export class CompanyFormComponent implements OnInit {
           company.address,
           company.contact,
           company.email,
-          company.accountNumber
+          company.accountNumber,
+          company.currency
+
         );
         this.companyForm.setValue({
           name: company.name,
@@ -63,6 +68,8 @@ export class CompanyFormComponent implements OnInit {
           contact:company.contact,
           email: company.email,
           accountNumber: company.accountNumber,
+          currencu: company.currency
+
         });
       },
       (error) => {
@@ -71,7 +78,7 @@ export class CompanyFormComponent implements OnInit {
     );
   }
 
-  createForm(name: string, pib: string, address: string, contact: string, email: string, accountNumber: string) {
+  createForm(name: string, pib: string, address: string, contact: string, email: string, accountNumber: string,currency: string) {
     this.companyForm = new FormGroup({
       name: new FormControl(name, [
         Validators.required,
@@ -99,6 +106,9 @@ export class CompanyFormComponent implements OnInit {
         Validators.maxLength(16),
         Validators.minLength(16),
         Validators.pattern(/^[1-9]+[0-9]*$/),
+      ]),
+      currency: new FormControl(currency, [
+        Validators.required,
       ]),
     });
   }

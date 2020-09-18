@@ -36,7 +36,8 @@ export class ClientTableComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   title: string;
   companyId: number;
-  showButtons: boolean = true;
+  showButtons: boolean = false;
+  showClients: boolean = false;
 
   constructor(
     private clientService: ClientService,
@@ -48,7 +49,6 @@ export class ClientTableComponent implements OnInit {
 
   ngOnInit() {
      this.fetchData();
-    this.initializeDataSource();
   }
 
  fetchData() {
@@ -90,12 +90,17 @@ export class ClientTableComponent implements OnInit {
   }
 
   initializeDataSource(){
+ 
     this.dataSource = new MatTableDataSource<Client>(this.clients);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.dataSource.filterPredicate = function(data, filter: string): boolean {
     return data.name.toLowerCase().includes(filter) || data.clientRegNumber.toLowerCase().includes(filter);
+   
  };
+ if(this.clients){
+  this.showClients = true;
+}
   }
 
   applyFilter(filterValue: string) {

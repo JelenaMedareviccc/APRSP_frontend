@@ -1,20 +1,8 @@
-table {
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.3);
+.same-line-filter{
+  display: flex;
+    justify-content: space-evenly;
+    margin-left: 10%;
+    margin-top: 10%;
 }
 
-mat-paginator {
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.3);
-}
 
-.mat-form-field {
-  font-size: 14px;
-  width: 100%;
-  color: white;
-  background-color: rgba(255, 255, 255, 0.3);
-}
-
-.textColor {
-  color: grey;
-}

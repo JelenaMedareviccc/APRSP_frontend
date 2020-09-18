@@ -1,9 +1,9 @@
-<div class="example-container">
+<div class="form-container">
   <form [formGroup]="clientForm" (ngSubmit)="createOrEditClient()">
-    <h1 color="gray">{{ formText }}</h1>
+    <h1 class="h1-center">{{ formText | uppercase }}</h1>
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Name</mat-label>
-      <input matInput id="name" name="name" formControlName="name" />
+      <input matInput id="name" name="name" formControlName="name" required />
       <span
         *ngIf="!clientForm.get('name').valid && clientForm.get('name').touched"
         >Name must contains between 3 and 40 charachters!</span
@@ -16,6 +16,7 @@
         matInput
         name="clientRegNumber"
         formControlName="clientRegNumber"
+        required
       />
       <span
         *ngIf="
@@ -28,7 +29,7 @@
     <br />
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Address</mat-label>
-      <input matInput name="address" formControlName="address" />
+      <input matInput name="address" formControlName="address" required />
       <span
         *ngIf="
           !clientForm.get('address').valid && clientForm.get('address').touched
@@ -39,7 +40,7 @@
     <br />
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Contact</mat-label>
-      <input matInput name="contact" formControlName="contact" />
+      <input matInput name="contact" formControlName="contact" required/>
       <span
         *ngIf="
           !clientForm.get('contact').valid && clientForm.get('contact').touched
@@ -50,7 +51,7 @@
     <br />
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Email</mat-label>
-      <input matInput name="email" formControlName="email" />
+      <input matInput name="email" formControlName="email" required />
       <span
         *ngIf="
           !clientForm.get('email').valid && clientForm.get('email').touched
@@ -61,7 +62,7 @@
     <br />
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Account number</mat-label>
-      <input matInput name="accountNumber" formControlName="accountNumber" />
+      <input matInput name="accountNumber" formControlName="accountNumber" required/>
       <span
         *ngIf="
           !clientForm.get('accountNumber').valid &&
@@ -72,10 +73,9 @@
     </mat-form-field>
     <br />
     <br />
-    <br />
     <div class="button-pos">
-      <button class="btn submit-button" [disabled]="!clientForm.valid">
-        Submit
+      <button class="btn submit-button btn-color" [disabled]="!clientForm.valid" color="accent">
+        SUBMIT
       </button>
     </div>
   </form>

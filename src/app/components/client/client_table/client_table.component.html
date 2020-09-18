@@ -1,18 +1,12 @@
-
-<div class="client-padding">
+<div class="table-padding" >
+  <div *ngIf="showClients">
+    <h1 class="textColor"><strong>{{ title | uppercase}}'S CLIENTS</strong></h1>
   <div *ngIf="showButtons">
   <div class="button-pos" >
-    <button class="btn" (click)="backToCompany()">
-      Back to company
-    </button>
-  </div>
-
-  <button class="btn btn-add" (click)="addNewClient()" >Add new client</button>
+  <button class="btn btn-color btn-add" (click)="addNewClient()" >NEW CLIENT</button>
+  <button class="btn btn-add btn-color" (click)="backToCompany()">BACK TO COMPANY</button>
 </div>
-  <br />
-
-  <h1 class="textColor">{{ title }}'s clients:</h1>
-
+</div>
   <mat-form-field>
     <mat-label>Filter</mat-label>
     <input
@@ -106,4 +100,6 @@
     [showFirstLastButtons]="true"
   >
   </mat-paginator>
+  </div>
 </div>
+<div class="spinner-table" *ngIf="!showClients"><mat-spinner diameter="150" ></mat-spinner></div>

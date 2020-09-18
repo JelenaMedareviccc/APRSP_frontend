@@ -22,6 +22,8 @@ import { UserFormComponent } from './components/user/user-form/user-form.compone
 import { UserTableComponent } from './components/user/user-table/user-table.component';
 import { UserAccountComponent } from './components/user/user-account/user-account.component';
 import { PaymentsPercentageForClientsComponent } from './components/company/payments-percentage-for-clients/payments-percentage-for-clients.component';
+import { RegistrationConfirmComponent } from './components/user/registration-confirm/registration-confirm.component';
+import { InfoComponent } from './components/info/info.component';
 
 export const routingConfiguration: ExtraOptions = {
   paramsInheritanceStrategy: "always",
@@ -31,6 +33,9 @@ const routes: Routes = [
   { path: "signup", component: UserFormComponent },
   { path: "signin", component: UserFormComponent },
   {path: "changePassword", component: UserFormComponent},
+  { path: "registrationConfirm", component: RegistrationConfirmComponent},
+  {path: "confirmResetPassword", component: UserFormComponent},
+  {path: "confirmEmail", component: InfoComponent},
   { path: "", canActivate: [AuthGuard], children: [
   { path: "users", component: UserTableComponent},
   { path: "user/:userid", component: UserAccountComponent},
@@ -48,6 +53,7 @@ const routes: Routes = [
           {path: "", component: CompanyComponent },
           {path: "edit", component: CompanyFormComponent},
           {path: "paymentPercentageForClients", component: PaymentsPercentageForClientsComponent },
+          {path: "paymentsForLast365Days", component: PaymentTableComponent},
           {path: "client", component: ClientComponent,
             children: [
                { path: "", component: ClientTableComponent },

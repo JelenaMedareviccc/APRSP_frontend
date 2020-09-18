@@ -1,12 +1,4 @@
-table {
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.3);
-}
 
-mat-paginator {
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.3);
-}
 
 .mat-form-field {
   font-size: 14px;
@@ -14,3 +6,17 @@ mat-paginator {
   color: white;
   background-color: rgba(255, 255, 255, 0.3);
 }
+
+.btn-pdf{
+  margin-top: 5%;
+  display: flex;
+  justify-content: flex-end;
+width: 100%;
+overflow: hidden;
+
+
+margin-bottom: 15px;
+}
+  
+
+
