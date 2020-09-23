@@ -87,8 +87,8 @@ export class CompanyFormComponent implements OnInit {
       ]),
       pib: new FormControl(pib, [
         Validators.required,
-        Validators.maxLength(6),
-        Validators.minLength(6),
+        Validators.maxLength(9),
+        Validators.minLength(9),
         Validators.pattern(/^[1-9]+[0-9]*$/),
       ]),
       address: new FormControl(address, [
@@ -103,9 +103,9 @@ export class CompanyFormComponent implements OnInit {
       email: new FormControl(email, [Validators.required, Validators.email]),
       accountNumber: new FormControl(accountNumber, [
         Validators.required,
-        Validators.maxLength(16),
-        Validators.minLength(16),
-        Validators.pattern(/^[1-9]+[0-9]*$/),
+        Validators.maxLength(20),
+        Validators.minLength(20),
+        Validators.pattern(/^\d{3}[-]{0,1}\d{13}[-]\d{2}$/),
       ]),
       currency: new FormControl(currency, [
         Validators.required,
@@ -126,9 +126,16 @@ export class CompanyFormComponent implements OnInit {
         this.companyService.updateCompany(newCompany).subscribe(
           () => {
             this.redirectTo();
-          },
-          () => {
-            this.openDialog("error");
+          }, (error) => {
+            let detail = "";
+            if(error.includes("Key")){
+              const errorIndex = error.indexOf("Key");
+              const errorLength = error.length;
+             
+              detail = error.substring(errorIndex, errorLength);
+            }
+            this.openDialog('error', detail);
+           
           }
         );
       } else {
@@ -136,9 +143,16 @@ export class CompanyFormComponent implements OnInit {
           () => {
             this.redirectTo();
             this.companyForm.reset();
-          },
-          () => {
-            this.openDialog("error");
+          }, (error) => {
+            let detail = "";
+            if(error.includes("Key")){
+              const errorIndex = error.indexOf("Key");
+              const errorLength = error.length;
+             
+              detail = error.substring(errorIndex, errorLength);
+            }
+            this.openDialog('error', detail);
+           
           }
         );
       }
@@ -153,10 +167,10 @@ export class CompanyFormComponent implements OnInit {
     }
   }
 
-  openDialog(actionType: string){
+  openDialog(actionType: string, detail: string){
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
-      data: { action: actionType},
+      data: { action: actionType, detail: detail},
     });
 
     dialogRef.afterClosed().subscribe((result) => {

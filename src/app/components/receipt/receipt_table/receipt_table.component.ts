@@ -53,7 +53,9 @@ export const MY_FORMATS = {
 export class ReceiptTableComponent implements OnInit {
   displayedColumns = [
     "receiptId",
+    "receiptNumber",
     "dateOfIssue",
+    "year",
     "timeLimit",
     "totalAmount",
     "debt",

@@ -1,5 +1,5 @@
 <div *ngIf="action">
-<h1 mat-dialog-title>{{titleYesNo}}</h1>
+<h1 mat-dialog-title><strong>{{titleYesNo | uppercase}}</strong></h1>
 <div mat-dialog-content>
   <p>{{textYesNo}}</p>
 </div>
@@ -10,9 +10,10 @@
 </div> 
 
 <div *ngIf="!action">
-  <h1 mat-dialog-title>{{title}}</h1>
+  <h1 mat-dialog-title><strong>{{title | uppercase}}</strong></h1>
   <div mat-dialog-content>
     <p>{{text}}</p>
+    <p>Please try again!</p>
   </div>
   <div mat-dialog-actions>
     <button class="btn-color" mat-button mat-dialog-close>OK</button>

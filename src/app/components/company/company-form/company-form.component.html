@@ -1,5 +1,5 @@
 <div class="form-container">
-  <h1 color="gray">{{ formText | uppercase }}</h1>
+  <h1><strong>{{ formText | uppercase }}</strong></h1>
   <form [formGroup]="companyForm" (ngSubmit)="createOrEditCompany()">
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Name</mat-label>
@@ -29,7 +29,7 @@
       <input matInput name="pib" formControlName="pib" required />
       <span
         *ngIf="!companyForm.get('pib').valid && companyForm.get('pib').touched"
-        >PIB must contain 6 digits!</span
+        >PIB must contain 9 digits!</span
       >
     </mat-form-field>
     <br />
@@ -60,13 +60,14 @@
 
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Account number</mat-label>
-      <input matInput name="accountNumber" formControlName="accountNumber" required />
+      <input matInput name="accountNumber" formControlName="accountNumber" required  matTooltip="Format xxx-xxxxxxxxxxxxx-xx"
+      matTooltipPosition="right"/>
       <span
         *ngIf="
           !companyForm.get('accountNumber').valid &&
           companyForm.get('accountNumber').touched
         "
-        >Account number must contain 16 digits!</span
+        >Account number must contain 18 digits!</span
       >
     </mat-form-field>
     <br />

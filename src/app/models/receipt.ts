@@ -2,6 +2,8 @@ import { Client } from "./client";
 
 export class Receipt {
   receiptId: number;
+  receiptNumber: string;
+  year: string;
   dateOfIssue: string;
   timeLimit: number;
   totalAmount: number;

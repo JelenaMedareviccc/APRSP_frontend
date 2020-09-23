@@ -47,14 +47,14 @@ export class ReceiptFormComponent implements OnInit {
       this.editId = +data["receiptid"];
       this.formText = "New receipt";
 
-      this.createForm(null, null);
+      this.createForm(null, null, null);
       if (this.itemService.itemsList.length !== 0) {
         this.receiptService.saveReceiptDataEmitter.subscribe((receipt) => {
           this.items = this.itemService.itemsList;
           this.showItems = true;
         this.dateOfIssue = receipt.dateOfIssue;
         console.log(receipt.dateOfIssue + "RECEIPT");
-          this.createForm(receipt.dateOfIssue, receipt.timeLimit);
+          this.createForm(receipt.dateOfIssue, receipt.timeLimit, receipt.receiptNumber);
         });
       }
 
@@ -70,11 +70,8 @@ export class ReceiptFormComponent implements OnInit {
     let timeLimit = null;
     this.receiptService.getReceipt(this.editId).subscribe(
       (receipt) => {
-
-        console.log("INIT FORM "+receipt.dateOfIssue);
         this.dateOfIssue = receipt.dateOfIssue;
-        timeLimit = receipt.timeLimit;
-        this.createForm(this.dateOfIssue, timeLimit);
+        this.createForm(this.dateOfIssue, receipt.timeLimit, receipt.receiptNumber);
       },
       (error) => {
         console.log(error);
@@ -82,11 +79,13 @@ export class ReceiptFormComponent implements OnInit {
     );
   }
 
-  createForm(dateOfIssue: any, timeLimit: number) {
+  createForm(dateOfIssue: any, timeLimit: number, receiptNumber: string) {
     console.log(dateOfIssue);
     this.receiptForm = this.formBuilder.group({
       dateOfIssue: new FormControl( dateOfIssue, [Validators.required]),
-      timeLimit: new FormControl(timeLimit, Validators.required)
+      timeLimit: new FormControl(timeLimit, Validators.required),
+      receiptNumber: new FormControl(receiptNumber, [Validators.required,  Validators.maxLength(5),
+        Validators.minLength(5),] )
 
     });
   
@@ -107,9 +106,16 @@ export class ReceiptFormComponent implements OnInit {
         this.receiptService.updateReceipt(this.newReceipt).subscribe(
           () => {
             this.redirectTo();
-          },
-          () => {
-            this.openDialog("error");
+          }, (error) => {
+            let detail = "";
+            if(error.includes("Key")){
+              const errorIndex = error.indexOf("Key");
+              const errorLength = error.length;
+             
+              detail = error.substring(errorIndex, errorLength);
+            }
+            this.openDialog('error', detail);
+           
           }
         );
       } else {
@@ -127,9 +133,16 @@ export class ReceiptFormComponent implements OnInit {
             }
             console.log(data);
             this.redirectTo();
-          },
-          () => {
-            this.openDialog("error");
+          }, (error) => {
+            let detail = "";
+            if(error.includes("Key")){
+              const errorIndex = error.indexOf("Key");
+              const errorLength = error.length;
+             
+              detail = error.substring(errorIndex, errorLength);
+            }
+            this.openDialog('error', detail);
+           
           }
         );
       }
@@ -171,10 +184,10 @@ export class ReceiptFormComponent implements OnInit {
     }
   }
 
-  openDialog(actionType: string){
+  openDialog(actionType: string, detail: string){
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
-      data: { action: actionType},
+      data: { action: actionType, detail: detail},
     });
 
     dialogRef.afterClosed().subscribe((result) => {

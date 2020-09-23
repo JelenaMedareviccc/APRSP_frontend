@@ -186,7 +186,7 @@ export class UserFormComponent implements OnInit {
           this.router.navigate(["../"], { relativeTo: this.route });
 
         }, () => {
-          this.openDialog("edit");
+          this.openDialog("edit", "");
         })
       })
 
@@ -220,7 +220,7 @@ export class UserFormComponent implements OnInit {
           );
 
         }, error  =>{
-          this.openDialog("changePassword");
+          this.openDialog("changePassword", "");
   
         })
        
@@ -242,9 +242,9 @@ export class UserFormComponent implements OnInit {
               this.router.navigate(["../company"], { relativeTo: this.route });
             }
           })
-        },
-        () => {
-          this.openDialog("login");
+        }, (error) => {
+          this.openDialog('login', error);
+         
         }
       );
     } else if(this.router.url.includes('signup')){
@@ -259,10 +259,16 @@ export class UserFormComponent implements OnInit {
          // userId = user.id;
           
           
-        },
-        () => {
+        }, (error) => {
+          let detail = error;
+          if(error.includes("Key")){
+            const errorIndex = error.indexOf("Key");
+            const errorLength = error.length;
+           
+            detail = error.substring(errorIndex, errorLength);
+          }
+          this.openDialog('error', detail);
          
-          this.openDialog("error");
         }
       );
     }
@@ -279,10 +285,10 @@ export class UserFormComponent implements OnInit {
     this.initForm();
   }
 
-  openDialog(actionType){
+  openDialog(actionType, detail){
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
-      data: { action: actionType },
+      data: { action: actionType, detail: detail },
     });
 
     dialogRef.afterClosed().subscribe((result) => {

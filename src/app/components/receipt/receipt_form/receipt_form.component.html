@@ -2,6 +2,28 @@
   <form [formGroup]="receiptForm" (ngSubmit)="createEditReceipt()">
     <h1 ><strong>{{ formText | uppercase }}</strong></h1>
     <br/>
+
+    
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Receipt number</mat-label>
+      <input
+        matInput
+        name="receiptNumber"
+        formControlName="receiptNumber"
+        required
+      />
+      <div
+        *ngIf="
+          receiptForm.get('receiptNumber').invalid &&
+          (receiptForm.get('receiptNumber').touched ||
+          receiptForm.get('receiptNumber').dirty)
+        "
+      >
+        <div *ngIf="receiptForm.get('receiptNumber').errors.required"></div>
+        Receipt number must contain 5 digits!
+      </div>
+    </mat-form-field>
+    <br />
    
     <mat-form-field appearance="outline">
       <mat-label>Date of issue</mat-label>

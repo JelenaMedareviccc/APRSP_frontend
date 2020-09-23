@@ -1,6 +1,6 @@
 <div class="form-container">
   <form [formGroup]="clientForm" (ngSubmit)="createOrEditClient()">
-    <h1 class="h1-center">{{ formText | uppercase }}</h1>
+    <h1 ><strong>{{ formText | uppercase }}</strong></h1>
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Name</mat-label>
       <input matInput id="name" name="name" formControlName="name" required />
@@ -62,13 +62,14 @@
     <br />
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Account number</mat-label>
-      <input matInput name="accountNumber" formControlName="accountNumber" required/>
+      <input matInput name="accountNumber" formControlName="accountNumber" required  matTooltip="Format xxx-xxxxxxxxxxxxx-xx"
+      matTooltipPosition="right"/>
       <span
         *ngIf="
           !clientForm.get('accountNumber').valid &&
           clientForm.get('accountNumber').touched
         "
-        >Account number must contain 16 digits!</span
+        >Account number must contain 18 digits!</span
       >
     </mat-form-field>
     <br />

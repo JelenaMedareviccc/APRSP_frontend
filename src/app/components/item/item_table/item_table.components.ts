@@ -37,13 +37,16 @@ export class ItemTableComponent implements OnInit {
   companyId: number;
   clientId: number;
   showItems: boolean = false;
+  currencyType: string;
+  showFooter: boolean = true;
 
   constructor(
     private itemService: ItemService,
     public dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private receiptService: ReceiptService
   ) {}
 
   ngOnInit() {
@@ -61,6 +64,7 @@ export class ItemTableComponent implements OnInit {
         this.items = items;
         this.initializeDataSource();
         this.showButtons = false;
+        this.showFooter = false;
       }, error => {
         console.log(error);
       })
@@ -74,7 +78,11 @@ export class ItemTableComponent implements OnInit {
       });
 
       this.clientService.getClient(this.clientId).subscribe(client => {
-        this.title = client.name+"'s items for receipt with id "+ this.receiptId
+        this.receiptService.getReceipt(this.receiptId).subscribe(receipt => {
+          this.title = "Items for receipt with receipt number "+ receipt.receiptNumber;
+
+        }) 
+        this.currencyType = client.company.currency;
       })
 
       
@@ -83,6 +91,7 @@ export class ItemTableComponent implements OnInit {
         this.items = items;
         this.initializeDataSource();
         this.showButtons= true;
+        this.showFooter=true;
       
       },
       (error) => {

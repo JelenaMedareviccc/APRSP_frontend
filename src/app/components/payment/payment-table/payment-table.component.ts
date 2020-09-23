@@ -13,6 +13,7 @@ import { Company } from 'src/app/models/company';
 import * as jsPDF from "jspdf";
 import "jspdf-autotable";
 import { PdfMakerService } from 'src/app/services/pdfMaker/pdf-maker.service';
+import { ReceiptService } from 'src/app/services/receipt/receipt.service';
 
 @Component({
   selector: "app-payment-table",
@@ -44,7 +45,8 @@ export class PaymentTableComponent implements OnInit {
     private pdfMakerService: PdfMakerService,
     public dialog: MatDialog,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private receiptService: ReceiptService
   ) {}
 
   ngOnInit(): void {
@@ -107,6 +109,10 @@ export class PaymentTableComponent implements OnInit {
         this.currencyType=company.currency;
         this.companyName=company.name;
       })
+      this.receiptService.getReceipt(this.receiptId).subscribe(receipt => {
+        this.title = "Payments for receipt with receipt number " + receipt.receiptNumber;
+
+      }) 
     this.paymentService.getPaymentByReceipt(this.receiptId).subscribe(
       (payments) => {
         this.payments = payments;
@@ -114,7 +120,7 @@ export class PaymentTableComponent implements OnInit {
         this.showButtons = true;
         this.showEditDelete = true;
         this.showFooter=true;
-        this.title = "Payments for receipt with id "+this.receiptId;
+        
         
 
       },

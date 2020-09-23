@@ -100,18 +100,32 @@ export class PaymentFormComponent implements OnInit {
         this.paymentService.updatePayment(this.newPayment).subscribe(
           () => {
             this.redirectTo();
-          },
-          () => {
-            this.openDialog("error");
+          }, (error) => {
+            let detail = "";
+            if(error.includes("Key")){
+              const errorIndex = error.indexOf("Key");
+              const errorLength = error.length;
+             
+              detail = error.substring(errorIndex, errorLength);
+            }
+            this.openDialog('error', detail);
+           
           }
         );
       } else {
         this.paymentService.createPayment(this.newPayment).subscribe(
           () => {
             this.redirectTo();
-          },
-          () => {
-            this.openDialog("error");
+          }, (error) => {
+            let detail = "";
+            if(error.includes("Key")){
+              const errorIndex = error.indexOf("Key");
+              const errorLength = error.length;
+             
+              detail = error.substring(errorIndex, errorLength);
+            }
+            this.openDialog('error', detail);
+           
           }
         );
       }
@@ -127,10 +141,10 @@ export class PaymentFormComponent implements OnInit {
     }
   }
 
-  openDialog(actionType: string){
+  openDialog(actionType: string, detail: string){
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
-      data: { action: actionType},
+      data: { action: actionType, detail: detail},
     });
 
     dialogRef.afterClosed().subscribe((result) => {

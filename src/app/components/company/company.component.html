@@ -3,8 +3,8 @@
 
 <div  *ngIf="showCompany">
   <div class="button-pos">
-  <button class="btn btn-add btn-color" (click)="showYearChooserForPayments()">Payments per year</button>
-  <button class="btn btn-add btn-color" (click)="showPaymentsFor365Days()">Show payments for last 365 days</button>
+  <button class="btn btn-add btn-color" (click)="showYearChooserForPayments()">PAYMENTS PER YEAR</button>
+  <button class="btn btn-add btn-color" (click)="showPaymentsFor365Days()">SHOQ PAYMENTS FOR LAST 365 DAYS</button>
 </div>
 
 
@@ -60,8 +60,9 @@
     </mat-card>
   </div>
 </div>
-    <div class="spinner" *ngIf="!showCompany"><mat-spinner diameter="150" ></mat-spinner></div>
   </div>
+  <div class="spinner-table" *ngIf="!showCompany"><mat-spinner diameter="150" ></mat-spinner></div>
+
 
 
 

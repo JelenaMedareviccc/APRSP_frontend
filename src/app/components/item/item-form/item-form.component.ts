@@ -102,18 +102,32 @@ export class ItemFormComponent implements OnInit {
             this.itemService.updateItem(newItem).subscribe(
               () => {
                 this.redirectTo();
-              },
-              () => {
-                this.openDialog("error");
+              }, (error) => {
+                let detail = "";
+                if(error.includes("Key")){
+                  const errorIndex = error.indexOf("Key");
+                  const errorLength = error.length;
+                 
+                  detail = error.substring(errorIndex, errorLength);
+                }
+                this.openDialog('error', detail);
+               
               }
             );
           } else {
             this.itemService.createItem(newItem).subscribe(
               () => {
                 this.redirectTo();
-              },
-              () => {
-                this.openDialog("error");
+              }, (error) => {
+                let detail = "";
+                if(error.includes("Key")){
+                  const errorIndex = error.indexOf("Key");
+                  const errorLength = error.length;
+                 
+                  detail = error.substring(errorIndex, errorLength);
+                }
+                this.openDialog('error', detail);
+               
               }
             );
           }
@@ -131,10 +145,10 @@ export class ItemFormComponent implements OnInit {
     }
   }
 
-  openDialog(actionType: String){
+  openDialog(actionType: String, detail: string){
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
-      data: { action: actionType},
+      data: { action: actionType, deatil: detail},
     });
 
     dialogRef.afterClosed().subscribe((result) => {

@@ -1,6 +1,6 @@
 <div class="form-container">
   <form [formGroup]="paymentForm" (ngSubmit)="createEditPayment()">
-    <h1><strong>{{ formText }}</strong></h1>
+    <h1><strong>{{ formText | uppercase }}</strong></h1>
     <mat-form-field appearance="fill" class="input-field">
       <mat-label>Amount</mat-label>
       <input

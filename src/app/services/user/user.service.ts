@@ -7,13 +7,13 @@ import * as config from "../../config/config.json";
 import { BehaviorSubject, Observable } from "rxjs";
 import { User } from "src/app/models/user.js";
 import { tap } from "rxjs/operators";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Injectable({
   providedIn: "root",
 })
 export class UserService {
-  router: any;
+
   private tokenExpirationTimer: any;
 
   private API_URL = config.apiUrl + "/user/";
@@ -23,7 +23,7 @@ export class UserService {
   users: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
 
 
-  constructor(private httpClient: HttpClient, private route: ActivatedRoute) {}
+  constructor(private httpClient: HttpClient, private route: ActivatedRoute, private router:Router) {}
 
   signUp(userRegistration: User): Observable<User> {
     let headers = new HttpHeaders();
@@ -81,6 +81,7 @@ console.log(logUser);
       return false;
     }
     this.tokenExpirationTimer = null;
+    this.router.navigate(['/signin']);
     return true;
   }
 

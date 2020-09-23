@@ -36,19 +36,16 @@ export class DialogComponent implements OnInit {
 
  
     this.title = "Error";
-    if(this.data.action === 'login'){
- 
-     this.text =  "Invalid login!";
-    } else if(this.data.action === 'changePassword'){
-      this.text = "Unable to change the password, please try again!";
+    if(this.data.action === 'changePassword'){
+      this.text = "Unable to change the password!";
     } else if(this.data.action ==='edit'){
-      this.text="Unable to edit the account, please try again!";
+      this.text="Unable to edit the account!";
     } else if(this.data.action = "error"){
-      this.text = "Invalid form, please fill it in again!";
+      this.text = ` ${this.data.detail}`;
     } else if(this.data.action = "deleteError"){
-      this.text = "Unable to delete, please try again!";
+      this.text = "Unable to delete!";
     }  else if(this.data.action = "roleError"){
-      this.text = "Unable to change the role, please try again!";
+      this.text = "Unable to change the role!";
     } 
   }
 }

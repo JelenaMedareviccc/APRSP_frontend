@@ -34,34 +34,12 @@
     
     </mat-form-field>
     <button mat-raised-button [disabled]="!dateForm.valid" class="btn-color">
-      Confirm filter
+     CONFIRM
     </button>
   </form>
     
 </div>
 
-<!--
-
-<div *ngIf="!showBetweenFilter">
-  <form (ngSubmit)="filterReceipts()">
-  <mat-form-field appearance="fill">
-    <mat-label>Enter a date range</mat-label>
-    <mat-date-range-input [formGroup]="dateForm" [rangePicker]="picker" >
-      <input matStartDate formControlName="startDate" placeholder="Start date">
-      <input matEndDate formControlName="endDate" placeholder="End date">
-    </mat-date-range-input>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
-
-    <mat-error *ngIf="dateForm.controls.startDate.hasError('matStartDateInvalid')">Invalid start date</mat-error>
-    <mat-error *ngIf="dateForm.controls.endDate.hasError('matEndDateInvalid')">Invalid end date</mat-error>
-  </mat-form-field>
-<button mat-raised-button [disabled]="!dateForm.valid">
-  Confirm filter
-</button>
-</form>
-</div>
--->
 
 <div *ngIf="!showYearPicker">
   <form  (ngSubmit)="filterReceiptsForSelectedYear()" >
@@ -75,44 +53,11 @@
   </mat-datepicker>
 </mat-form-field>
 <button mat-raised-button [disabled]="!year.valid" class="btn-color">
-  Confirm filter
+  CONFIRM
 </button>
 </form>
 </div>
 </div>
-<!--
-  <div *ngIf="!showBetweenFilter">
-    <form [formGroup]="dateForm" (ngSubmit)="filterReceipts()">
-      <mat-form-field>
-        <mat-label>Choose start date</mat-label>
-        <input
-          matInput
-          [matDatepicker]="startPicker"
-          formControlName="startDate"
-          [max] = "today"
-        />
-        <mat-datepicker-toggle
-          matSuffix
-          [for]="startPicker"
-        ></mat-datepicker-toggle>
-        <mat-datepicker #startPicker></mat-datepicker>
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Choose end date</mat-label>
-        <input matInput [matDatepicker]="endPicker" formControlName="endDate"  [max] = "today"/>
-        <mat-datepicker-toggle
-          matSuffix
-          [for]="endPicker"
-        ></mat-datepicker-toggle>
-        <mat-datepicker #endPicker></mat-datepicker>
-      </mat-form-field>
-      <button mat-raised-button [disabled]="!dateForm.valid" class="btn-color">
-        Confirm filter
-      </button>
-    </form>
-  </div>
--->
 
   <br />
   <br />
@@ -133,9 +78,25 @@
       </div>
       </ng-container>
 
+      <ng-container matColumnDef="receiptNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Receipt number</th>
+        <td mat-cell *matCellDef="let element">{{ element.receiptNumber }}</td>
+        <div *ngIf="showFooter">
+        <td mat-footer-cell *matFooterCellDef></td>
+      </div>
+      </ng-container>
+
       <ng-container matColumnDef="dateOfIssue">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Date of issue</th>
         <td mat-cell *matCellDef="let element">{{ element.dateOfIssue }}</td>
+        <div *ngIf="showFooter">
+        <td mat-footer-cell *matFooterCellDef></td>
+      </div>
+      </ng-container>
+
+      <ng-container matColumnDef="year">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Year</th>
+        <td mat-cell *matCellDef="let element">{{ element.year }}</td>
         <div *ngIf="showFooter">
         <td mat-footer-cell *matFooterCellDef></td>
       </div>
@@ -152,7 +113,7 @@
       <ng-container matColumnDef="totalAmount">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Total amount</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.totalAmount | currency : currencyType: 'symbol' }}
+          {{ element.totalAmount | currency : element.client.company.currency }}
         </td>
         <div *ngIf="showFooter">
         <td mat-footer-cell *matFooterCellDef>
@@ -163,7 +124,7 @@
 
       <ng-container matColumnDef="debt">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Debt</th>
-        <td mat-cell *matCellDef="let element">{{ element.debt | currency : currencyType: 'symbol' }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.debt | currency : element.client.company.currency }}</td>
         <div *ngIf="showFooter">
         <td mat-footer-cell *matFooterCellDef>
           <strong>{{ getTotalDebt() | currency : currencyType: 'symbol'  }}</strong>
