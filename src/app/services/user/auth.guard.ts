@@ -24,30 +24,29 @@ export class AuthGuard implements CanActivate {
     return this.userService.user.pipe(
       take(1),
       map((user) => {
-      
         const isAuth = !!user;
-      
+
         if (isAuth) {
-        console.log("usao u isauth");
-          if (state.url.includes('users') || state.url.includes('changeToAdmin') ) {
-console.log(state.url);
-            this.userService.getUser(user.id).subscribe(user => {
-              if(user.role.name !== 'ROLE_ADMIN'){                
-                this.router.navigate(['/company']);
+          if (
+            state.url.includes("users") ||
+            state.url.includes("changeToAdmin")
+          ) {
+            console.log(state.url);
+            this.userService.getUser(user.id).subscribe((user) => {
+              if (user.role.name !== "ROLE_ADMIN") {
+                this.router.navigate(["/company"]);
                 return false;
               } else {
                 console.log(state.url);
                 return true;
               }
-          
-            })
-          
+            });
+          } else {
+            console.log(state.url);
+            return true;
+          }
         } else {
-          console.log(state.url);
-          return true;
-        }
-        } else {
-        return this.router.createUrlTree(["/signin"]);
+          return this.router.createUrlTree(["/signin"]);
         }
       })
     );

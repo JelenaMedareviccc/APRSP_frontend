@@ -17,12 +17,12 @@ export class PaymentComponent implements OnInit {
     this.paymentService.paymentEmitter.subscribe((payment) => {
       if (payment) {
         let snackBarRef = this._snackBar.open(
-          "Payment succesfully updated!",
+          "Payment successfully updated!",
           "OK"
         );
       } else {
         let snackBarRef = this._snackBar.open(
-          "Payment succesfully created!",
+          "Payment successfully created!",
           "OK"
         );
       }

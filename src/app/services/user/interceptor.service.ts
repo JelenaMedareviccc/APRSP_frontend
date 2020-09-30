@@ -17,7 +17,6 @@ export class InterceptorService implements HttpInterceptor {
     return this.userService.user.pipe(
       take(1),
       exhaustMap((user) => {
-        console.log("INTERECEPTION");
         if (!user) {
           return next.handle(req);
         }

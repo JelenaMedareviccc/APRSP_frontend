@@ -1,8 +1,5 @@
 import { EventEmitter, Injectable, Output } from "@angular/core";
-import {
-  HttpClient,
-  HttpHeaders
-} from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import * as config from "../../config/config.json";
 import { BehaviorSubject, Observable } from "rxjs";
 import { User } from "src/app/models/user.js";
@@ -13,17 +10,19 @@ import { ActivatedRoute, Router } from "@angular/router";
   providedIn: "root",
 })
 export class UserService {
-
   private tokenExpirationTimer: any;
 
   private API_URL = config.apiUrl + "/user/";
-  private API_URL_ADMIN = config.apiUrl+"/admin/"
+  private API_URL_ADMIN = config.apiUrl + "/admin/";
 
   user: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   users: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
 
-
-  constructor(private httpClient: HttpClient, private route: ActivatedRoute, private router:Router) {}
+  constructor(
+    private httpClient: HttpClient,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   signUp(userRegistration: User): Observable<User> {
     let headers = new HttpHeaders();
@@ -32,21 +31,21 @@ export class UserService {
     console.log(userRegistration);
     return this.httpClient
       .post<User>(this.API_URL + "signup", userRegistration, options)
-      .pipe(
-        tap()
-      );
+      .pipe(tap());
   }
 
-  login(user: User): Observable<User>  {
+  login(user: User): Observable<User> {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
 
     let options = { headers: headers };
 
-    return this.httpClient.post<User>(this.API_URL + "signin", user, options).pipe(
-      tap((res) => {
-        this.handleAuthentication(res);
-      })
-    );
+    return this.httpClient
+      .post<User>(this.API_URL + "signin", user, options)
+      .pipe(
+        tap((res) => {
+          this.handleAuthentication(res);
+        })
+      );
   }
 
   private handleAuthentication(res) {
@@ -57,10 +56,9 @@ export class UserService {
     const expirationData = new Date(new Date().getTime() + expiration * 2);
     console.log(expirationData);
     const logUser = new User(values[1], values[0], values[2], expirationData);
-console.log(logUser);
+    console.log(logUser);
 
-  this.user.next(res);
-
+    this.user.next(res);
 
     this.autoLogOut(expiration);
     console.log("expiration" + expiration);
@@ -68,9 +66,8 @@ console.log(logUser);
     console.log(res);
     console.log(JSON.stringify(res));
     localStorage.setItem("userData", JSON.stringify(res));
-
   }
- 
+
   logout(): boolean {
     this.user.next(null);
     localStorage.removeItem("userData");
@@ -81,7 +78,7 @@ console.log(logUser);
       return false;
     }
     this.tokenExpirationTimer = null;
-    this.router.navigate(['/signin']);
+    this.router.navigate(["/signin"]);
     return true;
   }
 
@@ -100,7 +97,8 @@ console.log(logUser);
 
     if (loadedUser._token) {
       this.user.next(loadedUser);
-      const expirationDuration = new Date(userData.expiration).getTime() - new Date().getTime();
+      const expirationDuration =
+        new Date(userData.expiration).getTime() - new Date().getTime();
       this.autoLogOut(expirationDuration);
     }
   }
@@ -109,7 +107,6 @@ console.log(logUser);
     this.tokenExpirationTimer = setTimeout(() => {
       this.logout();
     }, expirationDuration);
-
   }
 
   public getUser(userId: number): Observable<User> {
@@ -125,28 +122,36 @@ console.log(logUser);
   }
 
   public deleteUser(userId: number): Observable<{}> {
-    return this.httpClient.delete(this.API_URL  + userId);
+    return this.httpClient.delete(this.API_URL + userId);
   }
 
   public changePassword(password: string, token: string): Observable<User> {
-    return this.httpClient.put<User>(this.API_URL + "changePassword?token=" + token , password);
-  }
-
-  public changeUserToAdmin(id:number): Observable<User> {
-    return this.httpClient.put<User>(this.API_URL_ADMIN + "changeUserToAdmin/"+  id, null );
-  }
-
-  public comfirmRegistration(token: string): Observable<User>{
-    return this.httpClient.get<User>(this.API_URL+ "comfirmRegistration?token="+ token).pipe(
-      tap((res) => {
-        this.handleAuthentication(res);
-      })
+    return this.httpClient.put<User>(
+      this.API_URL + "changePassword?token=" + token,
+      password
     );
   }
 
-  public getChangePasswordCode(username: String): Observable<Boolean>{
-    return this.httpClient.get<Boolean>(this.API_URL + "getChangePasswordCode?username=" +username);
-
+  public changeUserToAdmin(id: number): Observable<User> {
+    return this.httpClient.put<User>(
+      this.API_URL_ADMIN + "changeUserToAdmin/" + id,
+      null
+    );
   }
 
+  public comfirmRegistration(token: string): Observable<User> {
+    return this.httpClient
+      .get<User>(this.API_URL + "comfirmRegistration?token=" + token)
+      .pipe(
+        tap((res) => {
+          this.handleAuthentication(res);
+        })
+      );
+  }
+
+  public getChangePasswordCode(username: String): Observable<Boolean> {
+    return this.httpClient.get<Boolean>(
+      this.API_URL + "getChangePasswordCode?username=" + username
+    );
+  }
 }

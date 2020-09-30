@@ -20,8 +20,9 @@
 </div>
 </div>
 
-  <div class="same-line-filter">
-  <div *ngIf="!showBetweenFilter">
+ 
+  <div class="same-line-filter" *ngIf="!showBetweenFilter || !showYearPicker">
+ <div *ngIf="!showBetweenFilter">
     <form  [formGroup]="dateForm" (ngSubmit)="filterReceipts()">
     <mat-form-field appearance="fill"  >
       <mat-label>Enter a date range</mat-label>

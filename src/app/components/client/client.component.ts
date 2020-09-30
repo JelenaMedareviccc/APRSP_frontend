@@ -17,20 +17,17 @@ export class ClientComponent implements OnInit {
     this.clientService.clientEmiter.subscribe((client) => {
       if (client) {
         let snackBarRef = this._snackBar.open(
-          "Client succesfully updated!",
+          "Client successfully updated!",
           "OK"
         );
       } else {
         let snackBarRef = this._snackBar.open(
-          "Client succesfully created!",
+          "Client successfully created!",
           "OK"
         );
       }
     });
   }
 
-  goBack(){
-
-  }
-
+  goBack() {}
 }

@@ -1,6 +1,12 @@
 import { ClientService } from "./../../../services/client/client.service";
 import { Receipt } from "./../../../models/receipt";
-import { Component, OnInit, ViewChild, ElementRef, Directive } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  Directive,
+} from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { ReceiptService } from "src/app/services/receipt/receipt.service";
@@ -8,47 +14,43 @@ import { MatDialog } from "@angular/material/dialog";
 import { DialogComponent } from "../../dialog/dialog.component";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { MatSort } from "@angular/material/sort";
-import { FormGroup, FormControl, Validators, FormBuilder } from "@angular/forms";
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormBuilder,
+} from "@angular/forms";
 import * as moment from "moment";
 
-import { MatDatepicker } from '@angular/material/datepicker';
-import { Moment } from 'moment';
-import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
-import { CompanyService } from 'src/app/services/company/company.service';
-
-
-
+import { MatDatepicker } from "@angular/material/datepicker";
+import { Moment } from "moment";
+import {
+  MomentDateAdapter,
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+} from "@angular/material-moment-adapter";
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from "@angular/material/core";
+import { CompanyService } from "src/app/services/company/company.service";
 
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'LL',
+    dateInput: "LL",
   },
   display: {
-    dateInput: 'YYYY',
-    monthYearLabel: 'YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'YYYY',
+    dateInput: "YYYY",
+    monthYearLabel: "YYYY",
+    dateA11yLabel: "LL",
+    monthYearA11yLabel: "YYYY",
   },
 };
-
 
 @Component({
   selector: "app-receipt-table",
   templateUrl: "./receipt_table.component.html",
   styleUrls: ["./receipt_table.component.css"],
- /* providers: [
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-
-    },
-
-    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
-
-
-  ],*/
 })
 export class ReceiptTableComponent implements OnInit {
   displayedColumns = [
@@ -66,9 +68,15 @@ export class ReceiptTableComponent implements OnInit {
     "items",
   ];
   dataSource: MatTableDataSource<Receipt>;
+  @ViewChild(MatSort, { static: false })
+  set sort(v: MatSort) {
+    this.dataSource.sort = v;
+  }
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: false })
+  set paginator(v: MatPaginator) {
+    this.dataSource.paginator = v;
+  }
   clientId: number;
   title: string;
   dateForm: FormGroup;
@@ -80,10 +88,9 @@ export class ReceiptTableComponent implements OnInit {
   companyId: number;
   receipts: Receipt[] = [];
   currencyType: string;
-  showFooter: boolean= true;
+  showFooter: boolean = true;
   today = new Date();
   showReceipts: boolean = false;
-
 
   constructor(
     private receiptService: ReceiptService,
@@ -110,36 +117,35 @@ export class ReceiptTableComponent implements OnInit {
     });
 
     this.year = new FormControl(moment(), Validators.required);
-    if(this.router.url.includes('receipt/all')){
+    if (this.router.url.includes("receipt/all")) {
       let userData = JSON.parse(localStorage.getItem("userData"));
       const userId = userData["id"];
       const username = userData["username"];
-      this.title=username;
-      this.showFooter=false;
-      this.receiptService.getReceiptByUser(userId).subscribe(receipts => {
-        console.log(receipts);
-        this.receipts = receipts;
-        this.initializeDataSource();
-        this.showButtons = false;
-        
-      }, error => {
-        console.log(error);
-      })
-
-    } else{
+      this.title = username;
+      this.showFooter = false;
+      this.receiptService.getReceiptByUser(userId).subscribe(
+        (receipts) => {
+          console.log(receipts);
+          this.receipts = receipts;
+          this.initializeDataSource();
+          this.showButtons = false;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    } else {
       this.route.params.subscribe((params: Params) => {
         this.clientId = +params["clientid"];
         this.clientService.getClient(this.clientId).subscribe((client) => {
           this.title = client.name;
-          this.companyId =client.company.companyId;
-          this.companyService.getCompany(this.companyId).subscribe((company) => {
-            this.currencyType = company.currency;
-  
-          })
-
+          this.companyId = client.company.companyId;
+          this.companyService
+            .getCompany(this.companyId)
+            .subscribe((company) => {
+              this.currencyType = company.currency;
+            });
         });
-       
-        
 
         this.receiptService.getReceiptByClient(this.clientId).subscribe(
           (receipts) => {
@@ -152,31 +158,26 @@ export class ReceiptTableComponent implements OnInit {
           }
         );
       });
-
     }
   }
 
-  initializeDataSource(){
+  initializeDataSource() {
     this.dataSource = new MatTableDataSource<Receipt>(this.receipts);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    if(!this.receipts){
-      this.showFilter=false;
-        this.showBetweenFilter=false;
-        this.showYearPicker=false;
 
-      } else {
-        this.showReceipts=true;
-        this.showFilter = true;
-        this.showBetweenFilter=true;
-        this.showYearPicker=true;
-
-      }
-
+    if (!this.receipts) {
+      this.showFilter = false;
+      this.showBetweenFilter = false;
+      this.showYearPicker = false;
+    } else {
+      this.showReceipts = true;
+      this.showFilter = true;
+      this.showBetweenFilter = true;
+      this.showYearPicker = true;
+    }
   }
 
   deleteReceipt(id: number) {
-    const dialogRef = this.openDialog('delete');
+    const dialogRef = this.openDialog("delete");
 
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) {
@@ -193,7 +194,7 @@ export class ReceiptTableComponent implements OnInit {
     });
   }
 
-  openDialog(actionType: string): any{
+  openDialog(actionType: string): any {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
       data: { action: actionType },
@@ -201,51 +202,61 @@ export class ReceiptTableComponent implements OnInit {
     return dialogRef;
   }
 
-
   addNewReceipt() {
     this.router.navigate(["newReceipt"], { relativeTo: this.route });
   }
 
   editReceipt(receiptid: number) {
-    if(this.router.url.includes('/receipt/all')){
-      this.receiptService.getReceipt(receiptid).subscribe(receipt => {
-        this.clientId=receipt.client.clientId;
-        this.companyId =receipt.client.company.companyId;
-        this.router.navigate([`../../company/${this.companyId}/client/${this.clientId}/receipts/${receiptid}/edit`], { relativeTo: this.route });
-
-      })
+    if (this.router.url.includes("/receipt/all")) {
+      this.receiptService.getReceipt(receiptid).subscribe((receipt) => {
+        this.clientId = receipt.client.clientId;
+        this.companyId = receipt.client.company.companyId;
+        this.router.navigate(
+          [
+            `../../company/${this.companyId}/client/${this.clientId}/receipts/${receiptid}/edit`,
+          ],
+          { relativeTo: this.route }
+        );
+      });
     } else {
       this.router.navigate([`${receiptid}/edit`], { relativeTo: this.route });
     }
-
   }
 
   viewPayment(receiptid: number) {
-    if(this.router.url.includes('/receipt/all')){
-      this.receiptService.getReceipt(receiptid).subscribe(receipt => {
-        this.clientId=receipt.client.clientId;
-        this.companyId =receipt.client.company.companyId;
-        this.router.navigate([`../../company/${this.companyId}/client/${this.clientId}/receipts/${receiptid}/payments`], { relativeTo: this.route });
-
-      })
+    if (this.router.url.includes("/receipt/all")) {
+      this.receiptService.getReceipt(receiptid).subscribe((receipt) => {
+        this.clientId = receipt.client.clientId;
+        this.companyId = receipt.client.company.companyId;
+        this.router.navigate(
+          [
+            `../../company/${this.companyId}/client/${this.clientId}/receipts/${receiptid}/payments`,
+          ],
+          { relativeTo: this.route }
+        );
+      });
     } else {
-      this.router.navigate([`${receiptid}/payments`], { relativeTo: this.route });
+      this.router.navigate([`${receiptid}/payments`], {
+        relativeTo: this.route,
+      });
     }
-
   }
 
   showItems(receiptid: number) {
-    if(this.router.url.includes('/receipt/all')){
-      this.receiptService.getReceipt(receiptid).subscribe(receipt => {
-        this.clientId=receipt.client.clientId;
-        this.companyId =receipt.client.company.companyId;
-        this.router.navigate([`../../company/${this.companyId}/client/${this.clientId}/receipts/${receiptid}/items`], { relativeTo: this.route });
-
-      })
+    if (this.router.url.includes("/receipt/all")) {
+      this.receiptService.getReceipt(receiptid).subscribe((receipt) => {
+        this.clientId = receipt.client.clientId;
+        this.companyId = receipt.client.company.companyId;
+        this.router.navigate(
+          [
+            `../../company/${this.companyId}/client/${this.clientId}/receipts/${receiptid}/items`,
+          ],
+          { relativeTo: this.route }
+        );
+      });
     } else {
       this.router.navigate([`${receiptid}/items`], { relativeTo: this.route });
     }
-
   }
 
   getTotalCost() {
@@ -265,18 +276,15 @@ export class ReceiptTableComponent implements OnInit {
   }
 
   onShowLastYearReceipts() {
-
-      this.router.navigate(["filteredReceiptsLastYear"], {
-        relativeTo: this.route,
-      });
+    this.router.navigate(["filteredReceiptsLastYear"], {
+      relativeTo: this.route,
+    });
   }
 
   onShowLast365DaysReceipts() {
-
     this.router.navigate(["filteredReceiptsLast365Days"], {
       relativeTo: this.route,
-    })
-
+    });
   }
 
   filterReceipts() {
@@ -290,12 +298,9 @@ export class ReceiptTableComponent implements OnInit {
       relativeTo: this.route,
       queryParams: { startDate: startDate, endDate: endDate },
     });
-
-
   }
 
-
-/*
+  /*
   
   chosenYearHandler(normalizedYear: Moment,  datepicker: MatDatepicker<Moment>) {
     if(this.year.value !== null){
@@ -311,21 +316,16 @@ export class ReceiptTableComponent implements OnInit {
   }
 */
 
-
-  filterReceiptsForSelectedYear(){
-
+  filterReceiptsForSelectedYear() {
     const start = new Date(this.year.value);
-    const  yearOnly= moment(start).format("YYYY");
+    const yearOnly = moment(start).format("YYYY");
     this.router.navigate(["filteredReceiptsForSelectedYear"], {
       relativeTo: this.route,
       queryParams: { year: yearOnly },
     });
-
-
-
   }
 
-  onShowSelectedYear(){
+  onShowSelectedYear() {
     this.showYearPicker = !this.showYearPicker;
   }
 
@@ -336,6 +336,4 @@ export class ReceiptTableComponent implements OnInit {
   backToClients() {
     this.router.navigate(["company/" + this.companyId + "/client"]);
   }
-
-
 }

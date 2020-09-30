@@ -1,12 +1,13 @@
 import { CompanyService } from "src/app/services/company/company.service";
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import {CurrencyEnum} from '../../../models/currencyEnum';
+import { CurrencyEnum } from "../../../models/currencyEnum";
 
 import { ActivatedRoute, Router, Params } from "@angular/router";
 import { UserService } from "src/app/services/user/user.service";
-import { MatDialog } from '@angular/material/dialog';
-import { DialogComponent } from '../../dialog/dialog.component';
+import { MatDialog } from "@angular/material/dialog";
+import { DialogComponent } from "../../dialog/dialog.component";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: "app-company-form",
@@ -20,8 +21,7 @@ export class CompanyFormComponent implements OnInit {
   userId: number;
   username: string;
   formText: string;
-  currencies= CurrencyEnum;
-
+  currencies = CurrencyEnum;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,6 +29,7 @@ export class CompanyFormComponent implements OnInit {
     private companyService: CompanyService,
     private userService: UserService,
     public dialog: MatDialog,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -59,17 +60,15 @@ export class CompanyFormComponent implements OnInit {
           company.email,
           company.accountNumber,
           company.currency
-
         );
         this.companyForm.setValue({
           name: company.name,
           pib: company.pib,
           address: company.address,
-          contact:company.contact,
+          contact: company.contact,
           email: company.email,
           accountNumber: company.accountNumber,
-          currencu: company.currency
-
+          currencu: company.currency,
         });
       },
       (error) => {
@@ -78,7 +77,15 @@ export class CompanyFormComponent implements OnInit {
     );
   }
 
-  createForm(name: string, pib: string, address: string, contact: string, email: string, accountNumber: string,currency: string) {
+  createForm(
+    name: string,
+    pib: string,
+    address: string,
+    contact: string,
+    email: string,
+    accountNumber: string,
+    currency: string
+  ) {
     this.companyForm = new FormGroup({
       name: new FormControl(name, [
         Validators.required,
@@ -107,9 +114,7 @@ export class CompanyFormComponent implements OnInit {
         Validators.minLength(20),
         Validators.pattern(/^\d{3}[-]{0,1}\d{13}[-]\d{2}$/),
       ]),
-      currency: new FormControl(currency, [
-        Validators.required,
-      ]),
+      currency: new FormControl(currency, [Validators.required]),
     });
   }
 
@@ -125,34 +130,42 @@ export class CompanyFormComponent implements OnInit {
         newCompany = { ...companyId, ...newCompany };
         this.companyService.updateCompany(newCompany).subscribe(
           () => {
+            let snackBarRef = this._snackBar.open(
+              "You are successfully edit company!",
+              "OK"
+            );
             this.redirectTo();
-          }, (error) => {
+          },
+          (error) => {
             let detail = "";
-            if(error.includes("Key")){
+            if (error.includes("Key")) {
               const errorIndex = error.indexOf("Key");
               const errorLength = error.length;
-             
+
               detail = error.substring(errorIndex, errorLength);
             }
-            this.openDialog('error', detail);
-           
+            this.openDialog("error", detail);
           }
         );
       } else {
         this.companyService.createCompany(newCompany).subscribe(
           () => {
+            let snackBarRef = this._snackBar.open(
+              "You are successfully create a company!",
+              "OK"
+            );
             this.redirectTo();
             this.companyForm.reset();
-          }, (error) => {
+          },
+          (error) => {
             let detail = "";
-            if(error.includes("Key")){
+            if (error.includes("Key")) {
               const errorIndex = error.indexOf("Key");
               const errorLength = error.length;
-             
+
               detail = error.substring(errorIndex, errorLength);
             }
-            this.openDialog('error', detail);
-           
+            this.openDialog("error", detail);
           }
         );
       }
@@ -167,17 +180,16 @@ export class CompanyFormComponent implements OnInit {
     }
   }
 
-  openDialog(actionType: string, detail: string){
+  openDialog(actionType: string, detail: string) {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
-      data: { action: actionType, detail: detail},
+      data: { action: actionType, detail: detail },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) {
         return;
       }
-
     });
   }
 }

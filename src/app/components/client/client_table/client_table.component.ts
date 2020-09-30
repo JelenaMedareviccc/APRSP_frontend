@@ -9,7 +9,6 @@ import { DialogComponent } from "../../dialog/dialog.component";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { MatSort } from "@angular/material/sort";
 
-
 @Component({
   selector: "app-client-table",
   templateUrl: "./client_table.component.html",
@@ -29,15 +28,20 @@ export class ClientTableComponent implements OnInit {
     "receipts",
   ];
   dataSource: MatTableDataSource<Client>;
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  clients: Client[]= [];
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  clients: Client[] = [];
   title: string;
   companyId: number;
   showButtons: boolean = false;
   showClients: boolean = false;
+  @ViewChild(MatSort, { static: false })
+  set sort(v: MatSort) {
+    this.dataSource.sort = v;
+  }
+
+  @ViewChild(MatPaginator, { static: false })
+  set paginator(v: MatPaginator) {
+    this.dataSource.paginator = v;
+  }
 
   constructor(
     private clientService: ClientService,
@@ -48,59 +52,57 @@ export class ClientTableComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-     this.fetchData();
+    this.fetchData();
   }
 
- fetchData() {
-
-    if(this.router.url.includes('/client/all')){
+  fetchData() {
+    if (this.router.url.includes("/client/all")) {
       let userData = JSON.parse(localStorage.getItem("userData"));
       const userId = userData["id"];
       const username = userData["username"];
-      this.title=username;
-      this.clientService.getClientByUser(userId).subscribe(clients => {
-        this.clients = clients;
-        this.initializeDataSource();
-        this.showButtons=false;
-
-      }, error => {
-        console.log(error);
-      })
-
+      this.title = username;
+      this.clientService.getClientByUser(userId).subscribe(
+        (clients) => {
+          this.clients = clients;
+          this.initializeDataSource();
+          this.showButtons = false;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     } else {
       this.route.params.subscribe((params: Params) => {
         this.companyId = +params["companyid"];
-        this.companyService.getCompany(this.companyId).subscribe(c => {
+        this.companyService.getCompany(this.companyId).subscribe((c) => {
           this.title = c.name;
         });
         this.clientService.getClientByCompany(this.companyId).subscribe(
           (clients) => {
-              this.clients = clients;
-              this.initializeDataSource();
-              this.showButtons = true;
+            this.clients = clients;
+            this.initializeDataSource();
+            this.showButtons = true;
           },
           (error) => {
             console.log(error);
           }
         );
-      })
-
+      });
     }
-
   }
 
-  initializeDataSource(){
- 
+  initializeDataSource() {
     this.dataSource = new MatTableDataSource<Client>(this.clients);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.dataSource.filterPredicate = function(data, filter: string): boolean {
-    return data.name.toLowerCase().includes(filter) || data.clientRegNumber.toLowerCase().includes(filter);
-   
- };
- if(this.clients){
-  this.showClients = true;
-}
+
+    this.dataSource.filterPredicate = function (data, filter: string): boolean {
+      return (
+        data.name.toLowerCase().includes(filter) ||
+        data.clientRegNumber.toLowerCase().includes(filter)
+      );
+    };
+    if (this.clients) {
+      this.showClients = true;
+    }
   }
 
   applyFilter(filterValue: string) {
@@ -108,18 +110,18 @@ export class ClientTableComponent implements OnInit {
   }
 
   editClient(clientid: number) {
-    if(this.router.url.includes('/client/all')){
-      this.clientService.getClient(clientid).subscribe(client => {
+    if (this.router.url.includes("/client/all")) {
+      this.clientService.getClient(clientid).subscribe((client) => {
         this.companyId = client.company.companyId;
-        this.router.navigate([`../../company/${this.companyId}/client/${clientid}/edit`], { relativeTo: this.route });
-      } )
-
+        this.router.navigate(
+          [`../../company/${this.companyId}/client/${clientid}/edit`],
+          { relativeTo: this.route }
+        );
+      });
     } else {
       this.router.navigate([`${clientid}/edit`], { relativeTo: this.route });
     }
-
   }
-
 
   deleteClient(clientid: number) {
     const dialogRef = this.openDialog("delete");
@@ -129,26 +131,22 @@ export class ClientTableComponent implements OnInit {
       }
       this.clientService.deleteClient(clientid).subscribe(
         () => {
-         this.fetchData();
+          this.fetchData();
         },
         () => {
           this.openDialog("deleteError");
         }
       );
     });
-
-
-
   }
 
-  openDialog(actionType: string){
+  openDialog(actionType: string) {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
       data: { action: actionType },
     });
 
     return dialogRef;
-
   }
 
   addNewClient() {
@@ -160,17 +158,18 @@ export class ClientTableComponent implements OnInit {
   }
 
   displayReceipts(clientid: number) {
-    if(this.router.url.includes('/client/all')){
-      this.clientService.getClient(clientid).subscribe(client => {
+    if (this.router.url.includes("/client/all")) {
+      this.clientService.getClient(clientid).subscribe((client) => {
         this.companyId = client.company.companyId;
-        this.router.navigate([`../../company/${this.companyId}/client/${clientid}/receipts`], { relativeTo: this.route });
-      } )
-
+        this.router.navigate(
+          [`../../company/${this.companyId}/client/${clientid}/receipts`],
+          { relativeTo: this.route }
+        );
+      });
     } else {
-      this.router.navigate([`../../${clientid}/receipts`], { relativeTo: this.route });
+      this.router.navigate([`../../${clientid}/receipts`], {
+        relativeTo: this.route,
+      });
     }
-
-
   }
-
 }

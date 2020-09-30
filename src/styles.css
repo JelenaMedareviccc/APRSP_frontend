@@ -1,6 +1,5 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-
 html,
 body {
   height: 100%;
@@ -21,7 +20,6 @@ body {
   width: 100%;
 }
 
-
 .button-pos {
   text-align: center;
 }
@@ -35,28 +33,23 @@ body {
   float: right;
 }
 
-.btn-color{
+.btn-color {
   background-color: #ca4679;
   color: white;
-
 }
 
-.btn:disabled{
-  box-shadow: 0 10px 20px rgba( #ca4679, 0.2);
-
+.btn:disabled {
+  box-shadow: 0 10px 20px rgba(#ca4679, 0.2);
 }
 
 table {
   width: 100%;
-
-
 }
 
-th.mat-header-cell, th.mat-cell {
+th.mat-header-cell,
+th.mat-cell {
   text-align: center !important;
 }
-
-
 
 .table-padding {
   padding-top: 5%;
@@ -64,12 +57,9 @@ th.mat-header-cell, th.mat-cell {
   width: 90%;
   position: absolute;
   left: 5%;
-
-
 }
 
-
- .mat-spinner circle {
+.mat-spinner circle {
   stroke: #ca4679;
 }
 
@@ -78,19 +68,7 @@ th.mat-header-cell, th.mat-cell {
   position: relative;
 }
 
-
-.spinner-table{
+.spinner-table {
   margin-top: 15%;
   margin-left: 45%;
 }
-
-
-
-
-
-
-
-
-
-
-

@@ -1,9 +1,11 @@
 <div class="form-container">
   <form [formGroup]="itemForm" (ngSubmit)="createOrEditItem()">
-    <h1 ><strong>{{ formText | uppercase }}</strong></h1>
+    <h1>
+      <strong>{{ formText | uppercase }}</strong>
+    </h1>
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Name</mat-label>
-      <input matInput id="name" name="name" formControlName="name" required/>
+      <input matInput id="name" name="name" formControlName="name" required />
       <span *ngIf="!itemForm.get('name').valid && itemForm.get('name').touched"
         >Name must contains between 3 and 40 charachters!</span
       >
@@ -11,8 +13,15 @@
     <br />
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Price</mat-label>
-      <input matInput name="price" formControlName="price" type="number" min=1 required />
-      <span matPrefix>{{currency}}</span>
+      <input
+        matInput
+        name="price"
+        formControlName="price"
+        type="number"
+        min="1"
+        required
+      />
+      <span matPrefix>{{ currency }}</span>
       <span matSuffix>.00</span>
       <span
         *ngIf="!itemForm.get('price').valid && itemForm.get('price').touched"
@@ -22,7 +31,14 @@
     <br />
     <mat-form-field appearance="outline" class="input-field">
       <mat-label>Measure</mat-label>
-      <input matInput name="measure" formControlName="measure" type="number" min="1" required />
+      <input
+        matInput
+        name="measure"
+        formControlName="measure"
+        type="number"
+        min="1"
+        required
+      />
       <span
         *ngIf="
           !itemForm.get('measure').valid && itemForm.get('measure').touched

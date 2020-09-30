@@ -8,8 +8,8 @@ import { MatDialog } from "@angular/material/dialog";
 import { DialogComponent } from "../../dialog/dialog.component";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { MatSort } from "@angular/material/sort";
-import { User } from 'src/app/models/user';
-import { UserService } from 'src/app/services/user/user.service';
+import { User } from "src/app/models/user";
+import { UserService } from "src/app/services/user/user.service";
 
 @Component({
   selector: "app-user-table",
@@ -27,15 +27,22 @@ export class UserTableComponent implements OnInit {
     "role",
     "changeRole",
     "edit",
-    "delete"
+    "delete",
   ];
   dataSource: MatTableDataSource<User>;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: false })
+  set sort(v: MatSort) {
+    this.dataSource.sort = v;
+  }
 
-  users: User[]= [];
+  @ViewChild(MatPaginator, { static: false })
+  set paginator(v: MatPaginator) {
+    this.dataSource.paginator = v;
+  }
+
+  users: User[] = [];
   showUsers: boolean = false;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
     private userService: UserService,
@@ -45,31 +52,34 @@ export class UserTableComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-     this.fetchData();
+    this.fetchData();
   }
 
- fetchData() {
-
-
-        this.userService.getUsers().subscribe((users) => {
-          this.users = users;
-          this.initializeDataSource();
-        }, error => {
-          console.log(error);
-        });
-
+  fetchData() {
+    this.userService.getUsers().subscribe(
+      (users) => {
+        this.users = users;
+        this.initializeDataSource();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
-  initializeDataSource(){
+  initializeDataSource() {
     this.dataSource = new MatTableDataSource<User>(this.users);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.dataSource.filterPredicate = function(data, filter: string): boolean {
-    return data.username.toLowerCase().includes(filter) || data.firstName.toLowerCase().includes(filter) || data.lastName.toLowerCase().includes(filter);
- };
 
-    if(this.users){
-      this.showUsers=true;
+    this.dataSource.filterPredicate = function (data, filter: string): boolean {
+      return (
+        data.username.toLowerCase().includes(filter) ||
+        data.firstName.toLowerCase().includes(filter) ||
+        data.lastName.toLowerCase().includes(filter)
+      );
+    };
+
+    if (this.users) {
+      this.showUsers = true;
     }
   }
 
@@ -79,75 +89,59 @@ export class UserTableComponent implements OnInit {
 
   editUser(userid: number) {
     //promjeniti ovo
-    this.router.navigate([`../user/${userid}/edit`], { relativeTo: this.route });
+    this.router.navigate([`../user/${userid}/edit`], {
+      relativeTo: this.route,
+    });
   }
 
   deleteUser(userId: number) {
-
-
-  const dialogRef= this.openDialog('delete');
-    if(dialogRef){
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (!result) {
-        return false;
-      }
-      this.userService.deleteUser(userId).subscribe(
-        () => {
-          this.fetchData();
-        },
-        () => {
-          this.openDialog("deleteError");
+    const dialogRef = this.openDialog("delete");
+    if (dialogRef) {
+      dialogRef.afterClosed().subscribe((result) => {
+        if (!result) {
+          return false;
         }
-      );
-
-    });
-
+        this.userService.deleteUser(userId).subscribe(
+          () => {
+            this.fetchData();
+          },
+          () => {
+            this.openDialog("deleteError");
+          }
+        );
+      });
     }
-
   }
-
-
-
 
   backToCompany() {
     this.router.navigate(["../../../"], { relativeTo: this.route });
   }
 
-  changeRole(userId: number){
-
-
-  const dialogRef= this.openDialog('changeRole');
-  if(dialogRef){
-
-  dialogRef.afterClosed().subscribe((result) => {
-    if (!result) {
-      return false;
+  changeRole(userId: number) {
+    const dialogRef = this.openDialog("changeRole");
+    if (dialogRef) {
+      dialogRef.afterClosed().subscribe((result) => {
+        if (!result) {
+          return false;
+        }
+        this.userService.changeUserToAdmin(userId).subscribe(
+          () => {
+            this.fetchData();
+          },
+          () => {
+            this.openDialog("roleError");
+          }
+        );
+      });
     }
-    this.userService.changeUserToAdmin(userId).subscribe(() => {
-      this.fetchData();
-    }, () =>{
-      this.openDialog("roleError");
-    }
-    );
-
-  });
-
   }
 
-}
-
-   openDialog(actionType: string): any{
+  openDialog(actionType: string): any {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
       data: { action: actionType },
     });
 
     return dialogRef;
-
-
   }
-
-
-
 }

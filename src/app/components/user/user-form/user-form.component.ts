@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { UserService } from 'src/app/services/user/user.service';
-import { ActivatedRoute, Router, Params } from '@angular/router';
-import { CompanyService } from 'src/app/services/company/company.service';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogComponent } from '../../dialog/dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { Component, OnInit } from "@angular/core";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { UserService } from "src/app/services/user/user.service";
+import { ActivatedRoute, Router, Params } from "@angular/router";
+import { CompanyService } from "src/app/services/company/company.service";
+import { MatDialog } from "@angular/material/dialog";
+import { DialogComponent } from "../../dialog/dialog.component";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-user-form",
@@ -23,8 +22,7 @@ export class UserFormComponent implements OnInit {
   userId: number;
   changePass: boolean = false;
   passwordLink: boolean = false;
-  usernameForPassword: FormControl
-
+  usernameForPassword: FormControl;
 
   constructor(
     private userService: UserService,
@@ -36,45 +34,42 @@ export class UserFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if(this.router.url.includes('changePassword') || this.router.url.includes('confirmResetPassword') ){
-      this.changePass=!this.changePass;
+    if (
+      this.router.url.includes("changePassword") ||
+      this.router.url.includes("confirmResetPassword")
+    ) {
+      this.changePass = !this.changePass;
     }
 
     this.initForm();
   }
 
   initForm() {
-    if(this.router.url.includes('edit')){
+    if (this.router.url.includes("edit")) {
       this.createUpdateForm(null, null, null, null, null);
 
       this.route.params.subscribe((params: Params) => {
         this.userId = +params["userid"];
-        this.userService.getUser(this.userId).subscribe(user => {
-          this.createUpdateForm(user.firstName, user.lastName, user.username, user.email, user.contact);
-
-        })
-        this.updateUser=true;
-
+        this.userService.getUser(this.userId).subscribe((user) => {
+          this.createUpdateForm(
+            user.firstName,
+            user.lastName,
+            user.username,
+            user.email,
+            user.contact
+          );
+        });
+        this.updateUser = true;
       });
-
-
-      }
-    else if (this.router.url.includes("changePassword")) {
-      this.signin=true;
+    } else if (this.router.url.includes("changePassword")) {
+      this.signin = true;
       this.passwordLink = true;
-       this.createUsernameForm(null);
-     
-      
-    } else if (this.router.url.includes("confirmResetPassword")){
-      this.signin=true;
+      this.createUsernameForm(null);
+    } else if (this.router.url.includes("confirmResetPassword")) {
+      this.signin = true;
       this.passwordLink = false;
       this.createFormSignIn(null, null);
-     
-
-
-    }
-    
-    else if (this.router.url.includes("signup")) {
+    } else if (this.router.url.includes("signup")) {
       this.createForm(null, null, null, null, null, null);
     } else {
       this.signin = true;
@@ -82,18 +77,17 @@ export class UserFormComponent implements OnInit {
     }
   }
 
-  createUsernameForm(username: String){
-    this.userForm= new FormGroup({
+  createUsernameForm(username: String) {
+    this.userForm = new FormGroup({
       username: new FormControl(username, [
         Validators.required,
         Validators.maxLength(40),
         Validators.minLength(2),
-      ])
+      ]),
     });
-
   }
 
-  createPasswordForm(password: String){
+  createPasswordForm(password: String) {
     this.userForm = new FormGroup({
       password: new FormControl(password, [
         Validators.required,
@@ -116,7 +110,14 @@ export class UserFormComponent implements OnInit {
     });
   }
 
-  createForm(firstName: string, lastName: string, username: string, email: string, password: string, contact: string) {
+  createForm(
+    firstName: string,
+    lastName: string,
+    username: string,
+    email: string,
+    password: string,
+    contact: string
+  ) {
     this.userForm = new FormGroup({
       firstName: new FormControl(firstName, [
         Validators.required,
@@ -142,11 +143,17 @@ export class UserFormComponent implements OnInit {
         Validators.required,
         Validators.maxLength(15),
         Validators.pattern(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/),
-      ])
+      ]),
     });
   }
 
-  createUpdateForm(firstName: string, lastName: string, username: string, email: string, contact: string) {
+  createUpdateForm(
+    firstName: string,
+    lastName: string,
+    username: string,
+    email: string,
+    contact: string
+  ) {
     this.userForm = new FormGroup({
       firstName: new FormControl(firstName, [
         Validators.required,
@@ -168,7 +175,7 @@ export class UserFormComponent implements OnInit {
         Validators.required,
         Validators.maxLength(15),
         Validators.pattern(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/),
-      ])
+      ]),
     });
   }
 
@@ -176,99 +183,95 @@ export class UserFormComponent implements OnInit {
     let newUser = this.userForm.value;
     let userId: number;
 
-    if(this.router.url.includes('edit')){
-      this.userService.getUser(this.userId).subscribe(user => {
+    if (this.router.url.includes("edit")) {
+      this.userService.getUser(this.userId).subscribe((user) => {
         const id = { id: this.userId };
-        const role = {role: user.role}
-        newUser = {...id, ...newUser, ...role};
+        const role = { role: user.role };
+        newUser = { ...id, ...newUser, ...role };
         console.log(newUser);
-        this.userService.updateUser(newUser).subscribe(() => {
-          this.router.navigate(["../"], { relativeTo: this.route });
-
-        }, () => {
-          this.openDialog("edit", "");
-        })
-      })
-
-    } else if(this.router.url.includes('changePassword')){
-
-      this.userService.getChangePasswordCode(newUser.username).subscribe(emailSent => {
-        if(emailSent){
-          this.router.navigate(["../confirmEmail"], { relativeTo: this.route });
-          this.userForm.reset();
-        }
-      })
-      //this.userService.changePassword(newUser).subscribe(() => {
-        //this.router.navigate(["../signin"], { relativeTo: this.route });
-
-
-      //}, ()  =>{
-        //this.openDialog("changePassword");
-
-      //})
-
-
-    } else if (this.router.url.includes("confirmResetPassword")){
+        this.userService.updateUser(newUser).subscribe(
+          () => {
+            let snackBarRef = this._snackBar.open(
+              "User successsfully changed!",
+              "OK"
+            );
+            this.router.navigate(["../"], { relativeTo: this.route });
+          },
+          () => {
+            this.openDialog("edit", "");
+          }
+        );
+      });
+    } else if (this.router.url.includes("changePassword")) {
+      this.userService
+        .getChangePasswordCode(newUser.username)
+        .subscribe((emailSent) => {
+          if (emailSent) {
+            this.router.navigate(["../confirmEmail"], {
+              relativeTo: this.route,
+            });
+            this.userForm.reset();
+          }
+        });
+    } else if (this.router.url.includes("confirmResetPassword")) {
       this.route.queryParams.subscribe((params: Params) => {
         const token = params["token"];
 
-        this.userService.changePassword(newUser.password, token ).subscribe(user => {
-          this.router.navigate(["../signin"], { relativeTo: this.route });
-          let snackBarRef = this._snackBar.open(
-            "Password succesfully changed!",
-            "OK"
-          );
-
-        }, error  =>{
-          this.openDialog("changePassword", "");
-  
-        })
-       
-      })
-     
-    }
-    
-    
-    else if (this.router.url.includes('signin')) {
+        this.userService.changePassword(newUser.password, token).subscribe(
+          (user) => {
+            this.router.navigate(["../signin"], { relativeTo: this.route });
+            let snackBarRef = this._snackBar.open(
+              "Password successsfully changed!",
+              "OK"
+            );
+          },
+          (error) => {
+            this.openDialog("changePassword", "");
+          }
+        );
+      });
+    } else if (this.router.url.includes("signin")) {
       this.userService.login(newUser).subscribe(
         (user) => {
           userId = user.id;
-          this.companyService.getCompanyByUser(userId).subscribe(company => {
-            if(!company.length){
-              this.router.navigate(["../company/newCompany"], { relativeTo: this.route });
-
+          this.companyService.getCompanyByUser(userId).subscribe((company) => {
+            let snackBarRef = this._snackBar.open(
+              "You are successsfully sign in! Enjoy!!",
+              "OK"
+            );
+            if (!company.length) {
+              this.router.navigate(["../company/newCompany"], {
+                relativeTo: this.route,
+              });
             } else {
-
               this.router.navigate(["../company"], { relativeTo: this.route });
             }
-          })
-        }, (error) => {
-          this.openDialog('login', error);
-         
+          });
+        },
+        (error) => {
+          this.openDialog("login", error);
         }
       );
-    } else if(this.router.url.includes('signup')){
+    } else if (this.router.url.includes("signup")) {
       console.log(newUser);
       this.userService.signUp(newUser).subscribe(
         (emailSent) => {
-          if(emailSent){
-            this.router.navigate(["../confirmEmail"], { relativeTo: this.route });
+          if (emailSent) {
+            this.router.navigate(["../confirmEmail"], {
+              relativeTo: this.route,
+            });
             this.userForm.reset();
           }
-          //console.log("USAO U SINGUP");
-         // userId = user.id;
-          
-          
-        }, (error) => {
+        },
+        (error) => {
           let detail = error;
-          if(error.includes("Key")){
+          if (error.includes("Key")) {
             const errorIndex = error.indexOf("Key");
             const errorLength = error.length;
-           
+
             detail = error.substring(errorIndex, errorLength);
           }
-          this.openDialog('error', detail);
-         
+          this.openDialog("error", detail);
         }
       );
     }
@@ -276,7 +279,7 @@ export class UserFormComponent implements OnInit {
 
   switch() {
     this.signin = !this.signin;
-    if(this.signin){
+    if (this.signin) {
       this.router.navigate(["../signin"], { relativeTo: this.route });
     } else {
       this.router.navigate(["../signup"], { relativeTo: this.route });
@@ -285,7 +288,7 @@ export class UserFormComponent implements OnInit {
     this.initForm();
   }
 
-  openDialog(actionType, detail){
+  openDialog(actionType, detail) {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
       data: { action: actionType, detail: detail },
@@ -295,14 +298,10 @@ export class UserFormComponent implements OnInit {
       if (!result) {
         return;
       }
-
     });
   }
 
-  changePassword(){
+  changePassword() {
     this.router.navigate(["../changePassword"], { relativeTo: this.route });
   }
-
-
 }
-

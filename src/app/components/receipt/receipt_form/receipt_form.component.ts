@@ -82,7 +82,7 @@ export class ReceiptFormComponent implements OnInit {
   createForm(dateOfIssue: any, timeLimit: number, receiptNumber: string) {
     console.log(dateOfIssue);
     this.receiptForm = this.formBuilder.group({
-      dateOfIssue: new FormControl( dateOfIssue, [Validators.required]),
+      dateOfIssue:  [formatDate(dateOfIssue, 'MM/DD/YYYY', 'en'), [Validators.required]],
       timeLimit: new FormControl(timeLimit, Validators.required),
       receiptNumber: new FormControl(receiptNumber, [Validators.required,  Validators.maxLength(5),
         Validators.minLength(5),] )

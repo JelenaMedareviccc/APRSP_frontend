@@ -15,14 +15,14 @@ export class ReceiptComponent implements OnInit {
 
   ngOnInit() {
     this.receiptService.receiptEmiter.subscribe((receipt) => {
-      if (!receipt) {
+      if (receipt) {
         let snackBarRef = this._snackBar.open(
-          "Receipt succesfully updated!",
+          "Receipt successfully updated!",
           "OK"
         );
       } else {
         let snackBarRef = this._snackBar.open(
-          "Receipt succesfully created!",
+          "Receipt successfully created!",
           "OK"
         );
       }

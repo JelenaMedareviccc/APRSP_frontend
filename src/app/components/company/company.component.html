@@ -4,7 +4,7 @@
 <div  *ngIf="showCompany">
   <div class="button-pos">
   <button class="btn btn-add btn-color" (click)="showYearChooserForPayments()">PAYMENTS PER YEAR</button>
-  <button class="btn btn-add btn-color" (click)="showPaymentsFor365Days()">SHOQ PAYMENTS FOR LAST 365 DAYS</button>
+  <button class="btn btn-add btn-color" (click)="showPaymentsFor365Days()">PAYMENTS FOR LAST 365 DAYS</button>
 </div>
 
 
@@ -21,7 +21,7 @@
   </mat-datepicker>
 </mat-form-field>
 <button class="btn-color" mat-raised-button [disabled]="!year.valid">
-  COMFIRM
+  CONFIRM
 </button>
 
 </form>
@@ -34,7 +34,7 @@
 <br/>
       <mat-card-header>
         <mat-card-title>
-        <strong> {{company.name}}</strong>
+        <strong>COMPANY {{company.name | uppercase}}</strong>
 
         </mat-card-title>
       </mat-card-header>

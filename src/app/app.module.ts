@@ -1,7 +1,7 @@
 import { LayoutModule } from "@angular/cdk/layout";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatCardModule } from "@angular/material/card";
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule } from "@angular/material/select";
 
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
@@ -52,20 +52,15 @@ import { ClientService } from "./services/client/client.service";
 import { HttpErrorInterceptor } from "./services/httperrorinterceptopr.service";
 import { ReceiptService } from "./services/receipt/receipt.service";
 import { InterceptorService } from "./services/user/interceptor.service";
-import { CompanyroComponent} from "./components/company/companyro.component";
-import { MatNativeDateModule, MatRippleModule} from '@angular/material/core';
-import { UserTableComponent } from './components/user/user-table/user-table.component';
-import { UserFormComponent } from './components/user/user-form/user-form.component';
-import { UserAccountComponent } from './components/user/user-account/user-account.component';
-import { PaymentsPercentageForClientsComponent } from './components/company/payments-percentage-for-clients/payments-percentage-for-clients.component';
-import { RegistrationConfirmComponent } from './components/user/registration-confirm/registration-confirm.component';
-import { InfoComponent } from './components/info/info.component';
-import {MatGridListModule} from '@angular/material/grid-list';
-
-
-
-
-
+import { CompanyroComponent } from "./components/company/companyro.component";
+import { MatNativeDateModule, MatRippleModule } from "@angular/material/core";
+import { UserTableComponent } from "./components/user/user-table/user-table.component";
+import { UserFormComponent } from "./components/user/user-form/user-form.component";
+import { UserAccountComponent } from "./components/user/user-account/user-account.component";
+import { PaymentsPercentageForClientsComponent } from "./components/company/payments-percentage-for-clients/payments-percentage-for-clients.component";
+import { RegistrationConfirmComponent } from "./components/user/registration-confirm/registration-confirm.component";
+import { InfoComponent } from "./components/info/info.component";
+import { MatGridListModule } from "@angular/material/grid-list";
 
 @NgModule({
   declarations: [
@@ -96,7 +91,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
     UserAccountComponent,
     PaymentsPercentageForClientsComponent,
     RegistrationConfirmComponent,
-    InfoComponent
+    InfoComponent,
   ],
   imports: [
     BrowserModule,
@@ -135,17 +130,13 @@ import {MatGridListModule} from '@angular/material/grid-list';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatNativeDateModule
+    MatNativeDateModule,
   ],
   providers: [
     ClientService,
     ReceiptService,
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpErrorInterceptor,
-      multi: true,
-    },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

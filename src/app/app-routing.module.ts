@@ -17,13 +17,13 @@ import { CompanyFormComponent } from "./components/company/company-form/company-
 
 import { CompanyTableComponent } from "./components/company/company-table/company-table.component";
 import { AuthGuard } from "./services/user/auth.guard";
-import { CompanyroComponent } from './components/company/companyro.component';
-import { UserFormComponent } from './components/user/user-form/user-form.component';
-import { UserTableComponent } from './components/user/user-table/user-table.component';
-import { UserAccountComponent } from './components/user/user-account/user-account.component';
-import { PaymentsPercentageForClientsComponent } from './components/company/payments-percentage-for-clients/payments-percentage-for-clients.component';
-import { RegistrationConfirmComponent } from './components/user/registration-confirm/registration-confirm.component';
-import { InfoComponent } from './components/info/info.component';
+import { CompanyroComponent } from "./components/company/companyro.component";
+import { UserFormComponent } from "./components/user/user-form/user-form.component";
+import { UserTableComponent } from "./components/user/user-table/user-table.component";
+import { UserAccountComponent } from "./components/user/user-account/user-account.component";
+import { PaymentsPercentageForClientsComponent } from "./components/company/payments-percentage-for-clients/payments-percentage-for-clients.component";
+import { RegistrationConfirmComponent } from "./components/user/registration-confirm/registration-confirm.component";
+import { InfoComponent } from "./components/info/info.component";
 
 export const routingConfiguration: ExtraOptions = {
   paramsInheritanceStrategy: "always",
@@ -32,55 +32,112 @@ export const routingConfiguration: ExtraOptions = {
 const routes: Routes = [
   { path: "signup", component: UserFormComponent },
   { path: "signin", component: UserFormComponent },
-  {path: "changePassword", component: UserFormComponent},
-  { path: "registrationConfirm", component: RegistrationConfirmComponent},
-  {path: "confirmResetPassword", component: UserFormComponent},
-  {path: "confirmEmail", component: InfoComponent},
-  { path: "", canActivate: [AuthGuard], children: [
-  { path: "users", component: UserTableComponent},
-  { path: "user/:userid", component: UserAccountComponent},
-  {path: "user/:userid/edit", component: UserFormComponent},
-  { path: "client/all", component: ClientTableComponent},
-  {path: "receipt/all", component: ReceiptTableComponent},
-  {path: "item/all", component: ItemTableComponent},
-  {path: "payment/all", component: PaymentTableComponent},
-  {path: "company", component: CompanyroComponent,
+  { path: "changePassword", component: UserFormComponent },
+  { path: "registrationConfirm", component: RegistrationConfirmComponent },
+  { path: "confirmResetPassword", component: UserFormComponent },
+  { path: "confirmEmail", component: InfoComponent },
+  {
+    path: "",
+    canActivate: [AuthGuard],
     children: [
-      {path: "", component: CompanyTableComponent},
-      { path: "newCompany", component: CompanyFormComponent},
-      {path: ":companyid",
-       children: [
-          {path: "", component: CompanyComponent },
-          {path: "edit", component: CompanyFormComponent},
-          {path: "paymentPercentageForClients", component: PaymentsPercentageForClientsComponent },
-          {path: "paymentsForLast365Days", component: PaymentTableComponent},
-          {path: "client", component: ClientComponent,
+      { path: "users", component: UserTableComponent },
+      { path: "user/:userid", component: UserAccountComponent },
+      { path: "user/:userid/edit", component: UserFormComponent },
+      { path: "client/all", component: ClientTableComponent },
+      { path: "receipt/all", component: ReceiptTableComponent },
+      { path: "item/all", component: ItemTableComponent },
+      { path: "payment/all", component: PaymentTableComponent },
+      {
+        path: "company",
+        component: CompanyroComponent,
+        children: [
+          { path: "", component: CompanyTableComponent },
+          { path: "newCompany", component: CompanyFormComponent },
+          {
+            path: ":companyid",
             children: [
-               { path: "", component: ClientTableComponent },
-               { path: "newClient", component: ClientFormComponent },
-               { path: ":clientid/edit", component: ClientFormComponent },
-               { path: ":clientid",
+              { path: "", component: CompanyComponent },
+              { path: "edit", component: CompanyFormComponent },
+              {
+                path: "paymentPercentageForClients",
+                component: PaymentsPercentageForClientsComponent,
+              },
+              {
+                path: "paymentsForLast365Days",
+                component: PaymentTableComponent,
+              },
+              {
+                path: "client",
+                component: ClientComponent,
                 children: [
-              { path: "receipts", component: ReceiptComponent,
-                children: [
-                  { path: "", component: ReceiptTableComponent },
-                  { path: "newReceipt", component: ReceiptFormComponent },
-                  { path: "filteredReceiptsLastYear", component: ReceiptLastYearComponent},
-                  { path: "filteredReceiptsLast365Days", component: ReceiptLastYearComponent},
-                  { path: "filteredReceiptsBetweenTwoDates", component: ReceiptLastYearComponent },
-                  { path: "filteredReceiptsForSelectedYear", component: ReceiptLastYearComponent },
-                  { path: "newReceipt/newItem", component: ItemFormComponent },
-                  { path: ":receiptid",
+                  { path: "", component: ClientTableComponent },
+                  { path: "newClient", component: ClientFormComponent },
+                  { path: ":clientid/edit", component: ClientFormComponent },
+                  {
+                    path: ":clientid",
                     children: [
-                      { path: "edit", component: ReceiptFormComponent },
-                      { path: "items", component: ItemTableComponent },
-                      { path: "items/newItem", component: ItemFormComponent },
-                      { path: "items/:itemid/edit", component: ItemFormComponent},
-                      { path: "payments", component: PaymentComponent,
+                      {
+                        path: "receipts",
+                        component: ReceiptComponent,
                         children: [
-                          { path: "", component: PaymentTableComponent },
-                          { path: "newPayment", component: PaymentFormComponent},
-                          { path: ":paymentid/edit", component: PaymentFormComponent},
+                          { path: "", component: ReceiptTableComponent },
+                          {
+                            path: "newReceipt",
+                            component: ReceiptFormComponent,
+                          },
+                          {
+                            path: "filteredReceiptsLastYear",
+                            component: ReceiptLastYearComponent,
+                          },
+                          {
+                            path: "filteredReceiptsLast365Days",
+                            component: ReceiptLastYearComponent,
+                          },
+                          {
+                            path: "filteredReceiptsBetweenTwoDates",
+                            component: ReceiptLastYearComponent,
+                          },
+                          {
+                            path: "filteredReceiptsForSelectedYear",
+                            component: ReceiptLastYearComponent,
+                          },
+                          {
+                            path: "newReceipt/newItem",
+                            component: ItemFormComponent,
+                          },
+                          {
+                            path: ":receiptid",
+                            children: [
+                              { path: "edit", component: ReceiptFormComponent },
+                              { path: "items", component: ItemTableComponent },
+                              {
+                                path: "items/newItem",
+                                component: ItemFormComponent,
+                              },
+                              {
+                                path: "items/:itemid/edit",
+                                component: ItemFormComponent,
+                              },
+                              {
+                                path: "payments",
+                                component: PaymentComponent,
+                                children: [
+                                  {
+                                    path: "",
+                                    component: PaymentTableComponent,
+                                  },
+                                  {
+                                    path: "newPayment",
+                                    component: PaymentFormComponent,
+                                  },
+                                  {
+                                    path: ":paymentid/edit",
+                                    component: PaymentFormComponent,
+                                  },
+                                ],
+                              },
+                            ],
+                          },
                         ],
                       },
                     ],
@@ -91,12 +148,9 @@ const routes: Routes = [
           },
         ],
       },
-],
-},   
-],
+    ],
   },
-]},
-{ path: "", redirectTo: "signin", pathMatch: "full" }
+  { path: "", redirectTo: "signin", pathMatch: "full" },
 ];
 
 @NgModule({

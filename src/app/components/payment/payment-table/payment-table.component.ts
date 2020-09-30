@@ -7,13 +7,13 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 import { DialogComponent } from "../../dialog/dialog.component";
 import { Payment } from "src/app/models/payment";
 import { PaymentService } from "src/app/services/payment/payment.service";
-import { ClientService } from 'src/app/services/client/client.service';
-import { CompanyService } from 'src/app/services/company/company.service';
-import { Company } from 'src/app/models/company';
+import { ClientService } from "src/app/services/client/client.service";
+import { CompanyService } from "src/app/services/company/company.service";
+import { Company } from "src/app/models/company";
 import * as jsPDF from "jspdf";
 import "jspdf-autotable";
-import { PdfMakerService } from 'src/app/services/pdfMaker/pdf-maker.service';
-import { ReceiptService } from 'src/app/services/receipt/receipt.service';
+import { PdfMakerService } from "src/app/services/pdfMaker/pdf-maker.service";
+import { ReceiptService } from "src/app/services/receipt/receipt.service";
 
 @Component({
   selector: "app-payment-table",
@@ -21,11 +21,21 @@ import { ReceiptService } from 'src/app/services/receipt/receipt.service';
   styleUrls: ["./payment-table.component.css"],
 })
 export class PaymentTableComponent implements OnInit {
-  displayedColumns = ["paymentId", "amount", "dateOfIssue", "delete", "edit"];
+  displayedColumns = [
+    "paymentId",
+    "amount",
+    "dateOfIssue" /*, "delete", "edit"*/,
+  ];
   dataSource: MatTableDataSource<Payment>;
+  @ViewChild(MatSort, { static: false })
+  set sort(v: MatSort) {
+    this.dataSource.sort = v;
+  }
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: false })
+  set paginator(v: MatPaginator) {
+    this.dataSource.paginator = v;
+  }
   receiptId: number;
   showButtons: boolean = false;
   private payments: Payment[] = [];
@@ -34,10 +44,9 @@ export class PaymentTableComponent implements OnInit {
   clientId: number;
   currencyType: string;
   showFooter: boolean = true;
-  showEditDelete: boolean= true;
+  showEditDelete: boolean = true;
   showPayments: boolean = false;
   companyName: string;
-
 
   constructor(
     private paymentService: PaymentService,
@@ -50,97 +59,94 @@ export class PaymentTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-   this.fetchData();
+    this.fetchData();
   }
 
   fetchData() {
-    if(this.router.url.includes('/payment/all')){
+    if (this.router.url.includes("/payment/all")) {
       let userData = JSON.parse(localStorage.getItem("userData"));
       const userId = userData["id"];
       const username = userData["username"];
-      this.companyName=username;
-      this.title=username + 's payments';
+      this.companyName = username;
+      this.title = username + "'s payments";
       this.showFooter = false;
 
-      this.paymentService.getPaymentByUser(userId).subscribe(payments => {
-        this.payments = payments;
-        this.initializeDataSource();
-        this.showButtons = false;
-        this.showEditDelete = true;
-      }, error => {
-        console.log(error);
-      })
-
-    } else if (this.router.url.includes('paymentsForLast365Days')){
+      this.paymentService.getPaymentByUser(userId).subscribe(
+        (payments) => {
+          this.payments = payments;
+          this.initializeDataSource();
+          this.showButtons = false;
+          this.showEditDelete = true;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    } else if (this.router.url.includes("paymentsForLast365Days")) {
       this.route.params.subscribe((params: Params) => {
         this.companyId = +params["companyid"];
-       
-        this.companyService.getCompany(this.companyId).subscribe((company: Company) => {
-          this.title= company.name + "'s payments";
-          this.companyName= company.name;
 
-          this.paymentService.getPaymentByCompanyFor365(this.companyId).subscribe(payments => {
-            this.payments = payments;
-            this.initializeDataSource();
-            this.showButtons = false;
-            this.showEditDelete = false;
-            this.showFooter=true;
-          }, error => {
+        this.companyService.getCompany(this.companyId).subscribe(
+          (company: Company) => {
+            this.title = company.name + "'s payments for last 365 days";
+            this.companyName = company.name;
+            this.currencyType = company.currency;
+
+            this.paymentService
+              .getPaymentByCompanyFor365(this.companyId)
+              .subscribe(
+                (payments) => {
+                  this.payments = payments;
+                  this.initializeDataSource();
+                  this.showButtons = false;
+                  this.showEditDelete = false;
+                  this.showFooter = true;
+                },
+                (error) => {
+                  console.log(error);
+                }
+              );
+          },
+          (error) => {
             console.log(error);
-          })
-
-        }, error => {
-          console.log(error);
-        })
-        
-      })
-
-
-    
-    }
-    else {
+          }
+        );
+      });
+    } else {
       this.route.parent.params.subscribe((params: Params) => {
         this.receiptId = +params["receiptid"];
         this.companyId = +params["companyid"];
         this.clientId = +params["clientid"];
       });
 
-      this.companyService.getCompany(this.companyId).subscribe(company => {
-        this.currencyType=company.currency;
-        this.companyName=company.name;
-      })
-      this.receiptService.getReceipt(this.receiptId).subscribe(receipt => {
-        this.title = "Payments for receipt with receipt number " + receipt.receiptNumber;
-
-      }) 
-    this.paymentService.getPaymentByReceipt(this.receiptId).subscribe(
-      (payments) => {
-        this.payments = payments;
-        this.initializeDataSource();
-        this.showButtons = true;
-        this.showEditDelete = true;
-        this.showFooter=true;
-        
-        
-
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+      this.companyService.getCompany(this.companyId).subscribe((company) => {
+        this.currencyType = company.currency;
+        this.companyName = company.name;
+      });
+      this.receiptService.getReceipt(this.receiptId).subscribe((receipt) => {
+        this.title =
+          "Payments for receipt with receipt number " + receipt.receiptNumber;
+      });
+      this.paymentService.getPaymentByReceipt(this.receiptId).subscribe(
+        (payments) => {
+          this.payments = payments;
+          this.initializeDataSource();
+          this.showButtons = true;
+          this.showEditDelete = true;
+          this.showFooter = true;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     }
   }
 
-  initializeDataSource(){
-  
-    this.dataSource = new MatTableDataSource<Payment>(this.payments);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-
-    if(this.payments){
-      this.showPayments=true;
+  initializeDataSource() {
+    if (this.payments) {
+      this.showPayments = true;
     }
-
+    this.dataSource = new MatTableDataSource<Payment>(this.payments);
   }
 
   deletePayment(id: number) {
@@ -156,7 +162,7 @@ export class PaymentTableComponent implements OnInit {
           this.fetchData();
         },
         () => {
-          this.openDialog("deleteError")
+          this.openDialog("deleteError");
         }
       );
     });
@@ -167,19 +173,21 @@ export class PaymentTableComponent implements OnInit {
   }
 
   editPayment(paymentid: number) {
-    if(this.router.url.includes('/payment/all')){
-      this.paymentService.getPayment(paymentid).subscribe(payment => {
-        this.receiptId= payment.receipt.receiptId;
-        this.clientId=payment.receipt.client.clientId;
-        this.companyId =payment.receipt.client.company.companyId;
-        this.router.navigate([`../../company/${this.companyId}/client/${this.clientId}/receipts/${this.receiptId}/payments/${paymentid}/edit`], { relativeTo: this.route });
-
-      })
+    if (this.router.url.includes("/payment/all")) {
+      this.paymentService.getPayment(paymentid).subscribe((payment) => {
+        this.receiptId = payment.receipt.receiptId;
+        this.clientId = payment.receipt.client.clientId;
+        this.companyId = payment.receipt.client.company.companyId;
+        this.router.navigate(
+          [
+            `../../company/${this.companyId}/client/${this.clientId}/receipts/${this.receiptId}/payments/${paymentid}/edit`,
+          ],
+          { relativeTo: this.route }
+        );
+      });
     } else {
       this.router.navigate([`${paymentid}/edit`], { relativeTo: this.route });
     }
-
-
   }
 
   getTotalCost() {
@@ -191,10 +199,12 @@ export class PaymentTableComponent implements OnInit {
   }
 
   backToReceipts() {
-    this.router.navigate(["company/" + this.companyId + "/client/" + this.clientId + "/receipts"]);
+    this.router.navigate([
+      "company/" + this.companyId + "/client/" + this.clientId + "/receipts",
+    ]);
   }
 
-  openDialog(actionType: string): any{
+  openDialog(actionType: string): any {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "250px",
       data: { action: actionType },
@@ -205,10 +215,12 @@ export class PaymentTableComponent implements OnInit {
   public openPDF(): void {
     let doc = new jsPDF();
 
-    
-
-    this.pdfMakerService.pdfMaker(doc, this.title, this.companyName, "#myPaymentTable")
-    
+    this.pdfMakerService.pdfMaker(
+      doc,
+      this.title,
+      this.companyName,
+      "#myPaymentTable"
+    );
 
     doc.output("dataurlnewwindow", "Report");
   }
@@ -216,10 +228,13 @@ export class PaymentTableComponent implements OnInit {
   public downloadPDF(): void {
     let doc = new jsPDF();
     //this.pdfMaker(doc);
-    this.pdfMakerService.pdfMaker(doc,  this.title, this.companyName, "#myPaymentTable")
+    this.pdfMakerService.pdfMaker(
+      doc,
+      this.title,
+      this.companyName,
+      "#myPaymentTable"
+    );
 
     doc.save("report.pdf");
   }
-
-
 }
