@@ -30,7 +30,7 @@
     "@ionic-native/status-bar": "^5.26.0",
     "d3": "^6.1.1",
     "html2canvas": "^1.0.0-rc.5",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.3.1",
     "jspdf-autotable": "^3.5.6",
     "moment": "^2.27.0",
     "pdfmake": "^0.1.66",
